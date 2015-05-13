@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.ibm.watson.catalyst.corpus.tfidf.sentences.WordFrequencyBuilder;
+import com.ibm.watson.catalyst.corpus.tfidf.sentences.WordFrequencyHashtable;
+
 public class WordFrequencyBuilderTest {
 
   @Test

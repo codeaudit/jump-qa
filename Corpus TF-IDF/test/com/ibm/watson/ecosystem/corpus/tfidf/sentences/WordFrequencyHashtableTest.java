@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.Before;
 
+import com.ibm.watson.catalyst.corpus.tfidf.sentences.WordFrequencyHashtable;
+
 public class WordFrequencyHashtableTest {
   
   WordFrequencyHashtable wfh;

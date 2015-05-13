@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.ibm.watson.ecosystem.corpus.tfidf.document.TermDocument;
+import com.ibm.watson.catalyst.corpus.tfidf.document.TermDocument;
 
 public class TermDocumentTest {
 
