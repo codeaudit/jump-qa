@@ -2,6 +2,7 @@ package com.ibm.watson.catalyst.corpus;
 
 import java.util.List;
 
+import com.ibm.watson.catalyst.corpus.Corpus;
 import com.ibm.watson.catalyst.corpus.document.Document;
 
 /**

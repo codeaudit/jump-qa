@@ -3,6 +3,8 @@ package com.ibm.watson.catalyst.corpus;
 import java.io.File;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.ibm.watson.catalyst.corpus.BasicCorpus;
+import com.ibm.watson.catalyst.corpus.CorpusBuilder;
 import com.ibm.watson.catalyst.corpus.document.BasicDocumentFactory;
 import com.ibm.watson.catalyst.corpus.document.Document;
 

@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ibm.watson.catalyst.corpus.document.Document;
+import com.ibm.watson.catalyst.corpus.document.DocumentBuilder;
+
 public class DocumentBuilder {
   
   public DocumentBuilder setFile(File aFile) {

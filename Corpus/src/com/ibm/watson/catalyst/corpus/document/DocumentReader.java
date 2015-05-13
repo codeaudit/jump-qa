@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.ibm.watson.catalyst.corpus.document.Document;
+import com.ibm.watson.catalyst.corpus.document.DocumentBuilder;
+
 public class DocumentReader {
   
   public Document read(File file) {

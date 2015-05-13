@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.ibm.watson.catalyst.corpus.document.Document;
 import com.ibm.watson.catalyst.corpus.util.JsonUtil;
 import com.ibm.watson.catalyst.corpus.util.Jsonable;
 
