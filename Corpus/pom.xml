@@ -5,6 +5,7 @@
   <version>0.1.0</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -41,26 +42,26 @@
   </build>
   <dependencies>
   	<dependency>
-  		<groupId>com.fasterxml.jackson.core</groupId>
-  		<artifactId>jackson-core</artifactId>
-  		<version>2.5.2</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>com.fasterxml.jackson.core</groupId>
-  		<artifactId>jackson-databind</artifactId>
-  		<version>2.5.2</version>
-  	</dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.5.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-	<groupId>commons-io</groupId>
-	<artifactId>commons-io</artifactId>
-	<version>2.4</version>
-	<scope>test</scope>
-</dependency>
   </dependencies>
 </project>

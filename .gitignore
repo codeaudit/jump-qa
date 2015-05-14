@@ -1,10 +1,11 @@
-*.json
+*output*.json
 *output*.csv
 *output*.ods
 *.~csv
 bin/
 tmp/
 target/
+ignore/
 *.jar
 
 # Eclipse Core

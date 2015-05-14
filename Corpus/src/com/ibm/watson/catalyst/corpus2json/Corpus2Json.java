@@ -24,7 +24,7 @@ public final class Corpus2Json {
   private static Corpus2JsonProperties PROPERTIES;
   
   public static void main(String[] args) {
-    if (args.length == 0) args = new String[] { "corpus2json.properties" };
+    if (args.length == 0) args = new String[] { "sample/test.properties" };
     
     Corpus2JsonProperties.setInstance(new File(args[0]));
     PROPERTIES = Corpus2JsonProperties.getInstance();
@@ -34,6 +34,7 @@ public final class Corpus2Json {
     
     String output = PROPERTIES.getProperty("output", "sample/output.json");
     toJsonFile(c, output);
+    
   }
   
 }

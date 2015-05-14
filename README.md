@@ -4,20 +4,26 @@ _Automating ground truth generation._
 JumpQA is a program which takes a corpus and generates questions which can be asked about it. More specifically, it takes a directory of TRECs (in .xml form) and outpus a .csv.
 
 ##Installation
-1. Clone the repository.
+1. Clone the repository. You'll need your IBM ID and password.
 
     ```
     git clone https://hub.jazz.net/git/willbeason/JumpQA
+    cd JumpQA/
     ```
 
-2. Enter your IBM ID and password.
-3. Use `maven` to install the necessary projects.
+2. Use [Maven](https://maven.apache.org/download.cgi) to install the necessary projects.
 
     ``` 
-    find . -name "pom.xml" -exec mvn install -f '{}' \;
+    find . -name "pom.xml" -exec mvn install package -f '{}' \;
     ```
 
-If desired, you could instead `cd` into each directory and run `mvn install`.
+If desired, you could instead `cd` into each subproject's directory and run `mvn install`.
+
+3. In each subproject's directory, run
+
+    ```
+    mvn package
+    ```
 
 ##Usage
 
