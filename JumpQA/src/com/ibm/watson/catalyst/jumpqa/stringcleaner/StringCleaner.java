@@ -16,7 +16,7 @@ public class StringCleaner implements IStringCleaner {
       result = removePattern(result, ETAL);
       result = replacePattern(result, DOUBLEFIRST, "$1");
       result = removePattern(result, APPOSITIVE);
-      result = removePattern(result, COMMA);
+      //result = removePattern(result, COMMA);
       result = removePattern(result, STARTQUOTE);
       result = replaceUppercaseArticle(result);
     }
@@ -37,7 +37,7 @@ public class StringCleaner implements IStringCleaner {
   private static final Pattern ETAL = Pattern.compile("^.*(et al\\.|[A-Z]{1,2}):");
   private static final Pattern DOUBLEFIRST = Pattern.compile("^(.*) \\1\\b");
   private static final Pattern APPOSITIVE = Pattern.compile(",[^,]+,");
-  private static final Pattern COMMA = Pattern.compile("^.*, ");
+  //private static final Pattern COMMA = Pattern.compile("^.*, ");
   private static final Pattern STARTQUOTE = Pattern.compile("^['\"]");
   
   private static final Pattern UPPERCASEARTICLE = Pattern.compile("^(An?|The|One)\\b");

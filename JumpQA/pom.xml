@@ -66,5 +66,10 @@
   		<artifactId>junit</artifactId>
   		<version>4.12</version>
   	</dependency>
+  	<dependency>
+  		<groupId>com.ibm.watson.catalyst</groupId>
+  		<artifactId>base-properties</artifactId>
+  		<version>0.1.0</version>
+  	</dependency>
   </dependencies>
 </project>

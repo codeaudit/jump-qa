@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
-import com.ibm.watson.catalyst.jumpqa.properties.JumpQAProperties;
 import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.template.TemplateReader;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.trec.TrecReader;
 import com.ibm.watson.catalyst.jumpqa.util.CSVOutputWriter;
+import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
 
 public final class JumpQA {
   
-  private static JumpQAProperties _properties;
+  private static BaseProperties PROPERTIES;
   
   // Get files from the properties object.
-  private static File getFile(String key) { return _properties.getFile(key); }
+  private static File getFile(String key) { return PROPERTIES.getFile(key); }
   private static File getTemplatesFile() { return getFile("templates"); }
-  private static File getTrecsFile() { return getFile("trecs"); }
+  private static File getCorpusFile() { return getFile("corpus"); }
   private static File getOutputFile() { return getFile("output"); }
   
   private static Iterable<ITemplate> readTemplates() {
@@ -31,7 +31,7 @@ public final class JumpQA {
   }
   
   private static List<Trec> readTrecs() {
-    File file = getTrecsFile();
+    File file = getCorpusFile();
     TrecReader tr = new TrecReader();
     return tr.read(file);
   }
@@ -51,10 +51,10 @@ public final class JumpQA {
   }
   
   public static void main(String[] args) {
-    if (args.length == 0) args = new String[] { "jumpqa.properties" };
+    if (args.length == 0) args = new String[] { "sample/test.properties" };
     System.out.println("Loading properties from " + args[0]);
-    JumpQAProperties.setInstance(new File(args[0]));
-    _properties = JumpQAProperties.getInstance();
+    BaseProperties.setInstance(new File(args[0]));
+    PROPERTIES = BaseProperties.getInstance();
     
     Iterable<ITemplate> templates = readTemplates();
     List<Trec> trecs = readTrecs();
