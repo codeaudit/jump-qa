@@ -1,4 +1,4 @@
-package com.ibm.watson.ecosystem.corpus.tfidf.sentences;
+package com.ibm.watson.catalyst.corpus.tfidf.sentences;
 
 import static org.junit.Assert.*;
 

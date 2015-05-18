@@ -1,4 +1,4 @@
-package com.ibm.watson.catalyst.corpus2json;
+package com.ibm.watson.catalyst.util.baseproperties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,9 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-public class Corpus2JsonProperties {
+public class BaseProperties {
   
-  private Corpus2JsonProperties(File aFile) {
+  private BaseProperties(File aFile) {
     _properties = new Properties();
     
     try (FileInputStream is = new FileInputStream(aFile);) {
@@ -26,21 +26,20 @@ public class Corpus2JsonProperties {
   }
   public File getFile(String key) { return new File(getProperty(key)); }
   
-  public static boolean setInstance(File aFile) {
+  public static synchronized final boolean setInstance(File aFile) {
     if (instance == null) {
-      instance = new Corpus2JsonProperties(aFile);
+      instance = new BaseProperties(aFile);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
   
-  public static Corpus2JsonProperties getInstance() {
+  public static BaseProperties getInstance() {
     return instance;
   }
   
   private final Properties _properties;
   
-  private static Corpus2JsonProperties instance = null;
+  private static BaseProperties instance = null;
   
 }

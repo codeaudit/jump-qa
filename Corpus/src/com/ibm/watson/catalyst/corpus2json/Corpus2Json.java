@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import com.ibm.watson.catalyst.corpus.BasicCorpus;
 import com.ibm.watson.catalyst.corpus.BasicCorpusBuilder;
 import com.ibm.watson.catalyst.corpus.Corpus;
+import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
 
 // Converts a directory of PAUs to a single JSON
 public final class Corpus2Json {
@@ -21,13 +22,13 @@ public final class Corpus2Json {
     }
   }
   
-  private static Corpus2JsonProperties PROPERTIES;
+  private static BaseProperties PROPERTIES;
   
   public static void main(String[] args) {
     if (args.length == 0) args = new String[] { "sample/test.properties" };
     
-    Corpus2JsonProperties.setInstance(new File(args[0]));
-    PROPERTIES = Corpus2JsonProperties.getInstance();
+    BaseProperties.setInstance(new File(args[0]));
+    PROPERTIES = BaseProperties.getInstance();
     
     String input = PROPERTIES.getProperty("input", "sample/");
     BasicCorpus c = (new BasicCorpusBuilder()).setDirectory(input).build();

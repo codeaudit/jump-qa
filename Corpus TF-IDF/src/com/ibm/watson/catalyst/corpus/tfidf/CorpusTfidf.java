@@ -1,6 +1,7 @@
 package com.ibm.watson.catalyst.corpus.tfidf;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -14,11 +15,13 @@ import com.ibm.watson.catalyst.corpus.tfidf.corpus.TermCorpusBuilder;
 import com.ibm.watson.catalyst.corpus.tfidf.document.TermDocument;
 import com.ibm.watson.catalyst.corpus.tfidf.sentences.WordFrequencyHashtable;
 import com.ibm.watson.catalyst.corpus.tfidf.util.SortedArrayList;
+import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
 
-public final class TFIDF {
+public final class CorpusTfidf {
   
   public enum SortedBy { FREQ, TFIDF }
   
+  private static BaseProperties PROPERTIES;
   private static final ObjectMapper MAPPER = new ObjectMapper();
   
 //  private static final File corpusDir = new File("TRECs/WikiVoyageTREC/xml-splitTrecTrim");
@@ -88,9 +91,15 @@ public final class TFIDF {
   }
   
   public static void main(String[] args) {
+    if (args.length == 0) args = new String[] { "sample/test.properties" };
+    
+    BaseProperties.setInstance(new File(args[0]));
+    PROPERTIES = BaseProperties.getInstance();
+    
+    String input = PROPERTIES.getProperty("input", "sample/test-check.json");
     
     TermCorpusBuilder cb = new TermCorpusBuilder();
-    cb.setJson("C:/Users/IBM_ADMIN/workspace/JumpQA3/health-corpus-merged.json");
+    cb.setJson(input);
     
     System.out.println("Building corpus.");
     TermCorpus c = cb.build();
@@ -105,9 +114,9 @@ public final class TFIDF {
     
     ObjectNode tfidfs = getCorpusTfidfs(c);
     
-    
+    String output = PROPERTIES.getProperty("output", "sample/test-tfidf-output.json");
     try (BufferedWriter bw =new BufferedWriter(new OutputStreamWriter(
-        new FileOutputStream("C:/Users/IBM_ADMIN/workspace/JumpQA3/tfidf-health-corpus-merged-0.json"), "UTF-8"))) {
+        new FileOutputStream(output), "UTF-8"))) {
       bw.write(tfidfs.toString());
     } catch (IOException e) {
       // TODO Auto-generated catch block

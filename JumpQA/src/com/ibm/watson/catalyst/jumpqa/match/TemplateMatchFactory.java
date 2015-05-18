@@ -55,7 +55,7 @@ public class TemplateMatchFactory {
     this._templateId = _templateId;
   }
   
-  private static Integer id = 1000000;
+  private static volatile Integer id = 1000000;
   
   private String _questionText;
   private String _answerText;
