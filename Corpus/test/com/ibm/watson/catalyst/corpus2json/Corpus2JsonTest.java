@@ -13,7 +13,7 @@ public class Corpus2JsonTest {
   @Test
   public void testMain() {
     Corpus2Json.main(new String[] { "sample/test.properties"} );
-    File file1 = new File("sample/check-test.json");
+    File file1 = new File("sample/test-check.json");
     File file2 = new File("sample/test-output.json");
     try {
       assertTrue(FileUtils.contentEquals(file1, file2));

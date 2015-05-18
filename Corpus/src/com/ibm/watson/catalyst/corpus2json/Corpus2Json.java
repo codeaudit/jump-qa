@@ -34,7 +34,6 @@ public final class Corpus2Json {
     
     String output = PROPERTIES.getProperty("output", "sample/output.json");
     toJsonFile(c, output);
-    
   }
   
 }
