@@ -6,6 +6,7 @@ bin/
 tmp/
 target/
 ignore/
+.metadata/
 *.jar
 
 # Eclipse Core

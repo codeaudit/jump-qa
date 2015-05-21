@@ -3,6 +3,31 @@ _Automating ground truth generation._
 
 JumpQA is a projects for generating questions about a corpus. More specifically, it takes a directory of TRECs (in .xml form) and outpus a .csv.
 
+##Requirements
+To install this project, you will need:
+
+- [Maven](https://maven.apache.org/download.cgi)
+
+- [Java 8 SDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
+###Maven
+
+1. Download the binary relevant to your machine.
+2. Install maven to the directory of your choice.
+3. Edit your `~/.bash_profile` to include the lines
+```
+    export M2_HOME=/path/to/maven
+    export PATH=$PATH:$M2_HOME/bin 
+```
+
+###Java 8
+
+1. Download and install the binary relevant to your machine.
+2. Edit your `~/.bash_profile` to include the line
+```
+    export JAVA_HOME=/path/to/java8
+```
+
 ##Installation
 Clone the repository from git. You'll need your IBM ID and password.
 
@@ -11,6 +36,7 @@ Clone the repository from git. You'll need your IBM ID and password.
 You will be prompted for your IBM ID and password. Once downloaded, run the install script in the main directory.
 
     cd JumpQA/
+    chmod 755 ./install.sh
     ./install.sh
 
 ##Basic Usage
