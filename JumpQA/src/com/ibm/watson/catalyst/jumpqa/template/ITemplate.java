@@ -1,12 +1,12 @@
 package com.ibm.watson.catalyst.jumpqa.template;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 public interface ITemplate {
   
-  public List<ITemplateMatch> genMatchesFromTrecs(List<Trec> trecs);
+  public Collection<ITemplateMatch> genMatchesFromTrecs(Iterable<Trec> trecs);
   
 }

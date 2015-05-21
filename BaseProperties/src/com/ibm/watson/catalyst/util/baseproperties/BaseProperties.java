@@ -5,10 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 public class BaseProperties {
   
+  private final static Logger logger = Logger.getLogger(BaseProperties.class.getName());
+  
   private BaseProperties(File aFile) {
+    logger.config("Loading properties from " + aFile);
     _properties = new Properties();
     
     try (FileInputStream is = new FileInputStream(aFile);) {
@@ -26,12 +30,20 @@ public class BaseProperties {
   }
   public File getFile(String key) { return new File(getProperty(key)); }
   
-  public static synchronized final boolean setInstance(File aFile) {
+  public static synchronized final BaseProperties setInstance(String[] args, String aDefault) {
     if (instance == null) {
+      File aFile;
+      if (args.length == 0) {
+        logger.config("No properties specified. Loading default.");
+        aFile = new File(aDefault);
+      } else {
+        aFile = new File(args[0]);
+      }
       instance = new BaseProperties(aFile);
-      return true;
+    } else {
+      logger.info("Properties already loaded.");
     }
-    return false;
+    return instance;
   }
   
   public static BaseProperties getInstance() {

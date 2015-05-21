@@ -5,37 +5,32 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.logging.Logger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 public class TemplateReader implements IReader<ITemplate> {
+
+  private final static Logger logger = Logger.getLogger(TemplateReader.class.getName());
   
   @Override
-  public List<ITemplate> read(File aFile) {
-    System.out.println("Reading templates from " + aFile);
-    List<ITemplate> result = new ArrayList<ITemplate>();
+  public Collection<ITemplate> read(File aFile) {
+    logger.config("Reading templates from " + aFile);
+    Collection<ITemplate> result = new ArrayList<ITemplate>();
     
-    CSVParser parser;
-    try {
-      parser = CSVParser.parse(aFile, UTF_8, FORMAT);
+    try (CSVParser parser = CSVParser.parse(aFile, UTF_8, FORMAT)) {
+      TemplateFactory tf = new TemplateFactory();
+      parser.forEach((record) -> result.add(tf.readRecord(record)));
     } catch (IOException e) {
       throw new RuntimeException("Could not read templates file " + aFile, e);
     }
-    parser.forEach((record) -> result.add(readRecord(record)));
     
-    System.out.println("Read " + result.size() + " templates");
+    logger.info("Read " + result.size() + " templates");
     return result;
-  }
-  
-  public ITemplate readRecord(CSVRecord aRecord) {
-    String templateClass = aRecord.get("Template Class");
-    TemplateFactory tf = new TemplateFactory(templateClass);
-    return tf.readRecord(aRecord);
   }
   
   private static final CSVFormat FORMAT = CSVFormat.RFC4180.withHeader().withDelimiter('\t');

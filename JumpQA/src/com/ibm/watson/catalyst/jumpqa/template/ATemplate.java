@@ -1,7 +1,10 @@
 package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.collections4.IteratorUtils;
 
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.match.TemplateMatchFactory;
@@ -17,11 +20,11 @@ public abstract class ATemplate implements ITemplate {
   }
   
   @Override
-  public final List<ITemplateMatch> genMatchesFromTrecs(List<Trec> trecs) {
+  public final List<ITemplateMatch> genMatchesFromTrecs(Iterable<Trec> trecs) {
     TMF.setTemplateId(_templateId);
     TMF.setState("APPROVED");
     
-    List<Trec> goodTrecs = new ArrayList<Trec>(trecs);
+    Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
     goodTrecs.removeIf((trec) -> !goodTrec(trec));
     
     List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();

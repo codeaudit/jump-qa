@@ -58,10 +58,8 @@ public class TextTemplate extends ATemplate {
   }
   
   protected List<ITemplateMatch> genMatchesFromSplit(String aString) {
-    System.out.println(aString);
     List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     String cleanedString = _cleaner.clean(aString);
-    System.out.println(cleanedString);
     if (!goodString(cleanedString)) return result;
     String[] splits = _matcher.split(cleanedString);
     splits[1] = _replacer.replace(splits[1]);

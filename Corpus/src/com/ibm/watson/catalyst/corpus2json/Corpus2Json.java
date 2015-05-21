@@ -1,7 +1,6 @@
 package com.ibm.watson.catalyst.corpus2json;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -25,9 +24,7 @@ public final class Corpus2Json {
   private static BaseProperties PROPERTIES;
   
   public static void main(String[] args) {
-    if (args.length == 0) args = new String[] { "sample/test.properties" };
-    
-    BaseProperties.setInstance(new File(args[0]));
+    BaseProperties.setInstance(args, "sample/test.properties");
     PROPERTIES = BaseProperties.getInstance();
     
     String input = PROPERTIES.getProperty("input", "sample/");
