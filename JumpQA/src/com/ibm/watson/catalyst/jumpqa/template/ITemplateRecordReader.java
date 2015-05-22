@@ -17,8 +17,21 @@ package com.ibm.watson.catalyst.jumpqa.template;
 
 import org.apache.commons.csv.CSVRecord;
 
-public interface ITemplateRecordReader<T extends ITemplate> {
+/**
+ * An interface for reading a template from a CSVRecord.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public interface ITemplateRecordReader {
   
-  public T readRecord(CSVRecord aRecord);
+  /**
+   * Reads a template from a CSVRecord.
+   * @param aRecord the CSVRecord to convert to a template
+   * @return a new template with the options specified in the CSVRecord
+   */
+  public ITemplate readRecord(CSVRecord aRecord);
   
 }

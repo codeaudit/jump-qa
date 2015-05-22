@@ -27,33 +27,35 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class CSVOutputWriter implements IOutputWriter {
   
-  public CSVOutputWriter(File aOutFile, String aEncoding) {
+  private final String _encoding;
+  
+  private final File _outFile;
+  
+  public CSVOutputWriter(final File aOutFile) {
+    this(aOutFile, "UTF-8");
+  }
+  
+  public CSVOutputWriter(final File aOutFile, final String aEncoding) {
     _outFile = aOutFile;
     _encoding = aEncoding;
   }
   
-  public CSVOutputWriter(File aOutFile) {
-    this(aOutFile, "UTF-8");
-  }
-  
-  public void write(Iterable<? extends IWritable> writables) {
-    try (OutputStreamWriter writer = new OutputStreamWriter(
-        new FileOutputStream(_outFile), _encoding)) {
+  @Override
+  public void write(final Iterable<? extends IWritable> writables) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(_outFile),
+        _encoding)) {
       try (CSVPrinter printer = new CSVPrinter(writer, FORMAT);) {
         
         printer.printRecord(header);
         printer.printRecords(writables);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         throw new RuntimeException("IOError writing to " + _outFile, e);
       }
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new RuntimeException("IOError opening " + _outFile + " for writing.");
     }
     
   }
-  
-  private final File _outFile;
-  private final String _encoding;
   
   private static final CSVFormat FORMAT = CSVFormat.RFC4180.withDelimiter('\t');
   private static final List<String> header = new ArrayList<String>();

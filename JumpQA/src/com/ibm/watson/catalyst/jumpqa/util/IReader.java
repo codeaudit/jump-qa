@@ -17,8 +17,21 @@ package com.ibm.watson.catalyst.jumpqa.util;
 
 import java.io.File;
 
-public interface IReader<V> {
+/**
+ * For readers
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public interface IReader {
   
-  public Iterable<V> read(File aFile);
+  /**
+   * Given a file, returns an Iterable containing objects.
+   * @param aFile
+   * @return an Iterable of objects
+   */
+  public Iterable<?> read(File aFile);
   
 }

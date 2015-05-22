@@ -23,9 +23,24 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class TemplateMatch implements ITemplateMatch {
   
-  public TemplateMatch(String questionId, String questionText, String answerText,
-      String pauTitle, String pauId, String state, String clusterId,
-      String templateId) {
+  private final String _answerText;
+  
+  private final String _clusterId;
+  
+  private final String _pauId;
+  
+  private final String _pauTitle;
+  
+  private final String _questionId;
+  
+  private final String _questionText;
+  
+  private final String _state;
+  private final String _templateId;
+  
+  public TemplateMatch(final String questionId, final String questionText, final String answerText,
+      final String pauTitle, final String pauId, final String state, final String clusterId,
+      final String templateId) {
     _questionId = questionId;
     _questionText = questionText;
     _answerText = answerText;
@@ -38,12 +53,32 @@ public class TemplateMatch implements ITemplateMatch {
   }
   
   @Override
+  public boolean equals(final Object o) {
+    if (o instanceof TemplateMatch) {
+      final TemplateMatch tm = (TemplateMatch) o;
+      if (!tm._questionText.equals(_questionText)) return false;
+      if (!tm._answerText.equals(_answerText)) return false;
+      return true;
+    } else
+      return false;
+  }
+  
+  public String getTemplateId() {
+    return _templateId;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (_questionText + _answerText).hashCode();
+  }
+  
+  @Override
   public Iterator<String> iterator() {
-    List<String> result = new ArrayList<String>();
+    final List<String> result = new ArrayList<String>();
     result.add(_questionId);
-//    String[] words = WordSplitter.split(_questionText);
-//    result.add(words.length > 2 ? words[2] : "");
-//    result.add(words[words.length - 1]);
+    // String[] words = WordSplitter.split(_questionText);
+    // result.add(words.length > 2 ? words[2] : "");
+    // result.add(words[words.length - 1]);
     result.add(_questionText);
     result.add(_answerText);
     result.add(_pauTitle);
@@ -57,36 +92,5 @@ public class TemplateMatch implements ITemplateMatch {
   public JsonNode toJsonNode() {
     return null;
   }
-  
-  public String getTemplateId() {
-    return _templateId;
-  }
-  
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof TemplateMatch) {
-      TemplateMatch tm = (TemplateMatch) o;
-      if (!tm._questionText.equals(_questionText)) return false;
-      if (!tm._answerText.equals(_answerText)) return false;
-      return true;
-    } else {
-      return false;
-    }
-  }
-  
-  @Override
-  public int hashCode() {
-    return (_questionText + _answerText).hashCode();
-  }
-  
-  private final String _questionId;
-  private final String _questionText;
-  private final String _answerText;
-  private final String _pauTitle;
-  private final String _pauId;
-  private final String _clusterId;
-  private final String _state;
-  
-  private final String _templateId;
   
 }

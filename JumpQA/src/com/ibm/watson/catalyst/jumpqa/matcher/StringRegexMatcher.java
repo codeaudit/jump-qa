@@ -20,37 +20,39 @@ import java.util.regex.Pattern;
 
 public class StringRegexMatcher implements IMatcher {
   
-  /**
-   * 
-   * @param aRegex A regular expression to match.
-   * @param flags Uses flags from the Pattern class.
-   */
-  public StringRegexMatcher(String aRegex, int flags) {
-    _textRegex = Pattern.compile(aRegex, flags);
-  }
+  private final Pattern _textRegex;
   
-  public StringRegexMatcher(String aRegex) {
+  public StringRegexMatcher(final String aRegex) {
     this(aRegex, 0);
   }
   
+  /**
+   * 
+   * @param aRegex
+   *          A regular expression to match.
+   * @param flags
+   *          Uses flags from the Pattern class.
+   */
+  public StringRegexMatcher(final String aRegex, final int flags) {
+    _textRegex = Pattern.compile(aRegex, flags);
+  }
+  
   @Override
-  public boolean matches(String... strings) {
+  public boolean matches(final String... strings) {
     return _textRegex.matcher(strings[0]).find();
   }
   
-  public String[] split(String aString) {
-    String[] result = new String[3];
+  public String[] split(final String aString) {
+    final String[] result = new String[3];
     
-    String[] beforeAfter = _textRegex.split(aString, 2);
+    final String[] beforeAfter = _textRegex.split(aString, 2);
     result[0] = beforeAfter[0].trim();
-    Matcher m = _textRegex.matcher(aString);
+    final Matcher m = _textRegex.matcher(aString);
     m.find();
     result[1] = m.group().trim();
     result[2] = beforeAfter[1].trim();
     
     return result;
   }
-  
-  private final Pattern _textRegex;
   
 }

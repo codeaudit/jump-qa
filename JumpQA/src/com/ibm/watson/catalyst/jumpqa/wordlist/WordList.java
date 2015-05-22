@@ -22,34 +22,34 @@ import com.ibm.watson.catalyst.jumpqa.splitter.WordSplitter;
 
 public class WordList implements IWordList, Iterable<String> {
   
-  public WordList(String aFile) {
-    this((new StringListReader()).read(aFile));
-  }
+  private final List<String> _wordList;
   
-  public WordList(List<String> aStringList) {
+  public WordList(final List<String> aStringList) {
     _wordList = aStringList;
   }
   
+  public WordList(final String aFile) {
+    this((new StringListReader()).read(aFile));
+  }
+  
   @Override
-  public boolean contains(Object o) {
+  public boolean contains(final Object o) {
     return _wordList.contains(o.toString().toLowerCase());
+  }
+  
+  public boolean containsFirstWord(final String s) {
+    final String[] words = WordSplitter.split(s);
+    return contains(words[0]);
+  }
+  
+  public boolean containsLastWord(final String s) {
+    final String[] words = WordSplitter.split(s);
+    return contains(words[words.length - 1]);
   }
   
   @Override
   public Iterator<String> iterator() {
     return _wordList.iterator();
   }
-  
-  public boolean containsFirstWord(String s) {
-    String[] words = WordSplitter.split(s);
-    return contains(words[0]);
-  }
-  
-  public boolean containsLastWord(String s) {
-    String[] words = WordSplitter.split(s);
-    return contains(words[words.length - 1]);
-  }
-  
-  private final List<String> _wordList;
   
 }

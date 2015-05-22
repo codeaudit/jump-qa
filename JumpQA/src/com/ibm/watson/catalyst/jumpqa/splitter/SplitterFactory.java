@@ -17,8 +17,12 @@ package com.ibm.watson.catalyst.jumpqa.splitter;
 
 public class SplitterFactory {
   
-  public static ISplitter createSplitter(AnswerSize answerSize) {
-    switch(answerSize) {
+  private enum AnswerSize {
+    PARAGRAPH, SENTENCE, TREC
+  }
+  
+  public static ISplitter createSplitter(final AnswerSize answerSize) {
+    switch (answerSize) {
       case SENTENCE:
         return new SentenceSplitter();
       case PARAGRAPH:
@@ -28,14 +32,12 @@ public class SplitterFactory {
     }
   }
   
-  public static ISplitter createSplitter(String answerSize) {
+  public static ISplitter createSplitter(final String answerSize) {
     return createSplitter(toAnswerSize(answerSize));
   }
   
-  private enum AnswerSize { SENTENCE, PARAGRAPH, TREC }
-  
-  private static AnswerSize toAnswerSize(String aString) {
-    switch(aString.toLowerCase()) {
+  private static AnswerSize toAnswerSize(final String aString) {
+    switch (aString.toLowerCase()) {
       case "sentence":
         return AnswerSize.SENTENCE;
       case "paragraph":

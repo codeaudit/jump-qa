@@ -15,25 +15,43 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.template;
 
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import org.apache.commons.csv.CSVRecord;
 
-public class TemplateFactory implements ITemplateRecordReader<ITemplate> {
+/**
+ * A factory class to read templates from a CSVRecord.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public class TemplateFactory implements ITemplateRecordReader {
   
-  public TemplateFactory() { }
+  public TemplateFactory() {}
   
-  public ITemplate readRecord(CSVRecord aRecord) {
-    ITemplateRecordReader<? extends ITemplate> trr;
+  @Override
+  public ITemplate readRecord(final CSVRecord aRecord) {
+    logger.fine("Reading record #" + aRecord.getRecordNumber());
     
-    String templateClass = aRecord.get("Template Class");
-    switch(templateClass) {
-      case "TextTemplate":
-        trr = new TextTemplateRecordReader();
-        break;
-      default:
-        throw new RuntimeException("Unknown template class: " + templateClass);
-    }
+    final String templateClass = aRecord.get("Template Class");
+    logger.finer("Template class is" + templateClass);
+    final ITemplateRecordReader trr = readers.get(templateClass);
+    if (trr == null) throw new RuntimeException("Template Class not found: " + templateClass);
     
     return trr.readRecord(aRecord);
+  }
+  
+  private final static Logger logger = Logger.getLogger(TemplateFactory.class.getName());
+  
+  private static final Map<String, ITemplateRecordReader> readers = new Hashtable<String, ITemplateRecordReader>();
+  
+  static {
+    readers.put("TextTemplate", new TextTemplateRecordReader());
+    //TODO: Add more templates
   }
   
 }

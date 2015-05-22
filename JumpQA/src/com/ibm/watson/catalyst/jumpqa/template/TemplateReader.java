@@ -28,19 +28,25 @@ import org.apache.commons.csv.CSVParser;
 
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
-public class TemplateReader implements IReader<ITemplate> {
-
-  private final static Logger logger = Logger.getLogger(TemplateReader.class.getName());
+/**
+ * Reads templates from a file and returns a collection containing the templates. 
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public class TemplateReader implements IReader {
   
   @Override
-  public Collection<ITemplate> read(File aFile) {
-    logger.config("Reading templates from " + aFile);
-    Collection<ITemplate> result = new ArrayList<ITemplate>();
+  public Collection<ITemplate> read(final File aFile) {
+    logger.info("Reading templates from " + aFile);
+    final Collection<ITemplate> result = new ArrayList<ITemplate>();
     
-    try (CSVParser parser = CSVParser.parse(aFile, UTF_8, FORMAT)) {
-      TemplateFactory tf = new TemplateFactory();
+    try (CSVParser parser = CSVParser.parse(aFile, UTF_8, format)) {
+      final TemplateFactory tf = new TemplateFactory();
       parser.forEach((record) -> result.add(tf.readRecord(record)));
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new RuntimeException("Could not read templates file " + aFile, e);
     }
     
@@ -48,7 +54,9 @@ public class TemplateReader implements IReader<ITemplate> {
     return result;
   }
   
-  private static final CSVFormat FORMAT = CSVFormat.RFC4180.withHeader().withDelimiter('\t');
+  private static final CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter('\t');
+  
+  private static final Logger logger = Logger.getLogger(TemplateReader.class.getName());
   private static final Charset UTF_8 = StandardCharsets.UTF_8;
   
 }

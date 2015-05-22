@@ -27,33 +27,32 @@ import java.util.List;
 
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
-public class StringListReader implements IReader<String> {
+public class StringListReader implements IReader {
   
   @Override
-  public List<String> read(File aFile) {
-    List<String> result = new ArrayList<String>();
-    try (BufferedReader br = new BufferedReader(
-        new InputStreamReader(
-            new FileInputStream(aFile), ENCODING))) {
+  public List<String> read(final File aFile) {
+    final List<String> result = new ArrayList<String>();
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(aFile),
+        ENCODING))) {
       while (br.ready()) {
-        String line = br.readLine();
+        final String line = br.readLine();
         if (line.equals("") || line.startsWith("#")) {
           continue;
         } else {
           result.add(line);
         }
       }
-    } catch (UnsupportedEncodingException e) {
+    } catch (final UnsupportedEncodingException e) {
       throw new RuntimeException("Unsupported encoding: " + ENCODING, e);
-    } catch (FileNotFoundException e) {
+    } catch (final FileNotFoundException e) {
       throw new RuntimeException("Unable to find " + aFile, e);
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new RuntimeException("IOError reading " + aFile, e);
     }
     return result;
   }
   
-  public List<String> read(String aString) {
+  public List<String> read(final String aString) {
     return read(new File(aString));
   }
   

@@ -25,20 +25,20 @@ import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 public class MatchGenerator {
-
-  private static Logger logger = Logger.getLogger(MatchGenerator.class.getName());
   
-  public MatchGenerator() { }
+  public MatchGenerator() {}
   
-  public Collection<ITemplateMatch> genMatches(
-      Collection<ITemplate> templates,
-      Collection<Trec> trecs) {
+  public Collection<ITemplateMatch> genMatches(final Collection<ITemplate> templates,
+      final Collection<Trec> trecs) {
     
     logger.info("Generating matches");
-    Collection<ITemplateMatch> result = Collections.synchronizedSet(new HashSet<ITemplateMatch>());
+    final Collection<ITemplateMatch> result = Collections
+        .synchronizedSet(new HashSet<ITemplateMatch>());
     templates.forEach((template) -> result.addAll(template.genMatchesFromTrecs(trecs)));
     logger.info("Generated " + result.size() + " matches");
     return result;
   }
+  
+  private static Logger logger = Logger.getLogger(MatchGenerator.class.getName());
   
 }

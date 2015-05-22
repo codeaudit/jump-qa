@@ -34,8 +34,21 @@ import com.ibm.watson.catalyst.jumpqa.wordreplacer.WordReplacer;
 
 public class TextTemplate extends ATemplate {
   
-  public TextTemplate(String aTemplateId, String aAnswerSize,
-      String aMatchSize, String aQuestion, String aRegex, String aWordList, String words3, String clean) {
+  private final BooleanHeuristics<String> _bh = new BooleanHeuristics<String>();
+  
+  private final IStringCleaner _cleaner;
+  
+  private final StringRegexMatcher _matcher;
+  
+  private final ISplitter _matchSplitter;
+  
+  private final IQuestioner _questioner;
+  
+  private final WordReplacer _replacer;
+  
+  public TextTemplate(final String aTemplateId, final String aAnswerSize, final String aMatchSize,
+      final String aQuestion, final String aRegex, final String aWordList, final String words3,
+      final String clean) {
     super(aTemplateId, aAnswerSize);
     _matcher = new StringRegexMatcher(aRegex, Pattern.CASE_INSENSITIVE);
     _matchSplitter = SplitterFactory.createSplitter(aMatchSize);
@@ -44,39 +57,18 @@ public class TextTemplate extends ATemplate {
     _replacer = new WordReplacer(words3);
     
     if (!aWordList.equals("")) {
-      WordList wl = new WordList("WordLists/" + aWordList);
+      final WordList wl = new WordList("WordLists/" + aWordList);
       _bh.add((s) -> wl.containsFirstWord(s));
       _bh.add((s) -> wl.containsLastWord(s));
       _bh.add((s) -> s.contains(" - "));
     }
   }
   
-  @Override
-  protected boolean goodTrec(Trec aTrec) {
-    return true;
-  }
-  
-  @Override
-  protected boolean goodString(String aString) {
-    return _matcher.matches(aString);
-  }
-  
-  @Override
-  protected List<ITemplateMatch> genMatchesFromString(String aString) {
-    TMF.setAnswerText(aString.trim());
-    List<String> splits = _matchSplitter.split(aString);
-
-    List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
-    splits.forEach((s) -> result.addAll(genMatchesFromSplit(s)));
-    
-    return result;
-  }
-  
-  protected List<ITemplateMatch> genMatchesFromSplit(String aString) {
-    List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
-    String cleanedString = _cleaner.clean(aString);
+  protected List<ITemplateMatch> genMatchesFromSplit(final String aString) {
+    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    final String cleanedString = _cleaner.clean(aString);
     if (!goodString(cleanedString)) return result;
-    String[] splits = _matcher.split(cleanedString);
+    final String[] splits = _matcher.split(cleanedString);
     splits[1] = _replacer.replace(splits[1]);
     
     if (_bh.anyTrue(cleanedString)) return result;
@@ -87,11 +79,25 @@ public class TextTemplate extends ATemplate {
     
   }
   
-  private final StringRegexMatcher _matcher;
-  private final ISplitter _matchSplitter;
-  private final IStringCleaner _cleaner;
-  private final WordReplacer _replacer;
-  private final IQuestioner _questioner;
-  private final BooleanHeuristics<String> _bh = new BooleanHeuristics<String>();
+  @Override
+  protected List<ITemplateMatch> genMatchesFromString(final String aString) {
+    TMF.setAnswerText(aString.trim());
+    final List<String> splits = _matchSplitter.split(aString);
+    
+    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    splits.forEach((s) -> result.addAll(genMatchesFromSplit(s)));
+    
+    return result;
+  }
+  
+  @Override
+  protected boolean goodString(final String aString) {
+    return _matcher.matches(aString);
+  }
+  
+  @Override
+  protected boolean goodTrec(final Trec aTrec) {
+    return true;
+  }
   
 }

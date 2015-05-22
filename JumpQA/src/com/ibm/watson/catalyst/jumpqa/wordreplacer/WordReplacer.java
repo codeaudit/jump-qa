@@ -21,25 +21,25 @@ import java.util.regex.Pattern;
 
 public class WordReplacer implements IWordReplacer {
   
-  public WordReplacer(Hashtable<Pattern, String> replacements) {
+  private final Hashtable<Pattern, String> _replacements;
+  
+  public WordReplacer(final Hashtable<Pattern, String> replacements) {
     _replacements = replacements;
   }
   
-  public WordReplacer(String aFile) {
+  public WordReplacer(final String aFile) {
     this((new ReplacementHashtableReader()).read(aFile));
   }
   
   @Override
-  public String replace(String aString) {
+  public String replace(final String aString) {
     String result = aString;
-    for (Entry<Pattern, String> replacement : _replacements.entrySet()) {
-      Pattern p = replacement.getKey();
-      String r = replacement.getValue();
+    for (final Entry<Pattern, String> replacement : _replacements.entrySet()) {
+      final Pattern p = replacement.getKey();
+      final String r = replacement.getValue();
       result = p.matcher(result).replaceAll(r);
     }
     return result;
   }
-  
-  private final Hashtable<Pattern, String> _replacements;
   
 }

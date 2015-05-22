@@ -29,49 +29,52 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 public abstract class ATemplate implements ITemplate {
   
-  public ATemplate(String aTemplateId, String aAnswerSize) {
+  private final ISplitter _answerSplitter;
+  
+  private final String _templateId;
+  
+  public ATemplate(final String aTemplateId, final String aAnswerSize) {
     _templateId = aTemplateId;
     _answerSplitter = SplitterFactory.createSplitter(aAnswerSize);
   }
   
   @Override
-  public final List<ITemplateMatch> genMatchesFromTrecs(Iterable<Trec> trecs) {
+  public final List<ITemplateMatch> genMatchesFromTrecs(final Iterable<Trec> trecs) {
     TMF.setTemplateId(_templateId);
     TMF.setState("APPROVED");
     
-    Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
+    final Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
     goodTrecs.removeIf((trec) -> !goodTrec(trec));
     
-    List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     goodTrecs.forEach((trec) -> result.addAll(genMatchesFromTrec(trec)));
     return result;
   }
   
-  public final boolean idMatches(Object anObject) {
+  public final boolean idMatches(final Object anObject) {
     return _templateId.equals(anObject);
   }
   
-  protected static final TemplateMatchFactory TMF = TemplateMatchFactory.getInstance();
-  
-  protected abstract boolean goodTrec(Trec aTrec);
-  protected abstract boolean goodString(String aString);
   protected abstract List<ITemplateMatch> genMatchesFromString(String aString);
   
-  protected final List<ITemplateMatch> genMatchesFromStrings(List<String> strings) {
-    List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+  protected final List<ITemplateMatch> genMatchesFromStrings(final List<String> strings) {
+    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     strings.forEach((s) -> result.addAll(genMatchesFromString(s)));
     return result;
   }
   
-  protected final List<ITemplateMatch> genMatchesFromTrec(Trec aTrec) {
+  protected final List<ITemplateMatch> genMatchesFromTrec(final Trec aTrec) {
     TMF.setPauTitle(aTrec.getPauTitle());
     TMF.setPauId(aTrec.getPauId());
-    List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
+    final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
     strings.removeIf((s) -> !goodString(s));
     return genMatchesFromStrings(strings);
   }
   
-  private final String _templateId;
-  private final ISplitter _answerSplitter;
+  protected abstract boolean goodString(String aString);
+  
+  protected abstract boolean goodTrec(Trec aTrec);
+  
+  protected static final TemplateMatchFactory TMF = TemplateMatchFactory.getInstance();
   
 }

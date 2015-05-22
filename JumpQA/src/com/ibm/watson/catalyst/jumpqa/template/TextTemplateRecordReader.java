@@ -17,19 +17,28 @@ package com.ibm.watson.catalyst.jumpqa.template;
 
 import org.apache.commons.csv.CSVRecord;
 
-public class TextTemplateRecordReader implements ITemplateRecordReader<TextTemplate> {
-
+/**
+ * Creates a TextTemplate from a CSVRecord.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public class TextTemplateRecordReader implements ITemplateRecordReader {
+  
   @Override
-  public TextTemplate readRecord(CSVRecord aRecord) {
-    String templateId = aRecord.get("Template ID");
-    String matchSize = aRecord.get("Match Size");
-    String answerSize = aRecord.get("Answer Size");
-    String question = aRecord.get("Question");
-    String search1 = aRecord.get("Search 1");
-    String words1 = aRecord.get("Words 1");
-    String words3 = aRecord.get("Words 3");
-    String clean = aRecord.get("Clean");
-    return new TextTemplate(templateId, answerSize, matchSize, question, search1, words1, words3, clean);
+  public TextTemplate readRecord(final CSVRecord aRecord) {
+    final String templateId = aRecord.get("Template ID");
+    final String matchSize = aRecord.get("Match Size");
+    final String answerSize = aRecord.get("Answer Size");
+    final String question = aRecord.get("Question");
+    final String search1 = aRecord.get("Search 1");
+    final String words1 = aRecord.get("Words 1");
+    final String words3 = aRecord.get("Words 3");
+    final String clean = aRecord.get("Clean");
+    return new TextTemplate(templateId, answerSize, matchSize, question, search1, words1, words3,
+        clean);
   }
   
 }

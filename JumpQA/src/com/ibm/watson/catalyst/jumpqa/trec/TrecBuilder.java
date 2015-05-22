@@ -19,20 +19,34 @@ import java.util.List;
 
 public class TrecBuilder {
   
-  public void setFile(String aFile) { _file = aFile; }
-  public void setPauId(String aPauId) { _pauId = aPauId; }
-  public void setPauTitle(String aPauTitle) { _pauTitle = aPauTitle; }
-  public void setSourceDoc(String aSourceDoc) { _sourceDoc = aSourceDoc; }
-  public void setParagraphs(List<String> aParagraphs) { _paragraphs = aParagraphs; }
+  private String _file;
+  private List<String> _paragraphs;
+  private String _pauId;
+  private String _pauTitle;
+  private String _sourceDoc;
   
   public Trec build() {
     return new Trec(_file, _pauId, _pauTitle, _sourceDoc, _paragraphs);
   }
   
-  private String _file;
-  private String _pauId;
-  private String _pauTitle;
-  private String _sourceDoc;
-  private List<String> _paragraphs;
+  public void setFile(final String aFile) {
+    _file = aFile;
+  }
+  
+  public void setParagraphs(final List<String> aParagraphs) {
+    _paragraphs = aParagraphs;
+  }
+  
+  public void setPauId(final String aPauId) {
+    _pauId = aPauId;
+  }
+  
+  public void setPauTitle(final String aPauTitle) {
+    _pauTitle = aPauTitle;
+  }
+  
+  public void setSourceDoc(final String aSourceDoc) {
+    _sourceDoc = aSourceDoc;
+  }
   
 }

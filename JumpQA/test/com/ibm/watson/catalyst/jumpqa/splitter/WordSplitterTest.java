@@ -15,20 +15,20 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.splitter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import org.junit.Test;
 
 public class WordSplitterTest {
-
+  
   @Test
   public void testSplit() {
-    String aString = "Some words.";
-    String[] aStringSplit = new String[] { "Some", "words." };
+    final String aString = "Some words.";
+    final String[] aStringSplit = new String[] { "Some", "words." };
     assertArrayEquals(WordSplitter.split(aString), aStringSplit);
     
-    String[] x = WordSplitter.split("");
+    final String[] x = WordSplitter.split("");
     System.out.println(x.length);
   }
-
+  
 }

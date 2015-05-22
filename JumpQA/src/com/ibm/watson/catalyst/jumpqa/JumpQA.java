@@ -14,7 +14,6 @@
  * limitations under the License.
  *******************************************************************************/
 
-
 package com.ibm.watson.catalyst.jumpqa;
 
 import java.io.File;
@@ -31,33 +30,51 @@ import com.ibm.watson.catalyst.jumpqa.util.CSVOutputWriter;
 import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
 
 /**
+ * Reads a corpus in JSON format and creates ground truth.
  * 
- * @author wabeason
- *
+ * Specifically, reads the properties file specified at the command line to load two files:
+ *   the templates and the corpus. The corpus is a JSON file containing a set of documents and
+ *   metadata. The templates file is a tab-delimited CSV where each line represents configuration
+ *   for a template. The most important column is the first, containing the exact name of the
+ *   template class to be used.
+ *   
+ * The output is a CSV of questions, answers, and metadata necessary for uploading the ground truth
+ *   to a Watson Q&A instance.
+ *   
+ * See the README.md for more information and a tutorial.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ * 
  */
 public final class JumpQA {
   
-  /**
-   * Private
-   */
-  private static BaseProperties PROPERTIES;
   private final static Logger logger = Logger.getLogger(JumpQA.class.getName());
-  
-  private static File getFile(String key) { return PROPERTIES.getFile(key); }
+  private static BaseProperties PROPERTIES;
   
   /**
-   * Main
+   * Using the properties file specified.
+   * 
+   * @param args The first argument is the properties file to use. All others are ignored. Defaults
+   *   to the test properties file if none is specified.
+   *   
    */
-  public static void main(String[] args) {
+  public static void main(final String[] args) {
     logger.info("JumpQA start");
+    //TODO: Set to a copy of the test.properties which is in the main dir.
     PROPERTIES = BaseProperties.setInstance(args, "sample/test.properties");
     
-    Collection<ITemplate> templates = (new TemplateReader()).read(getFile("templates"));
-    Collection<Trec> trecs = (new TrecReader()).read(getFile("corpus"));
-    Collection<ITemplateMatch> matches = (new MatchGenerator()).genMatches(templates, trecs);
+    final Collection<ITemplate> templates = (new TemplateReader()).read(getFile("templates"));
+    final Collection<Trec> trecs = (new TrecReader()).read(getFile("corpus"));
+    final Collection<ITemplateMatch> matches = (new MatchGenerator()).genMatches(templates, trecs);
     
     (new CSVOutputWriter(getFile("output"))).write(matches);
     logger.info("JumpQA end");
+  }
+  
+  private static File getFile(final String key) {
+    return PROPERTIES.getFile(key);
   }
   
 }

@@ -22,17 +22,21 @@ import java.util.regex.Pattern;
 
 public class SentenceSplitter implements ISplitter {
   
-  public List<String> split(List<String> strings) {
-    List<String> result = new ArrayList<String>();
-    strings.forEach((string) -> { result.addAll(split(string)); });
+  @Override
+  public List<String> split(final List<String> strings) {
+    final List<String> result = new ArrayList<String>();
+    strings.forEach((string) -> {
+      result.addAll(split(string));
+    });
     return result;
   }
   
-  public List<String> split(String aString) {
+  @Override
+  public List<String> split(final String aString) {
     return Arrays.asList(SENTENCESPLIT.split(aString));
   }
   
-  private static final Pattern SENTENCESPLIT =
-      Pattern.compile("[\\.!?]([\"']|\\s*\\[[^\\]^\\[]*\\])*(\\s+|$)");
+  private static final Pattern SENTENCESPLIT = Pattern
+      .compile("[\\.!?]([\"']|\\s*\\[[^\\]^\\[]*\\])*(\\s+|$)");
   
 }
