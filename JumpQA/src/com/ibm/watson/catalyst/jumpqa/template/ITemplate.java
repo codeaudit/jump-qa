@@ -20,8 +20,21 @@ import java.util.Collection;
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
+/**
+ * TODO: Class description
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface ITemplate {
   
-  public Collection<ITemplateMatch> genMatchesFromTrecs(Iterable<Trec> trecs);
+  /**
+   * Generates a collection of matches from a collection of TRECs
+   * @param trecs the TRECs to generate matches for
+   * @return a collection of matches
+   */
+  public Collection<ITemplateMatch> genMatchesFromTrecs(Collection<Trec> trecs);
   
 }

@@ -17,6 +17,14 @@ package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.util.List;
 
+/**
+ * A class for holding information about TRECs
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class Trec {
   
   private final String _file;
@@ -26,6 +34,14 @@ public class Trec {
   private final String _pauTitle;
   private final String _sourceDoc;
   
+  /**
+   * Instantiates a Trec object, a representation of a TREC document
+   * @param aFile the original file which held the TREC in xml form
+   * @param aPauId the PAU ID of the TREC
+   * @param aPauTitle the PAU Title of the TREC
+   * @param aSourceDoc the document from which the TREC was generated
+   * @param paragraphs a list of paragraphs in the TREC
+   */
   public Trec(final String aFile, final String aPauId, final String aPauTitle,
       final String aSourceDoc, final List<String> paragraphs) {
     _file = aFile;
@@ -35,22 +51,42 @@ public class Trec {
     _paragraphs = paragraphs;
   }
   
+  /**
+   * Gets the file which held the TREC
+   * @return the file
+   */
   public String getFile() {
     return _file;
   }
   
+  /**
+   * Gets the list of paragraphs in the TREC
+   * @return the paragraphs
+   */
   public List<String> getParagraphs() {
     return _paragraphs;
   }
   
+  /**
+   * Gets the PAU ID of the TREC
+   * @return the PAU ID
+   */
   public String getPauId() {
     return _pauId;
   }
   
+  /**
+   * Gets the PAU Title of the TREC
+   * @return the PAU Title
+   */
   public String getPauTitle() {
     return _pauTitle;
   }
   
+  /**
+   * Gets the document from which the TREC was generated
+   * @return the document from which the TREC was generated
+   */
   public String getSourceDoc() {
     return _sourceDoc;
   }

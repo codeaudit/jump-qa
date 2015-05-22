@@ -17,10 +17,28 @@ package com.ibm.watson.catalyst.jumpqa.splitter;
 
 import java.util.List;
 
+/**
+ * An interface for things which split strings.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface ISplitter {
   
+  /**
+   * Given a list of strings to split, returns a list of the all of the splits.
+   * @param strings the strings to split
+   * @return a list of all of the splits
+   */
   public List<String> split(List<String> strings);
   
+  /**
+   * Splits a string.
+   * @param aString the string to split
+   * @return the splits of aString
+   */
   public List<String> split(String aString);
   
 }

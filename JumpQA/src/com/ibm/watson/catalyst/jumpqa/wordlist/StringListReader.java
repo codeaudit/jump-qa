@@ -27,6 +27,14 @@ import java.util.List;
 
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
+/**
+ * A class for reading a file and creating a list where each entry is a line from the file.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class StringListReader implements IReader {
   
   @Override
@@ -52,6 +60,11 @@ public class StringListReader implements IReader {
     return result;
   }
   
+  /**
+   * Reads a file to generate a list of strings
+   * @param aString the file to read
+   * @return the list of strings read from the file
+   */
   public List<String> read(final String aString) {
     return read(new File(aString));
   }

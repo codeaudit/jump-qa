@@ -15,8 +15,21 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.questioner;
 
+/**
+ * An interface for generating questions from an array of strings
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface IQuestioner {
   
+  /**
+   * Creates a question from an array of strings.
+   * @param aString the string array to use to generate a question
+   * @return the question text
+   */
   public String makeQuestion(String[] aString);
   
 }

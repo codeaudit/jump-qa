@@ -31,6 +31,9 @@ import org.apache.commons.csv.CSVRecord;
  */
 public class TemplateFactory implements ITemplateRecordReader {
   
+  /**
+   * Instantiates a TemplateFactory.
+   */
   public TemplateFactory() {}
   
   @Override

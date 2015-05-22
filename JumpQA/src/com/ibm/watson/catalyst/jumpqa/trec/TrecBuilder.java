@@ -17,6 +17,14 @@ package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.util.List;
 
+/**
+ * A class for constructing Trec objects
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class TrecBuilder {
   
   private String _file;
@@ -25,26 +33,50 @@ public class TrecBuilder {
   private String _pauTitle;
   private String _sourceDoc;
   
+  /**
+   * Builds a Trec object from the supplied information
+   * @return the generated Trec
+   */
   public Trec build() {
     return new Trec(_file, _pauId, _pauTitle, _sourceDoc, _paragraphs);
   }
   
+  /**
+   * Sets the file which held the TREC
+   * @param aFile the file which held the TREC
+   */
   public void setFile(final String aFile) {
     _file = aFile;
   }
   
+  /**
+   * Sets the paragraphs contained in the TREC
+   * @param aParagraphs the paragraphs in the TREC
+   */
   public void setParagraphs(final List<String> aParagraphs) {
     _paragraphs = aParagraphs;
   }
   
+  /**
+   * Sets the PAU ID of the TREC
+   * @param aPauId the PAU ID of the TREC
+   */
   public void setPauId(final String aPauId) {
     _pauId = aPauId;
   }
   
+  /**
+   * Sets the PAU Title of the TREC
+   * @param aPauTitle the PAU Title of the TREC
+   */
   public void setPauTitle(final String aPauTitle) {
     _pauTitle = aPauTitle;
   }
   
+  /**
+   * Sets the document from which the TREC was generated
+   * @param aSourceDoc the document from which the TREC was generated
+   */
   public void setSourceDoc(final String aSourceDoc) {
     _sourceDoc = aSourceDoc;
   }

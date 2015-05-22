@@ -15,20 +15,35 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.splitter;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
+/**
+ * Tests whether the WordSplitter class is working as intended.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class WordSplitterTest {
   
+  @SuppressWarnings("javadoc")
   @Test
   public void testSplit() {
     final String aString = "Some words.";
-    final String[] aStringSplit = new String[] { "Some", "words." };
-    assertArrayEquals(WordSplitter.split(aString), aStringSplit);
+    final List<String> aStringSplit = new ArrayList<String>();
+    aStringSplit.add("Some");
+    aStringSplit.add("words.");
     
-    final String[] x = WordSplitter.split("");
-    System.out.println(x.length);
+    final WordSplitter ws = new WordSplitter();
+    List<String> wordSplit = ws.split(aString);
+    
+    assertTrue(wordSplit.equals(aStringSplit));
   }
   
 }

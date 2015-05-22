@@ -15,8 +15,22 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.util;
 
+import java.util.Collection;
+
+/**
+ * An interface for writing a set of objects with the IWritable interface.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface IOutputWriter {
   
-  public void write(Iterable<? extends IWritable> writable);
+  /**
+   * Writes a set of writable objects.
+   * @param writables a collection of IWritable objects
+   */
+  public void write(Collection<? extends IWritable> writables);
   
 }

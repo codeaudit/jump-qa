@@ -24,8 +24,21 @@ import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 import java.util.regex.Pattern;
 
+/**
+ * Reads files to creates hashtables of search and replacement strings
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class ReplacementHashtableReader {
   
+  /**
+   * Reads a file containing a set of strings and things to replace them 
+   * @param aFile the file to read
+   * @return the hashtable of searches and replacements
+   */
   public Hashtable<Pattern, String> read(final String aFile) {
     final Hashtable<Pattern, String> result = new Hashtable<Pattern, String>();
     if (aFile.equals("")) return result;

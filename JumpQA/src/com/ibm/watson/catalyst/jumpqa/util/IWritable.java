@@ -17,8 +17,20 @@ package com.ibm.watson.catalyst.jumpqa.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Objects which may be written to files.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface IWritable extends Iterable<String> {
   
+  /**
+   * Converts the object to a JSON node
+   * @return the JSON node representation of the object
+   */
   public JsonNode toJsonNode();
   
 }

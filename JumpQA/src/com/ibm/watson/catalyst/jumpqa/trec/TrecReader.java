@@ -26,6 +26,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
+/**
+ * A class which reads Trec objects from a JSON file.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class TrecReader implements IReader {
   
   @Override

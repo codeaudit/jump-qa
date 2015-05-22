@@ -19,14 +19,31 @@ import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+/**
+ * A class for replacing matched regular expressions with given strings. The keys in the hashtable
+ *   are the regular expressions, and the mapped values are the replacements.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class WordReplacer implements IWordReplacer {
   
   private final Hashtable<Pattern, String> _replacements;
   
+  /**
+   * Instantiates a new WordReplacer with the given hashtable
+   * @param replacements the hashtable of searches and replacements
+   */
   public WordReplacer(final Hashtable<Pattern, String> replacements) {
     _replacements = replacements;
   }
   
+  /**
+   * Instantiates a new WordReplacer by reading the hashtable from a file
+   * @param aFile the file to read
+   */
   public WordReplacer(final String aFile) {
     this((new ReplacementHashtableReader()).read(aFile));
   }

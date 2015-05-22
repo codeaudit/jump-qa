@@ -18,23 +18,35 @@ package com.ibm.watson.catalyst.jumpqa.matcher;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * StringRegexMatcher holds a compiled string to match against. It delegates common operations
+ *   which would ordinarily result in boilerplate code related to the Pattern class everywhere.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class StringRegexMatcher implements IMatcher {
   
   private final Pattern _textRegex;
   
-  public StringRegexMatcher(final String aRegex) {
-    this(aRegex, 0);
-  }
   
   /**
-   * 
-   * @param aRegex
-   *          A regular expression to match.
-   * @param flags
-   *          Uses flags from the Pattern class.
+   * Instantiates a new StringRegexMatcher
+   * @param aRegex A regular expression to match.
+   * @param flags Uses flags from the Pattern class.
    */
   public StringRegexMatcher(final String aRegex, final int flags) {
     _textRegex = Pattern.compile(aRegex, flags);
+  }
+  
+  /**
+   * Instantiates a new StringRegexMatcher with no flags set.
+   * @param aRegex A regular expression to match
+   */
+  public StringRegexMatcher(final String aRegex) {
+    this(aRegex, 0);
   }
   
   @Override
@@ -42,6 +54,12 @@ public class StringRegexMatcher implements IMatcher {
     return _textRegex.matcher(strings[0]).find();
   }
   
+  /**
+   * Splits a string about the regular expression.
+   * @param aString the string to split
+   * @return an array of the substring before the regular expression, the substring matched by the
+   *   regular expression, and the substring after the regular expression.
+   */
   public String[] split(final String aString) {
     final String[] result = new String[3];
     
@@ -50,7 +68,7 @@ public class StringRegexMatcher implements IMatcher {
     final Matcher m = _textRegex.matcher(aString);
     m.find();
     result[1] = m.group().trim();
-    result[2] = beforeAfter[1].trim();
+    if (beforeAfter.length > 1) result[2] = beforeAfter[1].trim();
     
     return result;
   }

@@ -24,22 +24,35 @@ import org.apache.commons.collections4.IteratorUtils;
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.match.TemplateMatchFactory;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterGetter;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
+/**
+ * The basic implementation of a template.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public abstract class ATemplate implements ITemplate {
   
   private final ISplitter _answerSplitter;
   
   private final String _templateId;
   
+  /**
+   * Instantiates a template
+   * @param aTemplateId the id of the template
+   * @param aAnswerSize how large the answer should be
+   */
   public ATemplate(final String aTemplateId, final String aAnswerSize) {
     _templateId = aTemplateId;
-    _answerSplitter = SplitterFactory.createSplitter(aAnswerSize);
+    _answerSplitter = SplitterGetter.getSplitter(aAnswerSize);
   }
   
   @Override
-  public final List<ITemplateMatch> genMatchesFromTrecs(final Iterable<Trec> trecs) {
+  public final List<ITemplateMatch> genMatchesFromTrecs(final Collection<Trec> trecs) {
     TMF.setTemplateId(_templateId);
     TMF.setState("APPROVED");
     
@@ -51,19 +64,39 @@ public abstract class ATemplate implements ITemplate {
     return result;
   }
   
+  /**
+   * Checks whether the id of this template matches a value.
+   * @param anObject the id to check against
+   * @return whether the id matches
+   */
   public final boolean idMatches(final Object anObject) {
     return _templateId.equals(anObject);
   }
   
-  protected abstract List<ITemplateMatch> genMatchesFromString(String aString);
+  /**
+   * Generates matches from a given string.
+   * @param aString a string to search through and generate matches
+   * @return a collection of matches
+   */
+  protected abstract Collection<ITemplateMatch> genMatchesFromString(String aString);
   
-  protected final List<ITemplateMatch> genMatchesFromStrings(final List<String> strings) {
-    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+  /**
+   * Generates matches from a list of strings.
+   * @param strings the strings to iterate through
+   * @return
+   */
+  protected final Collection<ITemplateMatch> genMatchesFromStrings(final Collection<String> strings) {
+    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     strings.forEach((s) -> result.addAll(genMatchesFromString(s)));
     return result;
   }
   
-  protected final List<ITemplateMatch> genMatchesFromTrec(final Trec aTrec) {
+  /**
+   * Generates matches from a TREC
+   * @param aTrec the TREC to search through and generate matches for
+   * @return a collection of matches
+   */
+  protected final Collection<ITemplateMatch> genMatchesFromTrec(final Trec aTrec) {
     TMF.setPauTitle(aTrec.getPauTitle());
     TMF.setPauId(aTrec.getPauId());
     final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
@@ -71,10 +104,23 @@ public abstract class ATemplate implements ITemplate {
     return genMatchesFromStrings(strings);
   }
   
+  /**
+   * Runs heuristics on a string to determine whether the template should process it
+   * @param aString a string to evaluate
+   * @return whether the string is suitable for processing
+   */
   protected abstract boolean goodString(String aString);
   
+  /**
+   * Runs heuristics on a TREC to determine whether the template should process it
+   * @param aTrec a TREC to evaluate
+   * @return whether the TREC is suitable for processing
+   */
   protected abstract boolean goodTrec(Trec aTrec);
   
+  /**
+   * Uses a single TemplateMatchFactory so that question IDs do not overlap.
+   */
   protected static final TemplateMatchFactory TMF = TemplateMatchFactory.getInstance();
   
 }

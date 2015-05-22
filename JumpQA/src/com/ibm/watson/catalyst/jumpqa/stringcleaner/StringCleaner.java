@@ -17,10 +17,22 @@ package com.ibm.watson.catalyst.jumpqa.stringcleaner;
 
 import java.util.regex.Pattern;
 
+/**
+ * A class for cleaning strings.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class StringCleaner implements IStringCleaner {
   
   private final boolean _clean;
   
+  /**
+   * Instantiates a new string cleaner
+   * @param clean whether to clean any passed strings
+   */
   public StringCleaner(final String clean) {
     _clean = Boolean.parseBoolean(clean);
   }

@@ -13,23 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.stringcleaner;
+package com.ibm.watson.catalyst.jumpqa.splitter;
+
+import java.util.Hashtable;
 
 /**
- * An interface for objects which clean strings.
+ * A class to retrieve splitters
  * 
  * @author Will Beason
  * @version 0.1.0
  * @since 0.1.0
  *
  */
-public interface IStringCleaner {
+public class SplitterGetter {
   
   /**
-   * Cleans a given string
-   * @param aString the string to clean
-   * @return the cleaned string
+   * Gets a splitter corresponding to the answer size argument
+   * @param answerSize the desired answer size
+   * @return a splitter to split a TREC
    */
-  public String clean(String aString);
+  public static ISplitter getSplitter(final String answerSize) {
+    return splitters.get(answerSize);
+  }
+  
+  private static final Hashtable<String, ISplitter> splitters = new Hashtable<String, ISplitter>();
+  
+  static {
+    splitters.put("sentence", new SentenceSplitter());
+    splitters.put("paragraph", new ParagraphSplitter());
+    //splitters.put("trec", new TrecSplitter());
+  }
   
 }

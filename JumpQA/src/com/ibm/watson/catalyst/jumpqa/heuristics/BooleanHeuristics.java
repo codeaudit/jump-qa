@@ -19,16 +19,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+/**
+ * A class which holds a set of true or false heuristics. Can test if enough heuristics are met.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ * @param <T> The class of object to evaluate. The input class of the predicates.
+ */
 public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   private final List<Predicate<T>> _predicates = new ArrayList<Predicate<T>>();
   
+  /**
+   * Instantiates a BooleanHeuristics object
+   */
   public BooleanHeuristics() {}
   
+  /**
+   * Adds a new predicate to test
+   * @param aPredicate a new boolean test
+   * @return whether the predicate was added successfully
+   */
   public boolean add(final Predicate<T> aPredicate) {
     return _predicates.add(aPredicate);
   }
   
+  /**
+   * Whether all predicates return true
+   * @param input the object to evaluate
+   * @return whether all predicates returned true
+   */
   public final boolean allTrue(final T input) {
     for (final Predicate<T> p : _predicates) {
       if (!p.test(input)) return false;
@@ -36,6 +58,11 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
     return true;
   }
   
+  /**
+   * Whether any predicate returns true
+   * @param input the object to evaluate
+   * @return whether any predicate returned true
+   */
   public final boolean anyTrue(final T input) {
     for (final Predicate<T> p : _predicates) {
       if (p.test(input)) return true;

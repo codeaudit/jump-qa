@@ -15,8 +15,21 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+/**
+ * An interface for making replacements in strings.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface IWordReplacer {
   
+  /**
+   * Given a string makes replacements then returns the result.
+   * @param aString the string to make replacements in
+   * @return the resulting string
+   */
   public String replace(String aString);
   
 }

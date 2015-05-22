@@ -17,6 +17,21 @@ package com.ibm.watson.catalyst.jumpqa.match;
 
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
 
+/**
+ * Functions every template match should have
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface ITemplateMatch extends IWritable {
+  
+  /**
+   * Gets the template ID for the template which generated the match
+   * @return the template ID for the template which generated the match
+   */
+  public String getTemplateId();
+  
   
 }

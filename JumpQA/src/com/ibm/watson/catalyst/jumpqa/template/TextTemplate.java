@@ -16,7 +16,7 @@
 package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 import com.ibm.watson.catalyst.jumpqa.heuristics.BooleanHeuristics;
@@ -25,13 +25,21 @@ import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
 import com.ibm.watson.catalyst.jumpqa.questioner.RegexSplitQuestioner;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterGetter;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
 import com.ibm.watson.catalyst.jumpqa.wordreplacer.WordReplacer;
 
+/**
+ * A template which evaluates the text of a TREC to generate matches.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class TextTemplate extends ATemplate {
   
   private final BooleanHeuristics<String> _bh = new BooleanHeuristics<String>();
@@ -46,26 +54,42 @@ public class TextTemplate extends ATemplate {
   
   private final WordReplacer _replacer;
   
+  /**
+   * 
+   * @param aTemplateId the id of the template
+   * @param aAnswerSize how large the answer should be
+   * @param aMatchSize the size of the text to match against
+   * @param aQuestion the question generator
+   * @param aRegex the regular expression to search for
+   * @param aBadWordsList a set of words which should not appear in certain positions of a question
+   * @param words3 a set of words which should be replaced by specified alternatives
+   * @param clean whether to clean question strings with the StringCleaner class
+   */
   public TextTemplate(final String aTemplateId, final String aAnswerSize, final String aMatchSize,
-      final String aQuestion, final String aRegex, final String aWordList, final String words3,
+      final String aQuestion, final String aRegex, final String aBadWordsList, final String words3,
       final String clean) {
     super(aTemplateId, aAnswerSize);
     _matcher = new StringRegexMatcher(aRegex, Pattern.CASE_INSENSITIVE);
-    _matchSplitter = SplitterFactory.createSplitter(aMatchSize);
+    _matchSplitter = SplitterGetter.getSplitter(aMatchSize);
     _questioner = new RegexSplitQuestioner(aQuestion);
     _cleaner = new StringCleaner(clean);
     _replacer = new WordReplacer(words3);
     
-    if (!aWordList.equals("")) {
-      final WordList wl = new WordList("WordLists/" + aWordList);
+    if (!aBadWordsList.equals("")) {
+      final WordList wl = new WordList("WordLists/" + aBadWordsList);
       _bh.add((s) -> wl.containsFirstWord(s));
       _bh.add((s) -> wl.containsLastWord(s));
       _bh.add((s) -> s.contains(" - "));
     }
   }
   
-  protected List<ITemplateMatch> genMatchesFromSplit(final String aString) {
-    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+  /**
+   * Generates matches from string
+   * @param aString
+   * @return
+   */
+  protected Collection<ITemplateMatch> genMatchesFromSplit(final String aString) {
+    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     final String cleanedString = _cleaner.clean(aString);
     if (!goodString(cleanedString)) return result;
     final String[] splits = _matcher.split(cleanedString);
@@ -80,11 +104,11 @@ public class TextTemplate extends ATemplate {
   }
   
   @Override
-  protected List<ITemplateMatch> genMatchesFromString(final String aString) {
+  protected Collection<ITemplateMatch> genMatchesFromString(final String aString) {
     TMF.setAnswerText(aString.trim());
-    final List<String> splits = _matchSplitter.split(aString);
+    final Collection<String> splits = _matchSplitter.split(aString);
     
-    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
     splits.forEach((s) -> result.addAll(genMatchesFromSplit(s)));
     
     return result;

@@ -17,8 +17,23 @@ package com.ibm.watson.catalyst.jumpqa.heuristics;
 
 import java.util.List;
 
+/**
+ * Runs heuristics on an object of class T and return values of class U.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ * @param <T> the input object class
+ * @param <U> the class of heuristic output
+ */
 public interface IHeuristics<T, U> {
   
+  /**
+   * Given a set of heuristics, runs them on the input and returns a list of the results.
+   * @param input the input object to evaluate
+   * @return a list of the results
+   */
   public List<U> evaluate(T input);
   
 }

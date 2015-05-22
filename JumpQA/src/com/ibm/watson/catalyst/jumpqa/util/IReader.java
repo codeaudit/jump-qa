@@ -29,7 +29,7 @@ public interface IReader {
   
   /**
    * Given a file, returns an Iterable containing objects.
-   * @param aFile
+   * @param aFile the file to read
    * @return an Iterable of objects
    */
   public Iterable<?> read(File aFile);

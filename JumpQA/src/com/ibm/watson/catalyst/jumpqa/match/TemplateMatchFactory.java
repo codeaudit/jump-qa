@@ -15,6 +15,14 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.match;
 
+/**
+ * A class which builds template matches, the Q&A pairs to be ingested by a Watson Q&A instance.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class TemplateMatchFactory {
   
   private String _answerText;
@@ -31,34 +39,62 @@ public class TemplateMatchFactory {
   
   private TemplateMatchFactory() {}
   
+  /**
+   * Builds a TemplateMatch from the current data in the TemplateMatchFactory
+   * @return a new TemplateMatch
+   */
   public TemplateMatch build() {
     id++;
     return new TemplateMatch(id.toString(), _questionText, _answerText, _pauTitle, _pauId, _state,
         id.toString(), _templateId);
   }
   
-  public void setAnswerText(final String _answerText) {
-    this._answerText = _answerText;
+  /**
+   * Sets the answer text
+   * @param aAnswerText the answer text
+   */
+  public void setAnswerText(final String aAnswerText) {
+    _answerText = aAnswerText;
   }
   
-  public void setPauId(final String _pauId) {
-    this._pauId = _pauId;
+  /**
+   * Sets the PAU ID
+   * @param aPauId the PAU ID
+   */
+  public void setPauId(final String aPauId) {
+    _pauId = aPauId;
   }
   
-  public void setPauTitle(final String _pauTitle) {
-    this._pauTitle = _pauTitle;
+  /**
+   * Sets the PAU Title
+   * @param aPauTitle the PAU Title
+   */
+  public void setPauTitle(final String aPauTitle) {
+    this._pauTitle = aPauTitle;
   }
   
-  public void setQuestionText(final String _questionText) {
-    this._questionText = _questionText;
+  /**
+   * Sets the question text
+   * @param aQuestionText the question text
+   */
+  public void setQuestionText(final String aQuestionText) {
+    this._questionText = aQuestionText;
   }
   
-  public void setState(final String _state) {
-    this._state = _state;
+  /**
+   * Sets the state of the question
+   * @param aState the question's state
+   */
+  public void setState(final String aState) {
+    this._state = aState;
   }
   
-  public void setTemplateId(final String _templateId) {
-    this._templateId = _templateId;
+  /**
+   * Sets the template ID
+   * @param aTemplateId the ID of the template which generated the question
+   */
+  public void setTemplateId(final String aTemplateId) {
+    this._templateId = aTemplateId;
   }
   
   private static volatile Integer id = 1000000;
@@ -71,6 +107,10 @@ public class TemplateMatchFactory {
     }
   }
   
+  /**
+   * Returns the TemplateMatchFactory singleton instance
+   * @return the TemplateMatchFactory singleton
+   */
   public static TemplateMatchFactory getInstance() {
     return INSTANCE;
   }

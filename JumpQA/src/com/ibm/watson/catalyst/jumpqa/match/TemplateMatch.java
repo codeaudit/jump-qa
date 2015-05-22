@@ -1,4 +1,5 @@
 /*******************************************************************************
+
  * Copyright 2015 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +22,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Holds data needed to ingest a question into a Watson Q&A instance.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class TemplateMatch implements ITemplateMatch {
   
   private final String _answerText;
@@ -38,6 +47,17 @@ public class TemplateMatch implements ITemplateMatch {
   private final String _state;
   private final String _templateId;
   
+  /**
+   * Holds data for a match.
+   * @param questionId the ID of the question
+   * @param questionText the text of the question
+   * @param answerText the text of the answer
+   * @param pauTitle the PAU title of the originating document
+   * @param pauId the PAU ID of the originating document
+   * @param state the state of the question
+   * @param clusterId the cluster ID of the question; the question it is mapped to
+   * @param templateId the ID of the template which generated the match
+   */
   public TemplateMatch(final String questionId, final String questionText, final String answerText,
       final String pauTitle, final String pauId, final String state, final String clusterId,
       final String templateId) {
@@ -63,6 +83,7 @@ public class TemplateMatch implements ITemplateMatch {
       return false;
   }
   
+  @Override
   public String getTemplateId() {
     return _templateId;
   }
@@ -76,9 +97,6 @@ public class TemplateMatch implements ITemplateMatch {
   public Iterator<String> iterator() {
     final List<String> result = new ArrayList<String>();
     result.add(_questionId);
-    // String[] words = WordSplitter.split(_questionText);
-    // result.add(words.length > 2 ? words[2] : "");
-    // result.add(words[words.length - 1]);
     result.add(_questionText);
     result.add(_answerText);
     result.add(_pauTitle);

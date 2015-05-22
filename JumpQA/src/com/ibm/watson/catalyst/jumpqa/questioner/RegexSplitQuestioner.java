@@ -19,9 +19,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Splits a sentence with a regular expression, then writes a question.
+ * A class to compose questions based on how a question was split by a pattern.
  * 
- * @author wabeason
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
  *
  */
 public class RegexSplitQuestioner implements IQuestioner {
@@ -34,6 +36,10 @@ public class RegexSplitQuestioner implements IQuestioner {
   
   private final Pattern s2 = Pattern.compile(Pattern.quote("[s2]"));
   
+  /**
+   * Instantiates a new RegexSplitQuestioner
+   * @param aQuestion the generic question string
+   */
   public RegexSplitQuestioner(final String aQuestion) {
     _question = aQuestion;
   }

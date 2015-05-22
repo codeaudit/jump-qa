@@ -20,14 +20,30 @@ import java.util.List;
 
 import com.ibm.watson.catalyst.jumpqa.splitter.WordSplitter;
 
+/**
+ * A class for holding a list of words and performing tests with them.
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class WordList implements IWordList, Iterable<String> {
   
   private final List<String> _wordList;
   
+  /**
+   * Instantiates a WordList from a list of strings
+   * @param aStringList the list of strings
+   */
   public WordList(final List<String> aStringList) {
     _wordList = aStringList;
   }
   
+  /**
+   * Instantiates a WordList by reading strings from a file
+   * @param aFile the file to read strings from
+   */
   public WordList(final String aFile) {
     this((new StringListReader()).read(aFile));
   }
@@ -37,19 +53,31 @@ public class WordList implements IWordList, Iterable<String> {
     return _wordList.contains(o.toString().toLowerCase());
   }
   
+  /**
+   * Tests whether the first word of the string is in the word list
+   * @param s the string to test
+   * @return whether the first word of the string is in the word list
+   */
   public boolean containsFirstWord(final String s) {
-    final String[] words = WordSplitter.split(s);
-    return contains(words[0]);
+    final List<String> words = ws.split(s);
+    return contains(words.get(0));
   }
   
+  /**
+   * Tests whether the last word of the string is in the word list
+   * @param s the string to test
+   * @return whether the last word of the string is in the word list
+   */
   public boolean containsLastWord(final String s) {
-    final String[] words = WordSplitter.split(s);
-    return contains(words[words.length - 1]);
+    final List<String> words = ws.split(s);
+    return contains(words.get(words.size() - 1));
   }
   
   @Override
   public Iterator<String> iterator() {
     return _wordList.iterator();
   }
+  
+  private static final WordSplitter ws = new WordSplitter();
   
 }

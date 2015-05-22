@@ -20,6 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * A class for splitting a TREC into sentences
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class SentenceSplitter implements ISplitter {
   
   @Override

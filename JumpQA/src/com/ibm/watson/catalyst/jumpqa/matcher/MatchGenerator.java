@@ -24,16 +24,33 @@ import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
+/**
+ * A class for handling the logic of iterating through templates on the collection of TRECs
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public class MatchGenerator {
   
+  /**
+   * Instantiates a MatchGenerator
+   */
   public MatchGenerator() {}
   
+  /**
+   * Generates matches for a collection of templates on a collection of TRECs
+   * @param templates the templates to generate matches with
+   * @param trecs the TRECs to search through and generate matches
+   * @return the found and generated matches
+   */
   public Collection<ITemplateMatch> genMatches(final Collection<ITemplate> templates,
       final Collection<Trec> trecs) {
     
     logger.info("Generating matches");
-    final Collection<ITemplateMatch> result = Collections
-        .synchronizedSet(new HashSet<ITemplateMatch>());
+    final Collection<ITemplateMatch> result =
+        Collections.synchronizedSet(new HashSet<ITemplateMatch>());
     templates.forEach((template) -> result.addAll(template.genMatchesFromTrecs(trecs)));
     logger.info("Generated " + result.size() + " matches");
     return result;

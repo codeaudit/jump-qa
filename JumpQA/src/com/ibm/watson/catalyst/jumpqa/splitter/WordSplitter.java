@@ -15,14 +15,35 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.splitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
-public class WordSplitter {
+/**
+ * A class for splitting strings into words
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
+public class WordSplitter implements ISplitter {
   
   private static final Pattern WORDSPLIT = Pattern.compile("[?!,;:\\s]+");
   
-  public static String[] split(final String aString) {
-    return WORDSPLIT.split(aString);
+  @Override
+  public List<String> split(final String aString) {
+    return Arrays.asList(WORDSPLIT.split(aString));
+  }
+  
+  @Override
+  public List<String> split(final List<String> strings) {
+    final List<String> result = new ArrayList<String>();
+    strings.forEach((string) -> {
+      result.addAll(split(string));
+    });
+    return result;
   }
   
 }

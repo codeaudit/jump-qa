@@ -15,8 +15,21 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.wordlist;
 
+/**
+ * Operations all types of word lists should have
+ * 
+ * @author Will Beason
+ * @version 0.1.0
+ * @since 0.1.0
+ *
+ */
 public interface IWordList {
   
+  /**
+   * Whether the word list contains the given object
+   * @param anObject the object to test for inclusion
+   * @return whether the word list contains the object
+   */
   public boolean contains(Object anObject);
   
 }
