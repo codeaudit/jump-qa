@@ -16,6 +16,9 @@
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * A class for replacing matched regular expressions with given strings. The keys in the hashtable
@@ -54,5 +57,24 @@ public class SequentialReplacer implements IWordReplacer {
     }
     return result;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (!(obj instanceof SequentialReplacer)) return false;
+    SequentialReplacer other = (SequentialReplacer) obj;
+    if (!Objects.equals(other._replacers, this._replacers)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_replacers)
+        .hashCode();
+  }
+  
+  private static final int SEED = 785423467;
+  private static final int MULTIPLY = 744176351;
   
 }

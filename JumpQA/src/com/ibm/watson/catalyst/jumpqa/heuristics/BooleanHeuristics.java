@@ -16,8 +16,12 @@
 package com.ibm.watson.catalyst.jumpqa.heuristics;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * A class which holds a set of true or false heuristics. Can test if enough heuristics are met.
@@ -30,12 +34,43 @@ import java.util.function.Predicate;
  */
 public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
-  private final List<Predicate<T>> _predicates = new ArrayList<Predicate<T>>();
+  private final Collection<Predicate<T>> _predicates;
   
   /**
    * Instantiates a BooleanHeuristics object
    */
-  public BooleanHeuristics() {}
+  public BooleanHeuristics() {
+    this(new ArrayList<Predicate<T>>());
+  }
+  
+  
+  /**
+   * Instantiates a BooleanHeuristics objects with a list of predicates.
+   * @param predicates the list of predicates to instantiate with
+   */
+  public BooleanHeuristics(Collection<Predicate<T>> predicates) {
+    _predicates = predicates;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    
+    BooleanHeuristics<?> other = (BooleanHeuristics<?>) obj;
+    if (!Objects.equals(other._predicates, this._predicates)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_predicates)
+        .hashCode();
+  }
+  
+  private static final int SEED = 1368181723;
+  private static final int MULTIPLY = 674123509;
   
   /**
    * Adds a new predicate to test

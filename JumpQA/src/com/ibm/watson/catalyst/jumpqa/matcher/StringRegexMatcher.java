@@ -15,8 +15,11 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.matcher;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * StringRegexMatcher holds a compiled string to match against. It delegates common operations
@@ -30,7 +33,6 @@ import java.util.regex.Pattern;
 public class StringRegexMatcher implements IMatcher {
   
   private final Pattern _textRegex;
-  
   
   /**
    * Instantiates a new StringRegexMatcher
@@ -50,6 +52,25 @@ public class StringRegexMatcher implements IMatcher {
   }
   
   @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (obj == null) return false;
+    if (!(obj instanceof StringRegexMatcher)) return false;
+    StringRegexMatcher other = (StringRegexMatcher) obj;
+    if (!Objects.equals(other._textRegex.toString(), this._textRegex.toString())) return false;
+    if (!Objects.equals(other._textRegex.flags(), this._textRegex.flags())) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_textRegex.toString())
+        .append(_textRegex.flags())
+        .hashCode();
+  }
+  
+  @Override
   public boolean matches(final String... strings) {
     return _textRegex.matcher(strings[0]).find();
   }
@@ -61,16 +82,25 @@ public class StringRegexMatcher implements IMatcher {
    *   regular expression, and the substring after the regular expression.
    */
   public String[] split(final String aString) {
-    final String[] result = new String[3];
-    
+    String[] result;
     final String[] beforeAfter = _textRegex.split(aString, 2);
-    result[0] = beforeAfter[0].trim();
+    
     final Matcher m = _textRegex.matcher(aString);
-    m.find();
-    result[1] = m.group().trim();
-    if (beforeAfter.length > 1) result[2] = beforeAfter[1].trim();
+    if (m.find()) {
+      result = new String[3];
+      result[0] = beforeAfter[0].trim();
+      result[1] = m.group().trim();
+      if (beforeAfter.length > 1) {
+        result[2] = beforeAfter[1].trim();
+      }
+    } else {
+      result = new String[] { beforeAfter[0].trim() };
+    }
     
     return result;
   }
+  
+  private static final int SEED = 657839053;
+  private static final int MULTIPLY = 893379931;
   
 }

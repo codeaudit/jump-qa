@@ -43,16 +43,16 @@ import com.ibm.watson.catalyst.jumpqa.wordreplacer.SequentialReplacer;
 public class TextTemplate extends ATemplate {
   
   private final BooleanHeuristics<String> _bh = new BooleanHeuristics<String>();
-  
   private final IStringCleaner _cleaner;
-  
   private final StringRegexMatcher _matcher;
-  
   private final ISplitter _matchSplitter;
-  
   private final IQuestioner _questioner;
-  
   private final SequentialReplacer _replacer;
+  
+  @Override
+  public boolean equals(Object obj) {
+    return false;
+  }
   
   /**
    * 
