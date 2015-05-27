@@ -1,5 +1,7 @@
 package com.ibm.watson.catalyst.jumpqa.trec;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class TrecTest {
         pars1);
 
     t2 = new Trec(
-        "sample\\sampletrec1.xml",
+        "sample\\sampletrec2.xml",
         "792D9A2361B65155B2B882C36766701D",
         "New_York_City",
         "New_York_City.html",
@@ -49,7 +51,7 @@ public class TrecTest {
 
     t3 = new Trec(
         "sample\\sampletrec1.xml",
-        "792D9A2361B65155B2B882C36766701D",
+        "0B05E0CD39F145EC66ADB26BE6CCECD1",
         "New_York_City",
         "New_York_City.html",
         pars1);
@@ -57,7 +59,7 @@ public class TrecTest {
     t4 = new Trec(
         "sample\\sampletrec1.xml",
         "792D9A2361B65155B2B882C36766701D",
-        "New_York_City",
+        "Austin",
         "New_York_City.html",
         pars1);
 
@@ -65,32 +67,87 @@ public class TrecTest {
         "sample\\sampletrec1.xml",
         "792D9A2361B65155B2B882C36766701D",
         "New_York_City",
-        "New_York_City.html",
+        "Austin.html",
         pars1);
-
+    
+    List<String> pars2 = new ArrayList<String>(pars1);
+    pars2.remove(0);
     t6 = new Trec(
         "sample\\sampletrec1.xml",
         "792D9A2361B65155B2B882C36766701D",
         "New_York_City",
         "New_York_City.html",
-        pars1);
+        pars2);
   }
   
   @Test
   public void testHashCodeReflexive() {
-    assertEquals(t1.hashCode(), t1b.hashCode());
+    assertThat(t1.hashCode(), equalTo(t1b.hashCode()));
+  }
+  
+  @Test
+  public void testHashCodeEqualsSymmetric() {
+    assertThat(t1.hashCode(), equalTo(t1b.hashCode()));
+  }
+  
+  @Test
+  public void testHashCodeNotEqualsFile() {
+    assertThat(t1.hashCode(), not(equalTo(t2.hashCode())));
+  }
+  
+  @Test
+  public void testHashCodeNotEqualsPauId() {
+    assertThat(t1.hashCode(), not(equalTo(t3.hashCode())));
+  }
+  
+  @Test
+  public void testHashCodeNotEqualsPauTitle() {
+    assertThat(t1.hashCode(), not(equalTo(t4.hashCode())));
+  }
+  
+  @Test
+  public void testHashCodeNotEqualsSourceDoc() {
+    assertThat(t1.hashCode(), not(equalTo(t5.hashCode())));
+  }
+  
+  @Test
+  public void testHashCodeNotEqualsParagraphs() {
+    assertThat(t1.hashCode(), not(equalTo(t6.hashCode())));
   }
   
   @Test
   public void testEqualsReflexive() {
-    assertEquals(t1, t1);
+    assertThat(t1, equalTo(t1));
   }
   
   @Test
   public void testEqualsSymmetric() {
-    assertEquals(t1, t1b);
+    assertThat(t1, equalTo(t1b));
   }
   
+  @Test
+  public void testNotEqualsFile() {
+    assertThat(t1, not(equalTo(t2)));
+  }
   
+  @Test
+  public void testNotEqualsPauId() {
+    assertThat(t1, not(equalTo(t3)));
+  }
+  
+  @Test
+  public void testNotEqualsPauTitle() {
+    assertThat(t1, not(equalTo(t4)));
+  }
+  
+  @Test
+  public void testNotEqualsSourceDoc() {
+    assertThat(t1, not(equalTo(t5)));
+  }
+  
+  @Test
+  public void testNotEqualsParagraphs() {
+    assertThat(t1, not(equalTo(t6)));
+  }
   
 }

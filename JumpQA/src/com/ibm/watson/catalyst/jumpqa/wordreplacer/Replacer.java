@@ -1,5 +1,6 @@
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -47,8 +48,8 @@ public class Replacer {
     if (obj == this) return true;
     if (!(obj instanceof Replacer)) return false;
     Replacer other = (Replacer) obj;
-    if (!other._replacement.equals(this._replacement)) return false;
-    if (!other._pattern.toString().equals(this._pattern.toString())) return false;
+    if (!Objects.equals(other._replacement, this._replacement)) return false;
+    if (!Objects.equals(other._pattern.toString(), this._pattern.toString())) return false;
    return true;
   }
   

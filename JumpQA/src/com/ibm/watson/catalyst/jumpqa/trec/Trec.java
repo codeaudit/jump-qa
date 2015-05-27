@@ -16,6 +16,7 @@
 package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -54,13 +55,14 @@ public class Trec {
   
   @Override
   public boolean equals(Object obj) {
+    if (obj == this) return true;
     if (!(obj instanceof Trec)) return false;
     Trec other = (Trec) obj;
-    if (!other._file.equals(this._file)) return false;
-    if (!other._pauId.equals(this._pauId)) return false;
-    if (!other._pauTitle.equals(this._pauTitle)) return false;
-    if (!other._sourceDoc.equals(this._sourceDoc)) return false;
-    if (!other._paragraphs.equals(this._paragraphs)) return false;
+    if (!Objects.equals(other._file, this._file)) return false;
+    if (!Objects.equals(other._pauId, this._pauId)) return false;
+    if (!Objects.equals(other._pauTitle, this._pauTitle)) return false;
+    if (!Objects.equals(other._sourceDoc, this._sourceDoc)) return false;
+    if (!Objects.equals(other._paragraphs, this._paragraphs)) return false;
     return true;
   }
   
