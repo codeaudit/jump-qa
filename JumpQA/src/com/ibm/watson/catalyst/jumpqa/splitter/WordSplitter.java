@@ -34,7 +34,10 @@ public class WordSplitter implements ISplitter {
   
   @Override
   public List<String> split(final String aString) {
-    return Arrays.asList(WORDSPLIT.split(aString));
+    final List<String> words = Arrays.asList(WORDSPLIT.split(aString));
+    final List<String> result = new ArrayList<String>(words);
+    result.removeIf((s) -> s.equals(""));
+    return result;
   }
   
   @Override

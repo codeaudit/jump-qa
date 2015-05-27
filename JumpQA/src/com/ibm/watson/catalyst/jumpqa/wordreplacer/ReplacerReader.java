@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.wordlist;
+package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,30 +27,82 @@ import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 /**
- * Creates a list of strings where each entry is a line of the supplied file or input stream.
+ * Reads files to creates hashtables of search and replacement strings
  * 
  * @author Will Beason
  * @version 0.1.0
  * @since 0.1.0
  *
  */
-public class StringListReader extends AReader<String> implements IReader {
+public class ReplacerReader extends AReader<Replacer> implements IReader {
+  
+  /**
+   * @param aType the type of replacers to create
+   */
+  public ReplacerReader(ReplacerType aType) {
+    _type = aType;
+  }
+  
+  /**
+   * 
+   */
+  public ReplacerReader() {
+    this(ReplacerType.NORMAL);
+  }
+  
+  /** TODO: Class description
+   * 
+   * @author Will Beason
+   * @version 0.1.0
+   * @since 0.1.0
+   *
+   */
+  protected enum ReplacerType {
+    /**
+     * No changes are made to the passed patterns
+     */
+    NORMAL,
+    /**
+     * Word boundaries are appended and prepended to passed patterns.
+     */
+    WORD }
   
   @Override
-  public List<String> read(InputStream is) throws IOException {
-    final List<String> result = new ArrayList<String>();
+  public List<Replacer> read(final InputStream is) throws IOException {
+    final List<Replacer> result = new ArrayList<Replacer>();
+    
     try (BufferedReader br = new BufferedReader(new InputStreamReader(is, ENCODING))) {
       while (br.ready()) {
         final String line = br.readLine();
         if (isCommentOrEmpty(line)) continue;
-        result.add(line);
+        result.add(line2Replacer(line));
       }
     } catch (final UnsupportedEncodingException e) {
       throw new RuntimeException("Unsupported encoding: " + ENCODING, e);
     }
+    
     return result;
   }
   
-  private static final String ENCODING = "UTF-8";
+  private Replacer line2Replacer(String line) {
+    final String[] entry = line.split("=", 2);
+    final String replacement = entry[1];
+    String pattern;
+    switch(_type) {
+      case NORMAL:
+        pattern = entry[0];
+        break;
+      case WORD:
+        pattern = "\\b" + entry[0] + "\\b";
+        break;
+      default:
+        throw new IllegalArgumentException();
+    }
+    return new Replacer(pattern, replacement);
+  }
+  
+  private final ReplacerType _type;
+  
+  private static final String ENCODING = "UTF8";
   
 }

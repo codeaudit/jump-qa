@@ -45,7 +45,7 @@ public class WordList implements IWordList, Iterable<String> {
    * @param aFile the file to read strings from
    */
   public WordList(final String aFile) {
-    this((new StringListReader()).read(aFile));
+    this((new StringListReader()).readFile(aFile));
   }
   
   @Override
@@ -76,6 +76,14 @@ public class WordList implements IWordList, Iterable<String> {
   @Override
   public Iterator<String> iterator() {
     return _wordList.iterator();
+  }
+  
+  /**
+   * Gets the list of words.
+   * @return the list of words
+   */
+  protected List<String> getList() {
+    return _wordList;
   }
   
   private static final WordSplitter ws = new WordSplitter();

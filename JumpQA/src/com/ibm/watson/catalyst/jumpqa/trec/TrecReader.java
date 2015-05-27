@@ -15,8 +15,8 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.trec;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 /**
@@ -34,22 +35,20 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  * @since 0.1.0
  *
  */
-public class TrecReader implements IReader {
+public class TrecReader extends AReader<Trec> implements IReader {
   
   @Override
-  public List<Trec> read(final File aFile) {
-    System.out.println("Reading Trecs from " + aFile);
+  public List<Trec> read(final InputStream is) throws IOException {
+    System.out.println("Reading Trecs from " + is);
     final List<Trec> result = new ArrayList<Trec>();
     
     JsonNode corpus;
     try {
-      corpus = MAPPER.readValue(aFile, JsonNode.class);
+      corpus = MAPPER.readValue(is, JsonNode.class);
     } catch (final JsonParseException e) {
-      throw new RuntimeException("Error parsing " + aFile, e);
+      throw new RuntimeException("Error while parsing.", e);
     } catch (final JsonMappingException e) {
-      throw new RuntimeException("Error mapping " + aFile, e);
-    } catch (final IOException e) {
-      throw new RuntimeException("IOError reading " + aFile, e);
+      throw new RuntimeException("Error while mapping.", e);
     }
     
     final JsonNode trecs = corpus.get("documents");

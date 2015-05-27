@@ -16,6 +16,9 @@
 package com.ibm.watson.catalyst.jumpqa.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * For readers
@@ -28,10 +31,33 @@ import java.io.File;
 public interface IReader {
   
   /**
-   * Given a file, returns an Iterable containing objects.
+   * Reads an InputStream and returns a list of objects
+   * @param is the input stream to read
+   * @return the list of objects read
+   * @throws IOException if BufferedReader runs into problems reading the input stream
+   */
+  public List<?> read(final InputStream is) throws IOException;
+  
+  /**
+   * Given a file, returns an list containing objects.
    * @param aFile the file to read
    * @return an Iterable of objects
    */
-  public Iterable<?> read(File aFile);
+  public List<?> read(final File aFile);
+  
+  /**
+   * Reads a string and returns a list of object, treating each line as a new object.
+   * @param aString the string to parse
+   * @return the list of objects
+   * @throws IOException if BufferedReader runs into problems reading the string.
+   */
+  public List<?> read(final String aString) throws IOException;
+  
+  /**
+   * Reads a file to generate a list of objects
+   * @param aFile the path of the file to read
+   * @return the list of strings read from the file
+   */
+  public List<?> readFile(final String aFile);
   
 }

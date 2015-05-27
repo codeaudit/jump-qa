@@ -15,17 +15,17 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.template;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 
+import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 /**
@@ -36,18 +36,14 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  * @since 0.1.0
  *
  */
-public class TemplateReader implements IReader {
+public class TemplateReader extends AReader<ITemplate> implements IReader {
   
   @Override
-  public Collection<ITemplate> read(final File aFile) {
-    logger.info("Reading templates from " + aFile);
-    final Collection<ITemplate> result = new ArrayList<ITemplate>();
-    
-    try (CSVParser parser = CSVParser.parse(aFile, UTF_8, format)) {
+  public List<ITemplate> read(final InputStream is) throws IOException {
+    List<ITemplate> result = new ArrayList<ITemplate>();
+    try (CSVParser parser = new CSVParser(new InputStreamReader(is), format)) {
       final TemplateFactory tf = new TemplateFactory();
       parser.forEach((record) -> result.add(tf.readRecord(record)));
-    } catch (final IOException e) {
-      throw new RuntimeException("Could not read templates file " + aFile, e);
     }
     
     logger.info("Read " + result.size() + " templates");
@@ -57,6 +53,5 @@ public class TemplateReader implements IReader {
   private static final CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter('\t');
   
   private static final Logger logger = Logger.getLogger(TemplateReader.class.getName());
-  private static final Charset UTF_8 = StandardCharsets.UTF_8;
   
 }

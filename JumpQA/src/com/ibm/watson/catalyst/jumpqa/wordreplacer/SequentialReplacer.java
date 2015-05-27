@@ -15,9 +15,7 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
-import java.util.Hashtable;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
+import java.util.List;
 
 /**
  * A class for replacing matched regular expressions with given strings. The keys in the hashtable
@@ -28,33 +26,31 @@ import java.util.regex.Pattern;
  * @since 0.1.0
  *
  */
-public class WordReplacer implements IWordReplacer {
+public class SequentialReplacer implements IWordReplacer {
   
-  private final Hashtable<Pattern, String> _replacements;
+  private final List<Replacer> _replacers;
   
   /**
    * Instantiates a new WordReplacer with the given hashtable
    * @param replacements the hashtable of searches and replacements
    */
-  public WordReplacer(final Hashtable<Pattern, String> replacements) {
-    _replacements = replacements;
+  public SequentialReplacer(final List<Replacer> replacements) {
+    _replacers = replacements;
   }
   
   /**
    * Instantiates a new WordReplacer by reading the hashtable from a file
    * @param aFile the file to read
    */
-  public WordReplacer(final String aFile) {
-    this((new ReplacementHashtableReader()).read(aFile));
+  public SequentialReplacer(final String aFile) {
+    this((new ReplacerReader()).readFile(aFile));
   }
   
   @Override
   public String replace(final String aString) {
     String result = aString;
-    for (final Entry<Pattern, String> replacement : _replacements.entrySet()) {
-      final Pattern p = replacement.getKey();
-      final String r = replacement.getValue();
-      result = p.matcher(result).replaceAll(r);
+    for (final Replacer replacer : _replacers) {
+      result = replacer.replaceAll(result);
     }
     return result;
   }

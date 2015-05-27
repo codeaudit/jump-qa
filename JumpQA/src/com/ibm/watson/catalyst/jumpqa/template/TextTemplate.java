@@ -30,7 +30,7 @@ import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
-import com.ibm.watson.catalyst.jumpqa.wordreplacer.WordReplacer;
+import com.ibm.watson.catalyst.jumpqa.wordreplacer.SequentialReplacer;
 
 /**
  * A template which evaluates the text of a TREC to generate matches.
@@ -52,7 +52,7 @@ public class TextTemplate extends ATemplate {
   
   private final IQuestioner _questioner;
   
-  private final WordReplacer _replacer;
+  private final SequentialReplacer _replacer;
   
   /**
    * 
@@ -73,7 +73,7 @@ public class TextTemplate extends ATemplate {
     _matchSplitter = SplitterGetter.getSplitter(aMatchSize);
     _questioner = new RegexSplitQuestioner(aQuestion);
     _cleaner = new StringCleaner(clean);
-    _replacer = new WordReplacer(words3);
+    _replacer = new SequentialReplacer(words3);
     
     if (!aBadWordsList.equals("")) {
       final WordList wl = new WordList("WordLists/" + aBadWordsList);
