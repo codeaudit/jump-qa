@@ -3,6 +3,8 @@
  */
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -23,53 +25,53 @@ public class ReplacerTest {
     Replacer r = new Replacer("a", "__");
     String testInput = "alpha";
     String expectedOutput = "__lph__";
-    assertEquals(expectedOutput, r.replaceAll(testInput));
+    assertThat(r.replaceAll(testInput), equalTo(expectedOutput));
   }
   
   @Test
   public void testEqualsRelexive() {
-    assertTrue(r1.equals(r1));
+    assertThat(r1, equalTo(r1));
   }
   
   @Test
   public void testEqualsSymmetric() {
     Replacer r2 = new Replacer("pattern", "replacement");
-    assertTrue(r1.equals(r2));
+    assertThat(r1, equalTo(r2));
   }
   
   @Test
   public void testNotEqualsPattern() {
     Replacer r2 = new Replacer("another pattern", "replacement");
-    assertFalse(r1.equals(r2));
+    assertThat(r1, not(equalTo(r2)));
   }
   
   @Test
   public void testNotEqualsReplacement() {
     Replacer r2 = new Replacer("pattern", "another replacement");
-    assertFalse(r1.equals(r2));
+    assertThat(r1, not(equalTo(r2)));
   }
   
   @Test
   public void testHashRelexive() {
-    assertTrue(r1.hashCode() == r1.hashCode());
+    assertThat(r1.hashCode(), equalTo(r1.hashCode()));
   }
   
   @Test
   public void testHashSymmetric() {
     Replacer r2 = new Replacer("pattern", "replacement");
-    assertTrue(r1.hashCode() == r2.hashCode());
+    assertThat(r1.hashCode(), equalTo(r2.hashCode()));
   }
   
   @Test
   public void testHashNotEqualsPattern() {
     Replacer r2 = new Replacer("another pattern", "replacement");
-    assertFalse(r1.hashCode() == r2.hashCode());
+    assertThat(r1.hashCode(), not(equalTo(r2.hashCode())));
   }
   
   @Test
   public void testHashNotEqualsReplacement() {
     Replacer r2 = new Replacer("pattern", "another replacement");
-    assertFalse(r1.hashCode() == r2.hashCode());
+    assertThat(r1.hashCode(), not(equalTo(r2.hashCode())));
   }
   
 }

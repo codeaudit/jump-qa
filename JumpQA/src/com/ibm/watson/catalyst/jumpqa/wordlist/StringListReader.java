@@ -16,12 +16,14 @@
 package com.ibm.watson.catalyst.jumpqa.wordlist;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
@@ -36,6 +38,8 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  */
 public class StringListReader extends AReader<String> implements IReader {
   
+  private static final Logger logger = Logger.getLogger(StringListReader.class.getName());
+  
   @Override
   public List<String> read(InputStream is) throws IOException {
     final List<String> result = new ArrayList<String>();
@@ -49,6 +53,12 @@ public class StringListReader extends AReader<String> implements IReader {
       throw new RuntimeException("Unsupported encoding: " + ENCODING, e);
     }
     return result;
+  }
+  
+  @Override
+  public List<String> read(File aFile) {
+    logger.info("Reading string list from " + aFile);
+    return super.read(aFile);
   }
   
   private static final String ENCODING = "UTF-8";

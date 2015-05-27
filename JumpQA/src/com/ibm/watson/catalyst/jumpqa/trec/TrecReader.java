@@ -15,10 +15,12 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.trec;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -37,9 +39,10 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  */
 public class TrecReader extends AReader<Trec> implements IReader {
   
+  private static final Logger logger = Logger.getLogger(TrecReader.class.getName());
+  
   @Override
   public List<Trec> read(final InputStream is) throws IOException {
-    System.out.println("Reading Trecs from " + is);
     final List<Trec> result = new ArrayList<Trec>();
     
     JsonNode corpus;
@@ -52,28 +55,32 @@ public class TrecReader extends AReader<Trec> implements IReader {
     }
     
     final JsonNode trecs = corpus.get("documents");
-    for (final JsonNode trecJson : trecs) {
-      result.add(json2trec(trecJson));
-    }
+    trecs.forEach((trec) -> result.add(json2trec(trec)));
     
-    System.out.println("Read " + result.size() + " trecs");
+    logger.fine("Read " + result.size() + " trecs");
     return result;
+  }
+  
+  @Override
+  public List<Trec> read(File aFile) {
+    logger.info("Reading TRECs from " + aFile);
+    return super.read(aFile);
   }
   
   private static final ObjectMapper MAPPER = new ObjectMapper();
   
   private static List<String> getParagraphs(final JsonNode trecJson) {
-    final List<String> result = new ArrayList<String>();
     final JsonNode paragraphs = trecJson.get("paragraphs");
-    for (final JsonNode paragraph : paragraphs) {
-      result.add(paragraph.asText());
-    }
+    final List<String> result = new ArrayList<String>();
+    paragraphs.forEach((par) -> result.add(par.asText()));
     return result;
   }
   
   private static Trec json2trec(final JsonNode trecJson) {
     final TrecBuilder tb = new TrecBuilder();
-    // tb.setFile(trecJson.get("file").asText());
+    if (trecJson.has("file")) {
+      tb.setFile(trecJson.get("file").asText());
+    }
     tb.setPauId(trecJson.get("pauID").asText());
     tb.setPauTitle(trecJson.get("pauTitle").asText());
     tb.setSourceDoc(trecJson.get("sourceDoc").asText());

@@ -1,5 +1,6 @@
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class SequentialReplacerTest {
   public void replace1() {
     replacers.add(r1);
     SequentialReplacer wr = new SequentialReplacer(replacers);
-    assertEquals(wr.replace("alpha"), "_lph_");
+    assertThat(wr.replace("alpha"), equalTo("_lph_"));
   }
   
   @Test
@@ -37,7 +38,7 @@ public class SequentialReplacerTest {
     replacers.add(r1);
     replacers.add(r2);
     SequentialReplacer wr = new SequentialReplacer(replacers);
-    assertEquals(wr.replace("beta"), "!et_");
+    assertThat(wr.replace("beta"), equalTo("!et_"));
   }
   
   @Test
@@ -45,7 +46,7 @@ public class SequentialReplacerTest {
     replacers.add(r1);
     replacers.add(r3);
     SequentialReplacer wr = new SequentialReplacer(replacers);
-    assertEquals(wr.replace("alpha"), "clphc");
+    assertThat(wr.replace("alpha"), equalTo("clphc"));
   }
   
 }

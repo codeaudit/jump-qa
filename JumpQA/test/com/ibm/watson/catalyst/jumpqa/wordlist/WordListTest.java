@@ -1,5 +1,6 @@
 package com.ibm.watson.catalyst.jumpqa.wordlist;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
@@ -25,7 +26,7 @@ public class WordListTest {
   
   @Test
   public void testWordListListConstuctor() {
-    assertEquals(words, wl.getList());
+    assertThat(words, equalTo(wl.getList()));
   }
   
   @Test

@@ -17,6 +17,8 @@ package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 /**
  * A class for holding information about TRECs
  * 
@@ -28,11 +30,10 @@ import java.util.List;
 public class Trec {
   
   private final String _file;
-  
-  private final List<String> _paragraphs;
   private final String _pauId;
   private final String _pauTitle;
   private final String _sourceDoc;
+  private final List<String> _paragraphs;
   
   /**
    * Instantiates a Trec object, a representation of a TREC document
@@ -49,6 +50,18 @@ public class Trec {
     _pauTitle = aPauTitle;
     _sourceDoc = aSourceDoc;
     _paragraphs = paragraphs;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Trec)) return false;
+    Trec other = (Trec) obj;
+    if (!other._file.equals(this._file)) return false;
+    if (!other._pauId.equals(this._pauId)) return false;
+    if (!other._pauTitle.equals(this._pauTitle)) return false;
+    if (!other._sourceDoc.equals(this._sourceDoc)) return false;
+    if (!other._paragraphs.equals(this._paragraphs)) return false;
+    return true;
   }
   
   /**
@@ -90,5 +103,19 @@ public class Trec {
   public String getSourceDoc() {
     return _sourceDoc;
   }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_file)
+        .append(_pauId)
+        .append(_pauTitle)
+        .append(_sourceDoc)
+        .append(_paragraphs)
+        .hashCode();
+  }
+  
+  private static final int SEED = 1559724181;
+  private static final int MULTIPLY = 400986757;
   
 }

@@ -1,5 +1,7 @@
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -24,13 +26,13 @@ public class ReplacerReaderTest {
   @Test
   public void testRead() {
     Replacer r3 = (new ReplacerReader()).read(line).get(0);
-    assertEquals(r1, r3);
+    assertThat(r3, equalTo(r3));
   }
   
   @Test
   public void testReadWord() {
     Replacer r3 = (new ReplacerReader(ReplacerType.WORD)).read(line).get(0);
-    assertEquals(r2, r3);
+    assertThat(r2, equalTo(r3));
   }
   
 }
