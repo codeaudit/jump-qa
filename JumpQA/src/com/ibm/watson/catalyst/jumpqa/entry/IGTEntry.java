@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.match;
+package com.ibm.watson.catalyst.jumpqa.entry;
 
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
 
@@ -25,7 +25,7 @@ import com.ibm.watson.catalyst.jumpqa.util.IWritable;
  * @since 0.1.0
  *
  */
-public interface ITemplateMatch extends IWritable {
+public interface IGTEntry extends IWritable {
   
   /**
    * Gets the template ID for the template which generated the match

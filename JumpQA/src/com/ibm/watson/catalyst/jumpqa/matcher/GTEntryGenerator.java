@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
-import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
+import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
 import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
@@ -32,12 +32,12 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  * @since 0.1.0
  *
  */
-public class MatchGenerator {
+public class GTEntryGenerator {
   
   /**
    * Instantiates a MatchGenerator
    */
-  public MatchGenerator() {}
+  public GTEntryGenerator() {}
   
   /**
    * Generates matches for a collection of templates on a collection of TRECs
@@ -45,17 +45,17 @@ public class MatchGenerator {
    * @param trecs the TRECs to search through and generate matches
    * @return the found and generated matches
    */
-  public Collection<ITemplateMatch> genMatches(final Collection<ITemplate> templates,
+  public Collection<IGTEntry> genMatches(final Collection<ITemplate> templates,
       final Collection<Trec> trecs) {
     
-    logger.info("Generating matches");
-    final Collection<ITemplateMatch> result =
-        Collections.synchronizedSet(new HashSet<ITemplateMatch>());
+    logger.info("Generating ground truth entries");
+    final Collection<IGTEntry> result =
+        Collections.synchronizedSet(new HashSet<IGTEntry>());
     templates.forEach((template) -> result.addAll(template.genMatchesFromTrecs(trecs)));
-    logger.info("Generated " + result.size() + " matches");
+    logger.info("Generated " + result.size() + " Q&A pairs");
     return result;
   }
   
-  private static Logger logger = Logger.getLogger(MatchGenerator.class.getName());
+  private static Logger logger = Logger.getLogger(GTEntryGenerator.class.getName());
   
 }

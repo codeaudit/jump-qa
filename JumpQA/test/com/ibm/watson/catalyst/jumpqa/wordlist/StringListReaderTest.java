@@ -18,7 +18,6 @@ public class StringListReaderTest {
   StringBuffer _sb;
   List<String> _multiLine;
   
-  
   @Before
   public void setUp() {
     _multiLine = new ArrayList<String>();

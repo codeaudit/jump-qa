@@ -44,9 +44,9 @@ public class SequentialReplacer implements IReplacer {
    */
   public SequentialReplacer(final List<? extends IReplacer> replacements) {
     _replacers = replacements;
-    int tArgSize = 0;
-    for (IReplacer r : _replacers) tArgSize += r.numArgs();
-    argSize = tArgSize;
+    argSize = _replacers.stream()
+                        .mapToInt(IReplacer::numArgs)
+                        .sum();
   }
   
   /**

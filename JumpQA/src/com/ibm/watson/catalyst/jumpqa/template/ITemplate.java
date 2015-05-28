@@ -17,7 +17,7 @@ package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.util.Collection;
 
-import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
+import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 /**
@@ -35,6 +35,6 @@ public interface ITemplate {
    * @param trecs the TRECs to generate matches for
    * @return a collection of matches
    */
-  public Collection<ITemplateMatch> genMatchesFromTrecs(Collection<Trec> trecs);
+  public Collection<IGTEntry> genMatchesFromTrecs(Collection<Trec> trecs);
   
 }

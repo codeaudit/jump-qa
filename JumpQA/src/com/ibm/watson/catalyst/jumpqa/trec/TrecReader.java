@@ -17,7 +17,6 @@ package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -42,23 +41,30 @@ public class TrecReader extends AReader<Trec> implements IReader {
   private static final Logger logger = Logger.getLogger(TrecReader.class.getName());
   
   @Override
-  public List<Trec> read(final InputStream is) throws IOException {
+  public List<Trec> read(List<String> strings) {
     final List<Trec> result = new ArrayList<Trec>();
     
-    JsonNode corpus;
-    try {
-      corpus = MAPPER.readValue(is, JsonNode.class);
-    } catch (final JsonParseException e) {
-      throw new RuntimeException("Error while parsing.", e);
-    } catch (final JsonMappingException e) {
-      throw new RuntimeException("Error while mapping.", e);
-    }
-    
-    final JsonNode trecs = corpus.get("documents");
-    trecs.forEach((trec) -> result.add(json2trec(trec)));
+    strings.stream().forEachOrdered((s) -> {
+      try {
+        final JsonNode corpus = MAPPER.readValue(s, JsonNode.class);
+        final JsonNode trecs = corpus.get("documents");
+        trecs.forEach((trec) -> result.add(json2trec(trec)));
+      } catch (final JsonParseException e) {
+        throw new RuntimeException("Error while parsing.", e);
+      } catch (final JsonMappingException e) {
+        throw new RuntimeException("Error while mapping.", e);
+      } catch (final IOException e) {
+        throw new RuntimeException("IOError while parsing", e);
+      }
+    });
     
     logger.fine("Read " + result.size() + " trecs");
     return result;
+  }
+  
+  @Override
+  protected Trec string2Object(String aString) {
+    throw new UnsupportedOperationException();
   }
   
   @Override

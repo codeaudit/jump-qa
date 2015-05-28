@@ -54,14 +54,14 @@ public class SplitterFactory {
    * @param answerSize the desired answer size
    * @return a splitter to split a TREC
    */
-  public static ISplitter build(final String answerSize) {
+  public static Splitter build(final String answerSize) {
     switch(splitters.get(answerSize)) {
       case WORD:
         return new Splitter("[?!,;:\\.\\s]+");
       case SENTENCE:
         return new Splitter("[\\.!?]([\"']|\\s*\\[[^\\]^\\[]*\\])*(\\s+|$)");
       case PARAGRAPH:
-        return new Splitter("\n");
+        return new Splitter("\r?\n");
       default:
         throw new IllegalArgumentException(answerSize);
     }

@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.match;
+package com.ibm.watson.catalyst.jumpqa.entry;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -30,20 +32,14 @@ import com.fasterxml.jackson.databind.JsonNode;
  * @since 0.1.0
  *
  */
-public class TemplateMatch implements ITemplateMatch {
+public class GTEntry implements IGTEntry {
   
   private final String _answerText;
-  
   private final String _clusterId;
-  
   private final String _pauId;
-  
   private final String _pauTitle;
-  
   private final String _questionId;
-  
   private final String _questionText;
-  
   private final String _state;
   private final String _templateId;
   
@@ -58,7 +54,7 @@ public class TemplateMatch implements ITemplateMatch {
    * @param clusterId the cluster ID of the question; the question it is mapped to
    * @param templateId the ID of the template which generated the match
    */
-  public TemplateMatch(final String questionId, final String questionText, final String answerText,
+  public GTEntry(final String questionId, final String questionText, final String answerText,
       final String pauTitle, final String pauId, final String state, final String clusterId,
       final String templateId) {
     _questionId = questionId;
@@ -74,8 +70,8 @@ public class TemplateMatch implements ITemplateMatch {
   
   @Override
   public boolean equals(final Object o) {
-    if (o instanceof TemplateMatch) {
-      final TemplateMatch tm = (TemplateMatch) o;
+    if (o instanceof GTEntry) {
+      final GTEntry tm = (GTEntry) o;
       if (!tm._questionText.equals(_questionText)) return false;
       if (!tm._answerText.equals(_answerText)) return false;
       return true;
@@ -90,8 +86,14 @@ public class TemplateMatch implements ITemplateMatch {
   
   @Override
   public int hashCode() {
-    return (_questionText + _answerText).hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_questionText)
+        .append(_answerText)
+        .hashCode();
   }
+  
+  private static final int SEED = 354469711;
+  private static final int MULTIPLY = 1363866467;
   
   @Override
   public Iterator<String> iterator() {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.match;
+package com.ibm.watson.catalyst.jumpqa.entry;
 
 /**
  * A class which builds template matches, the Q&A pairs to be ingested by a Watson Q&A instance.
@@ -23,7 +23,7 @@ package com.ibm.watson.catalyst.jumpqa.match;
  * @since 0.1.0
  *
  */
-public class TemplateMatchFactory {
+public class GTEntryFactory {
   
   private String _answerText;
   
@@ -37,15 +37,15 @@ public class TemplateMatchFactory {
   
   private String _templateId;
   
-  private TemplateMatchFactory() {}
+  private GTEntryFactory() {}
   
   /**
    * Builds a TemplateMatch from the current data in the TemplateMatchFactory
    * @return a new TemplateMatch
    */
-  public TemplateMatch build() {
+  public GTEntry build() {
     id++;
-    return new TemplateMatch(id.toString(), _questionText, _answerText, _pauTitle, _pauId, _state,
+    return new GTEntry(id.toString(), _questionText, _answerText, _pauTitle, _pauId, _state,
         id.toString(), _templateId);
   }
   
@@ -98,10 +98,10 @@ public class TemplateMatchFactory {
   }
   
   private static volatile Integer id = 1000000;
-  private static final TemplateMatchFactory INSTANCE;
+  private static final GTEntryFactory INSTANCE;
   static {
     try {
-      INSTANCE = new TemplateMatchFactory();
+      INSTANCE = new GTEntryFactory();
     } catch (final RuntimeException e) {
       throw new RuntimeException("Error making TemplateMatchFactory instance", e);
     }
@@ -111,7 +111,7 @@ public class TemplateMatchFactory {
    * Returns the TemplateMatchFactory singleton instance
    * @return the TemplateMatchFactory singleton
    */
-  public static TemplateMatchFactory getInstance() {
+  public static GTEntryFactory getInstance() {
     return INSTANCE;
   }
   

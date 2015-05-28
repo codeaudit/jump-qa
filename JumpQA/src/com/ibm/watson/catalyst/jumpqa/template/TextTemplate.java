@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
 import com.ibm.watson.catalyst.jumpqa.heuristics.BooleanHeuristics;
-import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
 import com.ibm.watson.catalyst.jumpqa.questioner.TextTemplateQuestioner;
@@ -30,7 +30,6 @@ import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
-import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
 
 /**
@@ -118,8 +117,8 @@ public class TextTemplate extends ATemplate {
    * @param aString
    * @return
    */
-  protected Collection<ITemplateMatch> genMatchesFromSplit(final String aString) {
-    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+  protected Collection<IGTEntry> genMatchesFromSplit(final String aString) {
+    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
     final String cleanedString = _cleaner.clean(aString);
     if (!goodString(cleanedString)) return result;
     final String[] splits = _matcher.split(cleanedString);
@@ -134,24 +133,14 @@ public class TextTemplate extends ATemplate {
   }
   
   @Override
-  protected Collection<ITemplateMatch> genMatchesFromString(final String aString) {
+  protected Collection<IGTEntry> genMatchesFromString(final String aString) {
     TMF.setAnswerText(aString.trim());
     final Collection<String> splits = _matchSplitter.split(aString);
     
-    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
     splits.forEach((s) -> result.addAll(genMatchesFromSplit(s)));
     
     return result;
-  }
-  
-  @Override
-  protected boolean goodString(final String aString) {
-    return _matcher.matches(aString);
-  }
-  
-  @Override
-  protected boolean goodTrec(final Trec aTrec) {
-    return true;
   }
   
 }

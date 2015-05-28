@@ -16,10 +16,9 @@
 package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.logging.Logger;
 
 import org.apache.commons.csv.CSVFormat;
@@ -39,19 +38,35 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
 public class TemplateReader extends AReader<ITemplate> implements IReader {
   
   @Override
-  public List<ITemplate> read(final InputStream is) throws IOException {
+  public List<ITemplate> read(final List<String> strings) {
+    strings.stream().forEachOrdered((s) -> sj.add(s));
+    return read(sj.toString());
+  }
+  
+  @Override
+  public List<ITemplate> read(final String aString) {
     List<ITemplate> result = new ArrayList<ITemplate>();
-    try (CSVParser parser = new CSVParser(new InputStreamReader(is), format)) {
-      final TemplateFactory tf = new TemplateFactory();
-      parser.forEach((record) -> result.add(tf.readRecord(record)));
+    
+    CSVParser parser;
+    try {
+      parser = CSVParser.parse(aString, format);
+    } catch (IOException e) {
+      throw new RuntimeException("IOError parsing CSV.", e);
     }
+    final TemplateFactory tf = new TemplateFactory();
+    parser.forEach((record) -> result.add(tf.readRecord(record)));
     
     logger.info("Read " + result.size() + " templates");
     return result;
   }
   
-  private static final CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter('\t');
+  @Override
+  protected ITemplate string2Object(String aString) {
+    throw new UnsupportedOperationException();
+  }
   
+  private static final CSVFormat format = CSVFormat.RFC4180.withHeader().withDelimiter('\t');
+  private static final StringJoiner sj = new StringJoiner("\n");
   private static final Logger logger = Logger.getLogger(TemplateReader.class.getName());
   
 }

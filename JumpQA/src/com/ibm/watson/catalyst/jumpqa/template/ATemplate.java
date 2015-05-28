@@ -21,8 +21,8 @@ import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
 
-import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
-import com.ibm.watson.catalyst.jumpqa.match.TemplateMatchFactory;
+import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
+import com.ibm.watson.catalyst.jumpqa.entry.GTEntryFactory;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
@@ -59,14 +59,14 @@ public abstract class ATemplate implements ITemplate {
   }
   
   @Override
-  public final List<ITemplateMatch> genMatchesFromTrecs(final Collection<Trec> trecs) {
+  public final List<IGTEntry> genMatchesFromTrecs(final Collection<Trec> trecs) {
     TMF.setTemplateId(_templateId);
     TMF.setState("APPROVED");
     
     final Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
     goodTrecs.removeIf((trec) -> !goodTrec(trec));
     
-    final List<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+    final List<IGTEntry> result = new ArrayList<IGTEntry>();
     goodTrecs.forEach((trec) -> result.addAll(genMatchesFromTrec(trec)));
     return result;
   }
@@ -85,15 +85,15 @@ public abstract class ATemplate implements ITemplate {
    * @param aString a string to search through and generate matches
    * @return a collection of matches
    */
-  protected abstract Collection<ITemplateMatch> genMatchesFromString(String aString);
+  protected abstract Collection<IGTEntry> genMatchesFromString(String aString);
   
   /**
    * Generates matches from a list of strings.
    * @param strings the strings to iterate through
    * @return
    */
-  protected final Collection<ITemplateMatch> genMatchesFromStrings(final Collection<String> strings) {
-    final Collection<ITemplateMatch> result = new ArrayList<ITemplateMatch>();
+  protected final Collection<IGTEntry> genMatchesFromStrings(final Collection<String> strings) {
+    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
     strings.forEach((s) -> result.addAll(genMatchesFromString(s)));
     return result;
   }
@@ -103,7 +103,7 @@ public abstract class ATemplate implements ITemplate {
    * @param aTrec the TREC to search through and generate matches for
    * @return a collection of matches
    */
-  protected final Collection<ITemplateMatch> genMatchesFromTrec(final Trec aTrec) {
+  protected final Collection<IGTEntry> genMatchesFromTrec(final Trec aTrec) {
     TMF.setPauTitle(aTrec.getPauTitle());
     TMF.setPauId(aTrec.getPauId());
     final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
@@ -116,18 +116,22 @@ public abstract class ATemplate implements ITemplate {
    * @param aString a string to evaluate
    * @return whether the string is suitable for processing
    */
-  protected abstract boolean goodString(String aString);
+  protected boolean goodString(String aString) {
+    return true;
+  }
   
   /**
    * Runs heuristics on a TREC to determine whether the template should process it
    * @param aTrec a TREC to evaluate
    * @return whether the TREC is suitable for processing
    */
-  protected abstract boolean goodTrec(Trec aTrec);
+  protected boolean goodTrec(Trec aTrec) {
+    return true;
+  }
   
   /**
    * Uses a single TemplateMatchFactory so that question IDs do not overlap.
    */
-  protected static final TemplateMatchFactory TMF = TemplateMatchFactory.getInstance();
+  protected static final GTEntryFactory TMF = GTEntryFactory.getInstance();
   
 }

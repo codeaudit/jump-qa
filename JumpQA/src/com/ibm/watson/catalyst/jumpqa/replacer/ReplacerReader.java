@@ -15,11 +15,6 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.replacer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,24 +63,19 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
     WORD }
   
   @Override
-  public List<ConstReplacer> read(final InputStream is) throws IOException {
+  public List<ConstReplacer> read(final List<String> strings) {
     final List<ConstReplacer> result = new ArrayList<ConstReplacer>();
     
-    try (BufferedReader br = new BufferedReader(new InputStreamReader(is, ENCODING))) {
-      while (br.ready()) {
-        final String line = br.readLine();
-        if (isCommentOrEmpty(line)) continue;
-        result.add(line2Replacer(line));
-      }
-    } catch (final UnsupportedEncodingException e) {
-      throw new RuntimeException("Unsupported encoding: " + ENCODING, e);
-    }
+    strings.stream().forEachOrdered((s) -> {
+      if (!isCommentOrEmpty(s)) result.add(string2Object(s));
+    });
     
     return result;
   }
   
-  private ConstReplacer line2Replacer(String line) {
-    final String[] entry = line.split("=", 2);
+  @Override
+  protected ConstReplacer string2Object(String aString) {
+    final String[] entry = aString.split("=", 2);
     final String replacement = entry[1];
     String pattern;
     switch(_type) {
@@ -102,7 +92,5 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
   }
   
   private final ReplacerType _type;
-  
-  private static final String ENCODING = "UTF8";
   
 }

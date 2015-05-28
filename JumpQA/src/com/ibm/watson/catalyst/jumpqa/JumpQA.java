@@ -20,8 +20,8 @@ import java.io.File;
 import java.util.Collection;
 import java.util.logging.Logger;
 
-import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
-import com.ibm.watson.catalyst.jumpqa.matcher.MatchGenerator;
+import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
+import com.ibm.watson.catalyst.jumpqa.matcher.GTEntryGenerator;
 import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.template.TemplateReader;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
@@ -67,7 +67,7 @@ public final class JumpQA {
     
     final Collection<ITemplate> templates = (new TemplateReader()).read(getFile("templates"));
     final Collection<Trec> trecs = (new TrecReader()).read(getFile("corpus"));
-    final Collection<ITemplateMatch> matches = (new MatchGenerator()).genMatches(templates, trecs);
+    final Collection<IGTEntry> matches = (new GTEntryGenerator()).genMatches(templates, trecs);
     
     (new CSVOutputWriter(getFile("output"))).write(matches);
     logger.info("JumpQA end");
