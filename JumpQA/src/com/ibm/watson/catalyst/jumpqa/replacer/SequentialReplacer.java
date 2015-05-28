@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.wordreplacer;
+package com.ibm.watson.catalyst.jumpqa.replacer;
 
 import java.io.File;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,16 +33,20 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @since 0.1.0
  *
  */
-public class SequentialReplacer implements IWordReplacer {
+public class SequentialReplacer implements IReplacer {
   
-  private final List<Replacer> _replacers;
+  private final List<? extends IReplacer> _replacers;
+  private final int argSize;
   
   /**
    * Instantiates a new WordReplacer with the given hashtable
    * @param replacements the hashtable of searches and replacements
    */
-  public SequentialReplacer(final List<Replacer> replacements) {
+  public SequentialReplacer(final List<? extends IReplacer> replacements) {
     _replacers = replacements;
+    int tArgSize = 0;
+    for (IReplacer r : _replacers) tArgSize += r.numArgs();
+    argSize = tArgSize;
   }
   
   /**
@@ -51,12 +58,32 @@ public class SequentialReplacer implements IWordReplacer {
   }
   
   @Override
-  public String replace(final String aString) {
-    String result = aString;
-    for (final Replacer replacer : _replacers) {
-      result = replacer.replaceAll(result);
+  public String replace(final String input, final Deque<String> args) {
+    if (args.size() < argSize) throw new IllegalArgumentException();
+    String result = input;
+    for (final IReplacer replacer : _replacers) {
+      result = replacer.replace(result, args);
     }
     return result;
+  }
+  
+  /** 
+   * If no arguments are required, make replacements.
+   * @param input the input string
+   * @return the replacement string
+   */
+  public String replace(final String input) {
+    return replace(input, new ArrayDeque<String>());
+  }
+  
+  /** 
+   * Makes replacements with arguments passed as an array
+   * @param input the input string
+   * @param args the arguments
+   * @return the replacement string
+   */
+  public String replace(final String input, final String[] args) {
+    return replace(input, new ArrayDeque<String>(Arrays.asList(args)));
   }
   
   @Override
@@ -73,6 +100,11 @@ public class SequentialReplacer implements IWordReplacer {
     return (new HashCodeBuilder(SEED, MULTIPLY))
         .append(_replacers)
         .hashCode();
+  }
+  
+  @Override
+  public int numArgs() {
+    return argSize;
   }
   
   private static final int SEED = 785423467;

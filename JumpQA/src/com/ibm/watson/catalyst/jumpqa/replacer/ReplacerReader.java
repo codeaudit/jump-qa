@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.wordreplacer;
+package com.ibm.watson.catalyst.jumpqa.replacer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  * @since 0.1.0
  *
  */
-public class ReplacerReader extends AReader<Replacer> implements IReader {
+public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
   
   /**
    * @param aType the type of replacers to create
@@ -68,8 +68,8 @@ public class ReplacerReader extends AReader<Replacer> implements IReader {
     WORD }
   
   @Override
-  public List<Replacer> read(final InputStream is) throws IOException {
-    final List<Replacer> result = new ArrayList<Replacer>();
+  public List<ConstReplacer> read(final InputStream is) throws IOException {
+    final List<ConstReplacer> result = new ArrayList<ConstReplacer>();
     
     try (BufferedReader br = new BufferedReader(new InputStreamReader(is, ENCODING))) {
       while (br.ready()) {
@@ -84,7 +84,7 @@ public class ReplacerReader extends AReader<Replacer> implements IReader {
     return result;
   }
   
-  private Replacer line2Replacer(String line) {
+  private ConstReplacer line2Replacer(String line) {
     final String[] entry = line.split("=", 2);
     final String replacement = entry[1];
     String pattern;
@@ -98,7 +98,7 @@ public class ReplacerReader extends AReader<Replacer> implements IReader {
       default:
         throw new IllegalArgumentException();
     }
-    return new Replacer(pattern, replacement);
+    return new ConstReplacer(pattern, replacement);
   }
   
   private final ReplacerType _type;

@@ -15,8 +15,12 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.questioner;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ibm.watson.catalyst.jumpqa.replacer.IReplacer;
+import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
+import com.ibm.watson.catalyst.jumpqa.replacer.VarReplacer;
 
 /**
  * A class to compose questions based on how a question was split by a pattern.
@@ -26,34 +30,31 @@ import java.util.regex.Pattern;
  * @since 0.1.0
  *
  */
-public class RegexSplitQuestioner implements IQuestioner {
+public class TextTemplateQuestioner implements IQuestioner {
   
   private final String _question;
   
-  private final Pattern s0 = Pattern.compile(Pattern.quote("[s0]"));
+  private static final SequentialReplacer sr;
   
-  private final Pattern s1 = Pattern.compile(Pattern.quote("[s1]"));
-  
-  private final Pattern s2 = Pattern.compile(Pattern.quote("[s2]"));
+  static {
+    List<IReplacer> replacers = new ArrayList<IReplacer>();
+    replacers.add(new VarReplacer("\\[s0\\]"));
+    replacers.add(new VarReplacer("\\[s1\\]"));
+    replacers.add(new VarReplacer("\\[s2\\]"));
+    sr = new SequentialReplacer(replacers);
+  }
   
   /**
    * Instantiates a new RegexSplitQuestioner
    * @param aQuestion the generic question string
    */
-  public RegexSplitQuestioner(final String aQuestion) {
+  public TextTemplateQuestioner(final String aQuestion) {
     _question = aQuestion;
   }
   
   @Override
   public String makeQuestion(final String[] splits) {
-    String result = _question;
-    result = s0.matcher(result).replaceAll(Matcher.quoteReplacement(splits[0]));
-    result = s1.matcher(result).replaceAll(Matcher.quoteReplacement(splits[1]));
-    result = s2.matcher(result).replaceAll(Matcher.quoteReplacement(splits[2]));
-    if (result.contains(", ")) {
-      System.out.println(result);
-    }
-    return result;
+    return sr.replace(_question, splits);
   }
   
 }

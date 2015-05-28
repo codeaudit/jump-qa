@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.ibm.watson.catalyst.jumpqa.wordreplacer;
+package com.ibm.watson.catalyst.jumpqa.replacer;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -10,23 +10,25 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ibm.watson.catalyst.jumpqa.replacer.ConstReplacer;
+
 @SuppressWarnings("javadoc")
-public class ReplacerTest {
+public class ConstReplacerTest {
   
-  Replacer r1;
+  ConstReplacer r1;
   
   @Before
   public void setUp() {
-    r1 = new Replacer("pattern", "replacement");
+    r1 = new ConstReplacer("pattern", "replacement");
   }
   
   @Test
-  public void testReplaceAll() {
-    Replacer r = new Replacer("a", "__");
-    String testInput = "alpha";
-    String expectedOutput = "__lph__";
-    assertThat(r.replaceAll(testInput), equalTo(expectedOutput));
-  }
+    public void testReplace() {
+      ConstReplacer r = new ConstReplacer("a", "__");
+      String testInput = "alpha";
+      String expectedOutput = "__lph__";
+      assertThat(r.replace(testInput), equalTo(expectedOutput));
+    }
   
   @Test
   public void testEqualsRelexive() {
@@ -35,19 +37,19 @@ public class ReplacerTest {
   
   @Test
   public void testEqualsSymmetric() {
-    Replacer r2 = new Replacer("pattern", "replacement");
+    ConstReplacer r2 = new ConstReplacer("pattern", "replacement");
     assertThat(r1, equalTo(r2));
   }
   
   @Test
   public void testNotEqualsPattern() {
-    Replacer r2 = new Replacer("another pattern", "replacement");
+    ConstReplacer r2 = new ConstReplacer("another pattern", "replacement");
     assertThat(r1, not(equalTo(r2)));
   }
   
   @Test
   public void testNotEqualsReplacement() {
-    Replacer r2 = new Replacer("pattern", "another replacement");
+    ConstReplacer r2 = new ConstReplacer("pattern", "another replacement");
     assertThat(r1, not(equalTo(r2)));
   }
   
@@ -58,19 +60,19 @@ public class ReplacerTest {
   
   @Test
   public void testHashSymmetric() {
-    Replacer r2 = new Replacer("pattern", "replacement");
+    ConstReplacer r2 = new ConstReplacer("pattern", "replacement");
     assertThat(r1.hashCode(), equalTo(r2.hashCode()));
   }
   
   @Test
   public void testHashNotEqualsPattern() {
-    Replacer r2 = new Replacer("another pattern", "replacement");
+    ConstReplacer r2 = new ConstReplacer("another pattern", "replacement");
     assertThat(r1.hashCode(), not(equalTo(r2.hashCode())));
   }
   
   @Test
   public void testHashNotEqualsReplacement() {
-    Replacer r2 = new Replacer("pattern", "another replacement");
+    ConstReplacer r2 = new ConstReplacer("pattern", "another replacement");
     assertThat(r1.hashCode(), not(equalTo(r2.hashCode())));
   }
   

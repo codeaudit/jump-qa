@@ -27,4 +27,19 @@ public class SentenceSplitterTest {
     assertThat(ss.split(s), equalTo(sentences));
   }
   
+  @Test
+  public void testSplitOneSentence() {
+    String s = "A sentence.";
+    sentences.add("A sentence");
+    assertThat(ss.split(s), equalTo(sentences));
+  }
+  
+  @Test
+  public void testSplitTwoSentences() {
+    String s = "One sentence. Another sentence.";
+    sentences.add("One sentence");
+    sentences.add("Another sentence");
+    assertThat(ss.split(s), equalTo(sentences));
+  }
+  
 }

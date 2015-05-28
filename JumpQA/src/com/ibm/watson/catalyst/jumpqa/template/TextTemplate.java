@@ -24,14 +24,14 @@ import com.ibm.watson.catalyst.jumpqa.heuristics.BooleanHeuristics;
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
-import com.ibm.watson.catalyst.jumpqa.questioner.RegexSplitQuestioner;
+import com.ibm.watson.catalyst.jumpqa.questioner.TextTemplateQuestioner;
+import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
-import com.ibm.watson.catalyst.jumpqa.wordreplacer.SequentialReplacer;
 
 /**
  * A template which evaluates the text of a TREC to generate matches.
@@ -63,7 +63,7 @@ public class TextTemplate extends ATemplate {
    * @param aCleaner an object to clean strings
    */
   public TextTemplate(final String aTemplateId, final ISplitter aAnswerSplitter,
-      final ISplitter aMatchSplitter, final RegexSplitQuestioner aQuestioner,
+      final ISplitter aMatchSplitter, final TextTemplateQuestioner aQuestioner,
       final StringRegexMatcher aMatcher, final BooleanHeuristics<String> aBooleanHeuristics,
       final SequentialReplacer aSequentialReplacer, final IStringCleaner aCleaner) {
     super(aTemplateId, aAnswerSplitter);
@@ -92,7 +92,7 @@ public class TextTemplate extends ATemplate {
     super(aTemplateId, aAnswerSize);
     _matcher = new StringRegexMatcher(aRegex, Pattern.CASE_INSENSITIVE);
     _matchSplitter = SplitterFactory.build(aMatchSize);
-    _questioner = new RegexSplitQuestioner(aQuestion);
+    _questioner = new TextTemplateQuestioner(aQuestion);
     _cleaner = new StringCleaner(clean);
     _replacer = new SequentialReplacer(new File(words3));
     

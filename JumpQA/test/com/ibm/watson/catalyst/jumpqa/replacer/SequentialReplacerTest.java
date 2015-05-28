@@ -1,4 +1,4 @@
-package com.ibm.watson.catalyst.jumpqa.wordreplacer;
+package com.ibm.watson.catalyst.jumpqa.replacer;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -10,48 +10,54 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ibm.watson.catalyst.jumpqa.replacer.ConstReplacer;
+import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
+
 @SuppressWarnings("javadoc")
 public class SequentialReplacerTest {
   
-  Replacer r1;
-  Replacer r1b;
-  Replacer r2;
-  Replacer r3;
-  List<Replacer> replacers;
+  ConstReplacer r1 = new ConstReplacer("a", "_");
+  ConstReplacer r1b = new ConstReplacer("a", "_");
+  ConstReplacer r2 = new ConstReplacer("b", "!");
+  ConstReplacer r3 = new ConstReplacer("_", "c");
+  List<ConstReplacer> replacers;
+  
+  VarReplacer r4 = new VarReplacer("\\[s0\\]");
+  VarReplacer r5 = new VarReplacer("\\[s1\\]");
+  VarReplacer r6 = new VarReplacer("\\[s2\\]");
+  List<VarReplacer> varReplacers = new ArrayList<VarReplacer>();
   
   SequentialReplacer s0;
   SequentialReplacer s1;
   SequentialReplacer s1a;
   SequentialReplacer s1b;
   SequentialReplacer s2;
+  SequentialReplacer s3;
   
   @Before
   public void setUp() {
-    r1 = new Replacer("a", "_");
-    r1b = new Replacer("a", "_");
-    r2 = new Replacer("b", "!");
-    r3 = new Replacer("_", "c");
+    replacers = new ArrayList<ConstReplacer>();
     
-    replacers = new ArrayList<Replacer>();
-    
-    List<Replacer> l0 = new ArrayList<Replacer>();
+    List<ConstReplacer> l0 = new ArrayList<ConstReplacer>();
     s0 = new SequentialReplacer(l0);
     
-    List<Replacer> l1 = new ArrayList<Replacer>();
+    List<ConstReplacer> l1 = new ArrayList<ConstReplacer>();
     l1.add(r1);
     s1 = new SequentialReplacer(l1);
     
-    List<Replacer> l1a = new ArrayList<Replacer>();
+    List<ConstReplacer> l1a = new ArrayList<ConstReplacer>();
     l1a.add(r1);
     s1a = new SequentialReplacer(l1a);
     
-    List<Replacer> l1b = new ArrayList<Replacer>();
+    List<ConstReplacer> l1b = new ArrayList<ConstReplacer>();
     l1b.add(r1b);
     s1b = new SequentialReplacer(l1b);
     
-    List<Replacer> l2 = new ArrayList<Replacer>();
+    List<ConstReplacer> l2 = new ArrayList<ConstReplacer>();
     l2.add(r2);
     s2 = new SequentialReplacer(l2);
+    
+    
   }
   
   @Test
@@ -75,6 +81,16 @@ public class SequentialReplacerTest {
     replacers.add(r3);
     SequentialReplacer wr = new SequentialReplacer(replacers);
     assertThat(wr.replace("alpha"), equalTo("clphc"));
+  }
+  
+  @Test
+  public void testVarReplacers() {
+    varReplacers.add(r4);
+    varReplacers.add(r5);
+    varReplacers.add(r6);
+    SequentialReplacer sr = new SequentialReplacer(varReplacers);
+    assertThat(sr.replace("[s0] [s1] [s2]", new String[] {"a", "b", "c"}),
+        equalTo("a b c"));
   }
   
   @Test

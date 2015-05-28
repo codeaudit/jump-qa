@@ -6,7 +6,10 @@ package com.ibm.watson.catalyst.jumpqa.splitter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /** TODO: Class description
  * 
@@ -33,6 +36,27 @@ public class Splitter implements ISplitter {
   public Splitter(Pattern p) {
     _p = p;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Splitter other = (Splitter) obj;
+    if (!Objects.equals(other._p.toString(), this._p.toString())) return false;
+    if (!Objects.equals(other._p.flags(), this._p.flags())) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY))
+        .append(_p.toString())
+        .append(_p.flags())
+        .hashCode();
+  }
+  
+  private static final int SEED = 860127911;
+  private static final int MULTIPLY = 505854299;
   
   @Override
   public final List<String> split(final List<String> strings) {

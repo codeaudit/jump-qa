@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.wordreplacer;
+package com.ibm.watson.catalyst.jumpqa.replacer;
+
+import java.util.Deque;
 
 /**
  * An interface for making replacements in strings.
@@ -23,13 +25,20 @@ package com.ibm.watson.catalyst.jumpqa.wordreplacer;
  * @since 0.1.0
  *
  */
-public interface IWordReplacer {
+public interface IReplacer {
   
   /**
    * Given a string makes replacements then returns the result.
-   * @param aString the string to make replacements in
+   * @param input the input string
+   * @param args the arguments
    * @return the resulting string
    */
-  public String replace(String aString);
+  public String replace(String input, Deque<String> args);
+  
+  /** 
+   * Get how many arguments the replacer requires in addition to the input string
+   * @return the number of additional arguments.
+   */
+  public int numArgs();
   
 }
