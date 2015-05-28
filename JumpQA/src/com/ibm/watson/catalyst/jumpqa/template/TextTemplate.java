@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.template;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -25,7 +26,7 @@ import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
 import com.ibm.watson.catalyst.jumpqa.questioner.RegexSplitQuestioner;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterGetter;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
@@ -41,21 +42,41 @@ import com.ibm.watson.catalyst.jumpqa.wordreplacer.SequentialReplacer;
  *
  */
 public class TextTemplate extends ATemplate {
-  
-  private final BooleanHeuristics<String> _bh = new BooleanHeuristics<String>();
-  private final IStringCleaner _cleaner;
-  private final StringRegexMatcher _matcher;
+
   private final ISplitter _matchSplitter;
   private final IQuestioner _questioner;
+  private final StringRegexMatcher _matcher;
+  private final BooleanHeuristics<String> _bh;
   private final SequentialReplacer _replacer;
-  
-  @Override
-  public boolean equals(Object obj) {
-    return false;
+  private final IStringCleaner _cleaner;
+
+  /**
+   * @param aTemplateId the id of the template
+   * @param aAnswerSplitter an object to split the TREC into possible answers
+   * @param aMatchSplitter an object to split answers into pieces about which to ask questions
+   * @param aQuestioner an object to take a good sentence and create questions to be asked about it
+   * @param aMatcher an object to determine if a sentence is a match
+   * @param aBooleanHeuristics boolean conditions about a string which, if met, mean the sentence
+   *   shouldn't be considered
+   * @param aSequentialReplacer an object to sequentially make replacements on the text before
+   *   transformation into a question
+   * @param aCleaner an object to clean strings
+   */
+  public TextTemplate(final String aTemplateId, final ISplitter aAnswerSplitter,
+      final ISplitter aMatchSplitter, final RegexSplitQuestioner aQuestioner,
+      final StringRegexMatcher aMatcher, final BooleanHeuristics<String> aBooleanHeuristics,
+      final SequentialReplacer aSequentialReplacer, final IStringCleaner aCleaner) {
+    super(aTemplateId, aAnswerSplitter);
+    _matchSplitter = aMatchSplitter;
+    _questioner = aQuestioner;
+    _matcher = aMatcher;
+    _bh = aBooleanHeuristics;
+    _replacer = aSequentialReplacer;
+    _cleaner = aCleaner;
   }
   
   /**
-   * 
+   * Instantiates a Text Template
    * @param aTemplateId the id of the template
    * @param aAnswerSize how large the answer should be
    * @param aMatchSize the size of the text to match against
@@ -70,17 +91,26 @@ public class TextTemplate extends ATemplate {
       final String clean) {
     super(aTemplateId, aAnswerSize);
     _matcher = new StringRegexMatcher(aRegex, Pattern.CASE_INSENSITIVE);
-    _matchSplitter = SplitterGetter.getSplitter(aMatchSize);
+    _matchSplitter = SplitterFactory.build(aMatchSize);
     _questioner = new RegexSplitQuestioner(aQuestion);
     _cleaner = new StringCleaner(clean);
-    _replacer = new SequentialReplacer(words3);
+    _replacer = new SequentialReplacer(new File(words3));
     
+    _bh = new BooleanHeuristics<String>();
     if (!aBadWordsList.equals("")) {
       final WordList wl = new WordList("WordLists/" + aBadWordsList);
       _bh.add((s) -> wl.containsFirstWord(s));
       _bh.add((s) -> wl.containsLastWord(s));
       _bh.add((s) -> s.contains(" - "));
     }
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    
+    return true;
   }
   
   /**

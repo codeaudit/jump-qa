@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.wordreplacer;
 
+import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,8 +46,8 @@ public class SequentialReplacer implements IWordReplacer {
    * Instantiates a new WordReplacer by reading the hashtable from a file
    * @param aFile the file to read
    */
-  public SequentialReplacer(final String aFile) {
-    this((new ReplacerReader()).readFile(aFile));
+  public SequentialReplacer(final File aFile) {
+    this((new ReplacerReader()).read(aFile));
   }
   
   @Override
@@ -60,8 +61,8 @@ public class SequentialReplacer implements IWordReplacer {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (!(obj instanceof SequentialReplacer)) return false;
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
     SequentialReplacer other = (SequentialReplacer) obj;
     if (!Objects.equals(other._replacers, this._replacers)) return false;
     return true;

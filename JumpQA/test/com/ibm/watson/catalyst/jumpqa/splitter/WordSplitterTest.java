@@ -15,11 +15,13 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.splitter;
 
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -30,20 +32,86 @@ import org.junit.Test;
  * @since 0.1.0
  *
  */
+@SuppressWarnings("javadoc")
 public class WordSplitterTest {
   
-  @SuppressWarnings("javadoc")
+  ISplitter ws = SplitterFactory.build("word");
+  List<String> words;
+  List<String> ab;
+  
+  @Before
+  public void setUp() {
+    words = new ArrayList<String>();
+    ab = new ArrayList<String>();
+    ab.add("a");
+    ab.add("b");
+  }
+  
   @Test
-  public void testSplit() {
-    final String aString = "Some words.";
-    final List<String> aStringSplit = new ArrayList<String>();
-    aStringSplit.add("Some");
-    aStringSplit.add("words.");
-    
-    final WordSplitter ws = new WordSplitter();
-    List<String> wordSplit = ws.split(aString);
-    
-    assertTrue(wordSplit.equals(aStringSplit));
+  public void testSplitTwoWords() {
+    final String aString = "Some words";
+    words.add("Some");
+    words.add("words");
+    assertThat(ws.split(aString), equalTo(words));
+  }
+  
+  @Test
+  public void testSplitOneWord() {
+    final String aString = "Word";
+    words.add("Word");
+    assertThat(ws.split(aString), equalTo(words));
+  }
+  
+  @Test
+  public void testSplitNoWords() {
+    final String aString = "";
+    assertThat(ws.split(aString), equalTo(words));
+  }
+  
+  @Test
+  public void testSplitQuestionMark() {
+    assertThat(ws.split(punctSplit("?")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitExclamation() {
+    assertThat(ws.split(punctSplit("!")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitComma() {
+    assertThat(ws.split(punctSplit(",")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitSemicolon() {
+    assertThat(ws.split(punctSplit(";")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitPeriod() {
+    assertThat(ws.split(punctSplit(".")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitMultiPunct() {
+    assertThat(ws.split(punctSplit(".!!!?::;")), equalTo(ab));
+  }
+  
+  @Test
+  public void testSplitList() {
+    final List<String> stringList = new ArrayList<String>();
+    stringList.add("Some words.");
+    stringList.add("more? words");
+    words.add("Some");
+    words.add("words");
+    words.add("more");
+    words.add("words");
+    assertThat(ws.split(stringList), equalTo(words));
+  }
+  
+  private String punctSplit(String split) {
+    return "a" + split + "b" + split;
   }
   
 }

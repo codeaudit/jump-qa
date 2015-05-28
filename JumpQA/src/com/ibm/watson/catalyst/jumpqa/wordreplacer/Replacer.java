@@ -45,8 +45,8 @@ public class Replacer {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (!(obj instanceof Replacer)) return false;
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
     Replacer other = (Replacer) obj;
     if (!Objects.equals(other._replacement, this._replacement)) return false;
     if (!Objects.equals(other._pattern.toString(), this._pattern.toString())) return false;

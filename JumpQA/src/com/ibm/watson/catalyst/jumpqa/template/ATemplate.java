@@ -24,7 +24,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import com.ibm.watson.catalyst.jumpqa.match.ITemplateMatch;
 import com.ibm.watson.catalyst.jumpqa.match.TemplateMatchFactory;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterGetter;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 /**
@@ -38,7 +38,6 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 public abstract class ATemplate implements ITemplate {
   
   private final ISplitter _answerSplitter;
-  
   private final String _templateId;
   
   /**
@@ -47,8 +46,16 @@ public abstract class ATemplate implements ITemplate {
    * @param aAnswerSize how large the answer should be
    */
   public ATemplate(final String aTemplateId, final String aAnswerSize) {
+    this(aTemplateId, SplitterFactory.build(aAnswerSize));
+  }
+  
+  /**
+   * @param aTemplateId the id of the template
+   * @param aAnswerSplitter a splitter to break the TREC into answer units
+   */
+  public ATemplate(final String aTemplateId, final ISplitter aAnswerSplitter) {
     _templateId = aTemplateId;
-    _answerSplitter = SplitterGetter.getSplitter(aAnswerSize);
+    _answerSplitter = aAnswerSplitter;
   }
   
   @Override

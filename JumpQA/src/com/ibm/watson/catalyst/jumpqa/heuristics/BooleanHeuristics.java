@@ -43,13 +43,12 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
     this(new ArrayList<Predicate<T>>());
   }
   
-  
   /**
    * Instantiates a BooleanHeuristics objects with a list of predicates.
    * @param predicates the list of predicates to instantiate with
    */
   public BooleanHeuristics(Collection<Predicate<T>> predicates) {
-    _predicates = predicates;
+    _predicates = (predicates == null) ? new ArrayList<Predicate<T>>() : predicates;
   }
   
   @Override

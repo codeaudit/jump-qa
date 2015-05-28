@@ -16,28 +16,63 @@ public class BooleanHeuristicsTest {
   BooleanHeuristics<Integer> b1a;
   BooleanHeuristics<Integer> b2;
   
-  Predicate<Integer> p0 = (s) -> false;
-  Predicate<Integer> p1 = (s) -> true;
-  Predicate<Integer> p2 = (s) -> s > 0;
-  Predicate<Integer> p3 = (s) -> s < 10;
-  
-  {
-    b0 = new BooleanHeuristics<Integer>();
-    
-    b1 = new BooleanHeuristics<Integer>();
-    b1.add(p1);
-    
-    b1a = new BooleanHeuristics<Integer>();
-    b1a.add(p1);
-    
-    b2 = new BooleanHeuristics<Integer>();
-    b2.add(p2);
-    
-  }
+  Predicate<Integer> pFalse = (s) -> false;
+  Predicate<Integer> pTrue = (s) -> true;
   
   @Before
   public void setUp() {
+    b0 = new BooleanHeuristics<Integer>();
     
+    b1 = new BooleanHeuristics<Integer>();
+    b1.add(pTrue);
+    
+    b1a = new BooleanHeuristics<Integer>();
+    b1a.add(pTrue);
+    
+    b2 = new BooleanHeuristics<Integer>();
+    b2.add(pFalse);
+  }
+  
+  @Test
+  public void testAllTrueTrue() {
+    for (int i = 0; i < 10; i++) b0.add(pTrue);
+    assertTrue(b0.allTrue(0));
+  }
+  
+  @Test
+  public void testAllTrueFalse() {
+    b0.add(pFalse);
+    for (int i = 0; i < 10; i++) b0.add(pTrue);
+    assertFalse(b0.allTrue(0));
+  }
+  
+  @Test
+  public void testAnyTrueFalse() {
+    for (int i = 0; i < 10; i++) b0.add(pFalse);
+    assertFalse(b0.anyTrue(0));
+  }
+  
+  @Test
+  public void testAnyTrueTrue() {
+    b0.add(pTrue);
+    for (int i = 0; i < 10; i++) b0.add(pFalse);
+    assertTrue(b0.anyTrue(0));
+  }
+  
+  @Test
+  public void testAnyTrueEmpty() {
+    assertFalse(b0.anyTrue(0));
+  }
+  
+  @Test
+  public void testAllTrueEmpty() {
+    assertTrue(b0.allTrue(0));
+  }
+  
+  @Test
+  public void testNull() {
+    BooleanHeuristics<Integer> bh = new BooleanHeuristics<Integer>(null);
+    assertTrue(bh.allTrue(0));
   }
   
   @Test

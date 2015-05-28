@@ -55,8 +55,8 @@ public class Trec {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj == this) return true;
-    if (!(obj instanceof Trec)) return false;
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
     Trec other = (Trec) obj;
     if (!Objects.equals(other._file, this._file)) return false;
     if (!Objects.equals(other._pauId, this._pauId)) return false;

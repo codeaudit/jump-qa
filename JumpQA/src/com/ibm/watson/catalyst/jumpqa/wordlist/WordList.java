@@ -18,7 +18,8 @@ package com.ibm.watson.catalyst.jumpqa.wordlist;
 import java.util.Iterator;
 import java.util.List;
 
-import com.ibm.watson.catalyst.jumpqa.splitter.WordSplitter;
+import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 
 /**
  * A class for holding a list of words and performing tests with them.
@@ -86,6 +87,6 @@ public class WordList implements IWordList, Iterable<String> {
     return _wordList;
   }
   
-  private static final WordSplitter ws = new WordSplitter();
+  private static final ISplitter ws = SplitterFactory.build("word");
   
 }
