@@ -1,6 +1,5 @@
 package com.ibm.watson.catalyst.jumpqa.replacer;
 
-import java.util.Deque;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -45,7 +44,7 @@ public class ConstReplacer implements IReplacer {
   }
   
   @Override
-  public String replace(String aString, Deque<String> args) {
+  public String replace(String aString, String... args) {
     return replace(aString);
   }
   

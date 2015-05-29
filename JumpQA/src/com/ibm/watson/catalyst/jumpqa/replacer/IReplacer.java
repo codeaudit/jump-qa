@@ -15,8 +15,6 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.replacer;
 
-import java.util.Deque;
-
 /**
  * An interface for making replacements in strings.
  * 
@@ -33,7 +31,7 @@ public interface IReplacer {
    * @param args the arguments
    * @return the resulting string
    */
-  public String replace(String input, Deque<String> args);
+  public String replace(String input, String... args);
   
   /** 
    * Get how many arguments the replacer requires in addition to the input string

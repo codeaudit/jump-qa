@@ -54,8 +54,7 @@ public class StringRegexMatcher implements IMatcher {
   @Override
   public boolean equals(Object obj) {
     if (obj == this) return true;
-    if (obj == null) return false;
-    if (!(obj instanceof StringRegexMatcher)) return false;
+    if (obj == null || getClass() != obj.getClass()) return false;
     StringRegexMatcher other = (StringRegexMatcher) obj;
     if (!Objects.equals(other._textRegex.toString(), this._textRegex.toString())) return false;
     if (!Objects.equals(other._textRegex.flags(), this._textRegex.flags())) return false;

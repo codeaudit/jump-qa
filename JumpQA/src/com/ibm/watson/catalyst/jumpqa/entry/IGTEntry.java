@@ -32,6 +32,7 @@ public interface IGTEntry extends IWritable {
    * @return the template ID for the template which generated the match
    */
   public String getTemplateId();
-  
+  public String getQuestion();
+  public String getAnswer();
   
 }

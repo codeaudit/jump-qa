@@ -25,17 +25,12 @@ package com.ibm.watson.catalyst.jumpqa.entry;
  */
 public class GTEntryFactory {
   
-  private String _answerText;
-  
-  private String _pauId;
-  
-  private String _pauTitle;
-  
-  private String _questionText;
-  
-  private String _state;
-  
-  private String _templateId;
+  private String _answerText = "";
+  private String _pauId = "";
+  private String _pauTitle = "";
+  private String _questionText = "";
+  private String _state = "";
+  private String _templateId = "";
   
   private GTEntryFactory() {}
   
@@ -47,6 +42,19 @@ public class GTEntryFactory {
     id++;
     return new GTEntry(id.toString(), _questionText, _answerText, _pauTitle, _pauId, _state,
         id.toString(), _templateId);
+  }
+  
+  /** 
+   * TODO: Method description
+   */
+  public void reset() {
+    _answerText = "";
+    _pauId = "";
+    _pauTitle = "";
+    _questionText = "";
+    _state = "";
+    _templateId = "";
+    id = 1000000;
   }
   
   /**

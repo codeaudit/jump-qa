@@ -19,6 +19,7 @@ package com.ibm.watson.catalyst.jumpqa.entry;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -69,19 +70,26 @@ public class GTEntry implements IGTEntry {
   }
   
   @Override
-  public boolean equals(final Object o) {
-    if (o instanceof GTEntry) {
-      final GTEntry tm = (GTEntry) o;
-      if (!tm._questionText.equals(_questionText)) return false;
-      if (!tm._answerText.equals(_answerText)) return false;
-      return true;
-    } else
-      return false;
+  public boolean equals(final Object obj) {
+    if (obj == this) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    GTEntry other = (GTEntry) obj;
+    if (!Objects.equals(other._questionText, this._questionText)) return false;
+    if (!Objects.equals(other._answerText, this._answerText)) return false;
+    return true;
   }
   
   @Override
   public String getTemplateId() {
     return _templateId;
+  }
+  
+  public String getQuestion() {
+    return _questionText;
+  }
+  
+  public String getAnswer() {
+    return _answerText;
   }
   
   @Override

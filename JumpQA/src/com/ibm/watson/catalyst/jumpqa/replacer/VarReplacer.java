@@ -3,7 +3,6 @@
  */
 package com.ibm.watson.catalyst.jumpqa.replacer;
 
-import java.util.Deque;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,8 +37,8 @@ public class VarReplacer implements IReplacer {
   }
   
   @Override
-  public String replace(String input, Deque<String> args) {
-    return _pattern.matcher(input).replaceAll(Matcher.quoteReplacement(args.pollFirst()));
+  public String replace(String input, String... args) {
+    return _pattern.matcher(input).replaceAll(Matcher.quoteReplacement(args[0]));
   }
   
   /** 
