@@ -21,8 +21,10 @@ import java.util.List;
 
 import org.apache.commons.collections4.IteratorUtils;
 
-import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
-import com.ibm.watson.catalyst.jumpqa.entry.GTEntryFactory;
+import com.ibm.watson.catalyst.jumpqa.answer.GroundTruthEntryBuilder;
+import com.ibm.watson.catalyst.jumpqa.answer.GroundTruthEntry.GroundTruthState;
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
@@ -42,6 +44,7 @@ public abstract class ATemplate implements ITemplate {
   
   /**
    * Instantiates a template
+   * 
    * @param aTemplateId the id of the template
    * @param aAnswerSize how large the answer should be
    */
@@ -59,20 +62,21 @@ public abstract class ATemplate implements ITemplate {
   }
   
   @Override
-  public final List<IGTEntry> genMatchesFromTrecs(final Collection<Trec> trecs) {
-    TMF.setTemplateId(_templateId);
-    TMF.setState("APPROVED");
+  public final List<IGroundTruthEntry> genEntriesFromTrecs(final Collection<Trec> trecs) {
+    gteb.setTemplateId(_templateId);
+    gteb.setState(GroundTruthState.APPROVED);
     
     final Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
     goodTrecs.removeIf((trec) -> !goodTrec(trec));
     
-    final List<IGTEntry> result = new ArrayList<IGTEntry>();
+    final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
     goodTrecs.forEach((trec) -> result.addAll(genMatchesFromTrec(trec)));
     return result;
   }
   
   /**
    * Checks whether the id of this template matches a value.
+   * 
    * @param anObject the id to check against
    * @return whether the id matches
    */
@@ -80,39 +84,50 @@ public abstract class ATemplate implements ITemplate {
     return _templateId.equals(anObject);
   }
   
+  @Override
+  public abstract Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau,
+      final String aString);
+  
   /**
-   * Generates matches from a given string.
-   * @param aString a string to search through and generate matches
-   * @return a collection of matches
+   * TODO: Method description
+   * 
+   * @param aString the string to generate matches from
+   * @return the collection of ground truth entries
    */
-  protected abstract Collection<IGTEntry> genMatchesFromString(String aString);
+  public Collection<IGroundTruthEntry> genEntriesFromString(String aString) {
+    return genEntriesFromString(new Pau(), aString);
+  }
   
   /**
    * Generates matches from a list of strings.
+   * 
    * @param strings the strings to iterate through
    * @return
    */
-  protected final Collection<IGTEntry> genMatchesFromStrings(final Collection<String> strings) {
-    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
-    strings.forEach((s) -> result.addAll(genMatchesFromString(s)));
+  protected final Collection<IGroundTruthEntry> genMatchesFromStrings(final Pau aPau,
+      final Collection<String> strings) {
+    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    strings.forEach((s) -> result.addAll(genEntriesFromString(aPau, s)));
     return result;
   }
   
   /**
    * Generates matches from a TREC
+   * 
    * @param aTrec the TREC to search through and generate matches for
    * @return a collection of matches
    */
-  protected final Collection<IGTEntry> genMatchesFromTrec(final Trec aTrec) {
-    TMF.setPauTitle(aTrec.getPauTitle());
-    TMF.setPauId(aTrec.getPauId());
+  public final Collection<IGroundTruthEntry> genMatchesFromTrec(final Trec aTrec) {
+    final Pau pau = new Pau(aTrec);
     final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
     strings.removeIf((s) -> !goodString(s));
-    return genMatchesFromStrings(strings);
+    return genMatchesFromStrings(pau, strings);
   }
   
   /**
-   * Runs heuristics on a string to determine whether the template should process it
+   * Runs heuristics on a string to determine whether the template should
+   * process it
+   * 
    * @param aString a string to evaluate
    * @return whether the string is suitable for processing
    */
@@ -121,7 +136,9 @@ public abstract class ATemplate implements ITemplate {
   }
   
   /**
-   * Runs heuristics on a TREC to determine whether the template should process it
+   * Runs heuristics on a TREC to determine whether the template should process
+   * it
+   * 
    * @param aTrec a TREC to evaluate
    * @return whether the TREC is suitable for processing
    */
@@ -132,6 +149,6 @@ public abstract class ATemplate implements ITemplate {
   /**
    * Uses a single TemplateMatchFactory so that question IDs do not overlap.
    */
-  protected static final GTEntryFactory TMF = GTEntryFactory.getInstance();
+  protected static final GroundTruthEntryBuilder gteb = GroundTruthEntryBuilder.getInstance();
   
 }

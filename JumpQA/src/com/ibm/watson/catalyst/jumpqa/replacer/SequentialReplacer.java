@@ -27,8 +27,9 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * A class for replacing matched regular expressions with given strings. The keys in the hashtable
- *   are the regular expressions, and the mapped values are the replacements.
+ * A class for replacing matched regular expressions with given strings. The
+ * keys in the hashtable are the regular expressions, and the mapped values are
+ * the replacements.
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -50,17 +51,17 @@ public class SequentialReplacer implements IReplacer {
   
   /**
    * Instantiates a new WordReplacer with the given hashtable
+   * 
    * @param replacements the hashtable of searches and replacements
    */
   public SequentialReplacer(final List<? extends IReplacer> replacements) {
     _replacers = replacements;
-    argSize = _replacers.stream()
-                        .mapToInt(IReplacer::numArgs)
-                        .sum();
+    argSize = _replacers.stream().mapToInt(IReplacer::numArgs).sum();
   }
   
   /**
    * Instantiates a new WordReplacer by reading the hashtable from a file
+   * 
    * @param aFile the file to read
    */
   public SequentialReplacer(final File aFile) {
@@ -73,8 +74,9 @@ public class SequentialReplacer implements IReplacer {
     return replace(input, argsDeque);
   }
   
-  /** 
+  /**
    * If no arguments are required, make replacements.
+   * 
    * @param input the input string
    * @return the replacement string
    */
@@ -82,8 +84,9 @@ public class SequentialReplacer implements IReplacer {
     return replace(input, new String[] {});
   }
   
-  /** 
+  /**
    * Makes replacements with arguments passed as an array
+   * 
    * @param input the input string
    * @param args the arguments
    * @return the replacement string
@@ -93,7 +96,7 @@ public class SequentialReplacer implements IReplacer {
     if (argsDeque.size() < argSize) throw new IllegalArgumentException();
     String result = input;
     for (final IReplacer replacer : _replacers) {
-      switch(replacer.getClass().getSimpleName()) {
+      switch (replacer.getClass().getSimpleName()) {
         case "ConstReplacer":
           result = replacer.replace(result);
           break;
@@ -118,9 +121,7 @@ public class SequentialReplacer implements IReplacer {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_replacers)
-        .hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_replacers).hashCode();
   }
   
   @Override

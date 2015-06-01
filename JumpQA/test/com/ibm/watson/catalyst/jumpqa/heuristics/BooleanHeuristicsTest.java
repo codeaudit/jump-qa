@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2015 IBM Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.heuristics;
 
 import java.util.function.Predicate;
@@ -35,27 +50,31 @@ public class BooleanHeuristicsTest {
   
   @Test
   public void testAllTrueTrue() {
-    for (int i = 0; i < 10; i++) b0.add(pTrue);
+    for (int i = 0; i < 10; i++)
+      b0.add(pTrue);
     assertTrue(b0.allTrue(0));
   }
   
   @Test
   public void testAllTrueFalse() {
     b0.add(pFalse);
-    for (int i = 0; i < 10; i++) b0.add(pTrue);
+    for (int i = 0; i < 10; i++)
+      b0.add(pTrue);
     assertFalse(b0.allTrue(0));
   }
   
   @Test
   public void testAnyTrueFalse() {
-    for (int i = 0; i < 10; i++) b0.add(pFalse);
+    for (int i = 0; i < 10; i++)
+      b0.add(pFalse);
     assertFalse(b0.anyTrue(0));
   }
   
   @Test
   public void testAnyTrueTrue() {
     b0.add(pTrue);
-    for (int i = 0; i < 10; i++) b0.add(pFalse);
+    for (int i = 0; i < 10; i++)
+      b0.add(pFalse);
     assertTrue(b0.anyTrue(0));
   }
   

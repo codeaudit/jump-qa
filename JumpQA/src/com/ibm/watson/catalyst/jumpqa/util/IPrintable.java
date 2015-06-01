@@ -13,24 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.ibm.watson.catalyst.jumpqa.stringcleaner;
+/**
+ * 
+ */
+package com.ibm.watson.catalyst.jumpqa.util;
 
 /**
- * An interface for objects which clean strings.
+ * TODO: Class description
  * 
  * @author Will Beason
- * @version 0.1.0
- * @since 0.1.0
+ * @version 0.1.1
+ * @since 0.1.1
  *
  */
-public interface IStringCleaner {
+public interface IPrintable {
   
   /**
-   * Cleans a given string
+   * Converts the object to a StringBuffer representation.
    * 
-   * @param aString the string to clean
-   * @return the cleaned string
+   * @return the StringBuffer representation of the object
    */
-  public String clean(String aString);
+  public StringBuilder toStringBuilder();
   
 }

@@ -35,6 +35,7 @@ public class WordList implements IWordList, Iterable<String> {
   
   /**
    * Instantiates a WordList from a list of strings
+   * 
    * @param aStringList the list of strings
    */
   public WordList(final List<String> aStringList) {
@@ -43,6 +44,7 @@ public class WordList implements IWordList, Iterable<String> {
   
   /**
    * Instantiates a WordList by reading strings from a file
+   * 
    * @param aFile the file to read strings from
    */
   public WordList(final String aFile) {
@@ -56,6 +58,7 @@ public class WordList implements IWordList, Iterable<String> {
   
   /**
    * Tests whether the first word of the string is in the word list
+   * 
    * @param s the string to test
    * @return whether the first word of the string is in the word list
    */
@@ -66,6 +69,7 @@ public class WordList implements IWordList, Iterable<String> {
   
   /**
    * Tests whether the last word of the string is in the word list
+   * 
    * @param s the string to test
    * @return whether the last word of the string is in the word list
    */
@@ -81,6 +85,7 @@ public class WordList implements IWordList, Iterable<String> {
   
   /**
    * Gets the list of words.
+   * 
    * @return the list of words
    */
   protected List<String> getList() {

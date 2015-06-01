@@ -15,7 +15,8 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Objects which may be written to files.
@@ -27,10 +28,20 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public interface IWritable extends Iterable<String> {
   
+  // /**
+  // * Converts the object to a JSON node
+  // * @return the JSON node representation of the object
+  // */
+  // public JsonNode toJsonNode();
+  
   /**
-   * Converts the object to a JSON node
-   * @return the JSON node representation of the object
+   * Converts the object to a list.
+   * 
+   * @return the list representation of the object.
    */
-  public JsonNode toJsonNode();
+  public List<String> toList();
+  
+  @Override
+  public Iterator<String> iterator();
   
 }

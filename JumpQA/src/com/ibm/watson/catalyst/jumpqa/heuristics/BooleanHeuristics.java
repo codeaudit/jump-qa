@@ -24,13 +24,15 @@ import java.util.function.Predicate;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * A class which holds a set of true or false heuristics. Can test if enough heuristics are met.
+ * A class which holds a set of true or false heuristics. Can test if enough
+ * heuristics are met.
  * 
  * @author Will Beason
  * @version 0.1.0
  * @since 0.1.0
  *
- * @param <T> The class of object to evaluate. The input class of the predicates.
+ * @param <T> The class of object to evaluate. The input class of the
+ *          predicates.
  */
 public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
@@ -45,6 +47,7 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   /**
    * Instantiates a BooleanHeuristics objects with a list of predicates.
+   * 
    * @param predicates the list of predicates to instantiate with
    */
   public BooleanHeuristics(Collection<Predicate<T>> predicates) {
@@ -63,9 +66,7 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_predicates)
-        .hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_predicates).hashCode();
   }
   
   private static final int SEED = 1368181723;
@@ -73,6 +74,7 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   /**
    * Adds a new predicate to test
+   * 
    * @param aPredicate a new boolean test
    * @return whether the predicate was added successfully
    */
@@ -82,6 +84,7 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   /**
    * Whether all predicates return true
+   * 
    * @param input the object to evaluate
    * @return whether all predicates returned true
    */
@@ -94,6 +97,7 @@ public class BooleanHeuristics<T> implements IHeuristics<T, Boolean> {
   
   /**
    * Whether any predicate returns true
+   * 
    * @param input the object to evaluate
    * @return whether any predicate returned true
    */

@@ -20,12 +20,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.logging.Logger;
 
-import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
+import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
 import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 /**
- * A class for handling the logic of iterating through templates on the collection of TRECs
+ * A class for handling the logic of iterating through templates on the
+ * collection of TRECs
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -41,17 +42,18 @@ public class GTEntryGenerator {
   
   /**
    * Generates matches for a collection of templates on a collection of TRECs
+   * 
    * @param templates the templates to generate matches with
    * @param trecs the TRECs to search through and generate matches
    * @return the found and generated matches
    */
-  public Collection<IGTEntry> genMatches(final Collection<ITemplate> templates,
+  public Collection<IGroundTruthEntry> genMatches(final Collection<ITemplate> templates,
       final Collection<Trec> trecs) {
     
     logger.info("Generating ground truth entries");
-    final Collection<IGTEntry> result =
-        Collections.synchronizedSet(new HashSet<IGTEntry>());
-    templates.forEach((template) -> result.addAll(template.genMatchesFromTrecs(trecs)));
+    final Collection<IGroundTruthEntry> result = Collections
+        .synchronizedSet(new HashSet<IGroundTruthEntry>());
+    templates.forEach((template) -> result.addAll(template.genEntriesFromTrecs(trecs)));
     logger.info("Generated " + result.size() + " Q&A pairs");
     return result;
   }

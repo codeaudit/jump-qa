@@ -16,8 +16,9 @@
 package com.ibm.watson.catalyst.jumpqa.matcher;
 
 /**
- * A class for testing if an array of strings meets criteria. Intended for cases such as making
- *   sure both the sentence is long enough and the PAU title contains a specific word.
+ * A class for testing if an array of strings meets criteria. Intended for cases
+ * such as making sure both the sentence is long enough and the PAU title
+ * contains a specific word.
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -28,6 +29,7 @@ public interface IMatcher {
   
   /**
    * Tests whether a set of strings meet a matcher's criteria.
+   * 
    * @param strings the set of strings to test
    * @return whether the strings are matched
    */

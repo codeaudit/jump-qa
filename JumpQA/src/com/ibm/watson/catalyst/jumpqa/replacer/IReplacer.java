@@ -27,14 +27,17 @@ public interface IReplacer {
   
   /**
    * Given a string makes replacements then returns the result.
+   * 
    * @param input the input string
    * @param args the arguments
    * @return the resulting string
    */
   public String replace(String input, String... args);
   
-  /** 
-   * Get how many arguments the replacer requires in addition to the input string
+  /**
+   * Get how many arguments the replacer requires in addition to the input
+   * string
+   * 
    * @return the number of additional arguments.
    */
   public int numArgs();

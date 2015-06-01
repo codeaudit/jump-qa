@@ -35,6 +35,7 @@ public class TrecBuilder {
   
   /**
    * Builds a Trec object from the supplied information
+   * 
    * @return the generated Trec
    */
   public Trec build() {
@@ -43,6 +44,7 @@ public class TrecBuilder {
   
   /**
    * Sets the file which held the TREC
+   * 
    * @param aFile the file which held the TREC
    * @return the TrecBuilder
    */
@@ -53,6 +55,7 @@ public class TrecBuilder {
   
   /**
    * Sets the paragraphs contained in the TREC
+   * 
    * @param aParagraphs the paragraphs in the TREC
    * @return the TrecBuilder
    */
@@ -63,6 +66,7 @@ public class TrecBuilder {
   
   /**
    * Sets the PAU ID of the TREC
+   * 
    * @param aPauId the PAU ID of the TREC
    * @return the TrecBuilder
    */
@@ -73,6 +77,7 @@ public class TrecBuilder {
   
   /**
    * Sets the PAU Title of the TREC
+   * 
    * @param aPauTitle the PAU Title of the TREC
    * @return the TrecBuilder
    */
@@ -83,6 +88,7 @@ public class TrecBuilder {
   
   /**
    * Sets the document from which the TREC was generated
+   * 
    * @param aSourceDoc the document from which the TREC was generated
    * @return the TrecBuilder
    */

@@ -38,6 +38,7 @@ public class Trec {
   
   /**
    * Instantiates a Trec object, a representation of a TREC document
+   * 
    * @param aFile the original file which held the TREC in xml form
    * @param aPauId the PAU ID of the TREC
    * @param aPauTitle the PAU Title of the TREC
@@ -68,6 +69,7 @@ public class Trec {
   
   /**
    * Gets the file which held the TREC
+   * 
    * @return the file
    */
   public String getFile() {
@@ -76,6 +78,7 @@ public class Trec {
   
   /**
    * Gets the list of paragraphs in the TREC
+   * 
    * @return the paragraphs
    */
   public List<String> getParagraphs() {
@@ -84,6 +87,7 @@ public class Trec {
   
   /**
    * Gets the PAU ID of the TREC
+   * 
    * @return the PAU ID
    */
   public String getPauId() {
@@ -92,6 +96,7 @@ public class Trec {
   
   /**
    * Gets the PAU Title of the TREC
+   * 
    * @return the PAU Title
    */
   public String getPauTitle() {
@@ -100,6 +105,7 @@ public class Trec {
   
   /**
    * Gets the document from which the TREC was generated
+   * 
    * @return the document from which the TREC was generated
    */
   public String getSourceDoc() {
@@ -108,13 +114,8 @@ public class Trec {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_file)
-        .append(_pauId)
-        .append(_pauTitle)
-        .append(_sourceDoc)
-        .append(_paragraphs)
-        .hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_file).append(_pauId).append(_pauTitle)
+        .append(_sourceDoc).append(_paragraphs).hashCode();
   }
   
   private static final int SEED = 1559724181;

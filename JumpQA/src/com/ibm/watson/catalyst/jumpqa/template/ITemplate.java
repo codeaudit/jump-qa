@@ -17,7 +17,8 @@ package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.util.Collection;
 
-import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 /**
@@ -32,9 +33,19 @@ public interface ITemplate {
   
   /**
    * Generates a collection of matches from a collection of TRECs
+   * 
    * @param trecs the TRECs to generate matches for
+   * @return a collection of ground truth entries
+   */
+  public Collection<IGroundTruthEntry> genEntriesFromTrecs(Collection<Trec> trecs);
+  
+  /**
+   * Generates matches from a given string.
+   * 
+   * @param aPau the originating PAU
+   * @param aString a string to search through and generate matches
    * @return a collection of matches
    */
-  public Collection<IGTEntry> genMatchesFromTrecs(Collection<Trec> trecs);
+  public Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau, final String aString);
   
 }

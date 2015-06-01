@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2015 IBM Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.wordlist;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -25,9 +40,7 @@ public class StringListReaderTest {
     _multiLine.add(_testString2.toString());
     
     _sb = new StringBuffer();
-    _sb.append(_testString1)
-            .append(System.lineSeparator())
-            .append(_testString2);
+    _sb.append(_testString1).append(System.lineSeparator()).append(_testString2);
   }
   
   @Test
@@ -36,7 +49,7 @@ public class StringListReaderTest {
     List<String> stringList = sb2StringList(_testString1);
     assertThat(singleLine, equalTo(stringList));
   }
-
+  
   @Test
   public void testReadInputStreamMultiLine() {
     List<String> stringList = sb2StringList(_sb);
@@ -53,8 +66,7 @@ public class StringListReaderTest {
   @Test
   public void testCommentInMiddle() {
     int insertPoint = _sb.indexOf(System.lineSeparator());
-    _sb.insert(insertPoint, "#comment")
-       .insert(insertPoint, System.lineSeparator());
+    _sb.insert(insertPoint, "#comment").insert(insertPoint, System.lineSeparator());
     List<String> stringList = sb2StringList(_sb);
     assertThat(_multiLine, equalTo(stringList));
   }

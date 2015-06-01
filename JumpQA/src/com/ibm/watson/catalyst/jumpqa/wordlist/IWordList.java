@@ -27,6 +27,7 @@ public interface IWordList {
   
   /**
    * Whether the word list contains the given object
+   * 
    * @param anObject the object to test for inclusion
    * @return whether the word list contains the object
    */

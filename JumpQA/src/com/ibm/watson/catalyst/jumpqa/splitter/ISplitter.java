@@ -29,6 +29,7 @@ public interface ISplitter {
   
   /**
    * Given a list of strings to split, returns a list of the all of the splits.
+   * 
    * @param strings the strings to split
    * @return a list of all of the splits
    */
@@ -36,6 +37,7 @@ public interface ISplitter {
   
   /**
    * Splits a string.
+   * 
    * @param aString the string to split
    * @return the splits of aString
    */

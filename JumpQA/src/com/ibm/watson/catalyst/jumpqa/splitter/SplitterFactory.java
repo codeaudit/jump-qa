@@ -27,8 +27,9 @@ import java.util.TreeMap;
  *
  */
 public class SplitterFactory {
-
-  /** TODO: Class description
+  
+  /**
+   * TODO: Class description
    * 
    * @author Will Beason
    * @version 0.1.0
@@ -47,15 +48,17 @@ public class SplitterFactory {
     /**
      * 
      */
-    PARAGRAPH }
+    PARAGRAPH
+  }
   
   /**
    * Gets a splitter corresponding to the argument
+   * 
    * @param answerSize the desired answer size
    * @return a splitter to split a TREC
    */
   public static Splitter build(final String answerSize) {
-    switch(splitters.get(answerSize)) {
+    switch (splitters.get(answerSize)) {
       case WORD:
         return new Splitter("[?!,;:\\.\\s]+");
       case SENTENCE:
@@ -67,8 +70,8 @@ public class SplitterFactory {
     }
   }
   
-  private static final Map<String, Splitters> splitters =
-      new TreeMap<String, Splitters>(String.CASE_INSENSITIVE_ORDER);
+  private static final Map<String, Splitters> splitters = new TreeMap<String, Splitters>(
+      String.CASE_INSENSITIVE_ORDER);
   
   static {
     splitters.put("word", Splitters.WORD);

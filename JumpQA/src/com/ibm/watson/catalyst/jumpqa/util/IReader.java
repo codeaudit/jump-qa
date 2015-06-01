@@ -31,6 +31,7 @@ public interface IReader {
   
   /**
    * Reads an InputStream and returns a list of objects
+   * 
    * @param strings the strings to read into objects
    * @return the list of objects read
    */
@@ -38,6 +39,7 @@ public interface IReader {
   
   /**
    * Given a file, returns an list containing objects.
+   * 
    * @param aFile the file to read
    * @return an Iterable of objects
    * @throws IOException if an error is enocuntered reading the file
@@ -45,7 +47,9 @@ public interface IReader {
   public List<?> read(final File aFile) throws IOException;
   
   /**
-   * Reads a string and returns a list of object, treating each line as a new object.
+   * Reads a string and returns a list of object, treating each line as a new
+   * object.
+   * 
    * @param aString the string to parse
    * @return the list of objects
    */
@@ -53,6 +57,7 @@ public interface IReader {
   
   /**
    * Reads a file to generate a list of objects
+   * 
    * @param aFile the path of the file to read
    * @return the list of strings read from the file
    */

@@ -54,7 +54,7 @@ public class TemplateFactory implements ITemplateRecordReader {
   
   static {
     readers.put("TextTemplate", new TextTemplateRecordReader());
-    //TODO: Add more templates
+    // TODO: Add more templates
   }
   
 }

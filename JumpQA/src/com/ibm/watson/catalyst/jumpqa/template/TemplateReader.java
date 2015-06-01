@@ -28,7 +28,8 @@ import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 /**
- * Reads templates from a file and returns a collection containing the templates. 
+ * Reads templates from a file and returns a collection containing the
+ * templates.
  * 
  * @author Will Beason
  * @version 0.1.0

@@ -45,7 +45,8 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
     this(ReplacerType.NORMAL);
   }
   
-  /** TODO: Class description
+  /**
+   * TODO: Class description
    * 
    * @author Will Beason
    * @version 0.1.0
@@ -60,7 +61,8 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
     /**
      * Word boundaries are appended and prepended to passed patterns.
      */
-    WORD }
+    WORD
+  }
   
   @Override
   public List<ConstReplacer> read(final List<String> strings) {
@@ -78,7 +80,7 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
     final String[] entry = aString.split("=", 2);
     final String replacement = entry[1];
     String pattern;
-    switch(_type) {
+    switch (_type) {
       case NORMAL:
         pattern = entry[0];
         break;

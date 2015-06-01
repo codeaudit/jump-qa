@@ -22,8 +22,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * StringRegexMatcher holds a compiled string to match against. It delegates common operations
- *   which would ordinarily result in boilerplate code related to the Pattern class everywhere.
+ * StringRegexMatcher holds a compiled string to match against. It delegates
+ * common operations which would ordinarily result in boilerplate code related
+ * to the Pattern class everywhere.
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -36,6 +37,7 @@ public class StringRegexMatcher implements IMatcher {
   
   /**
    * Instantiates a new StringRegexMatcher
+   * 
    * @param aRegex A regular expression to match.
    * @param flags Uses flags from the Pattern class.
    */
@@ -45,6 +47,7 @@ public class StringRegexMatcher implements IMatcher {
   
   /**
    * Instantiates a new StringRegexMatcher with no flags set.
+   * 
    * @param aRegex A regular expression to match
    */
   public StringRegexMatcher(final String aRegex) {
@@ -63,10 +66,8 @@ public class StringRegexMatcher implements IMatcher {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_textRegex.toString())
-        .append(_textRegex.flags())
-        .hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_textRegex.toString())
+        .append(_textRegex.flags()).hashCode();
   }
   
   @Override
@@ -76,9 +77,11 @@ public class StringRegexMatcher implements IMatcher {
   
   /**
    * Splits a string about the regular expression.
+   * 
    * @param aString the string to split
-   * @return an array of the substring before the regular expression, the substring matched by the
-   *   regular expression, and the substring after the regular expression.
+   * @return an array of the substring before the regular expression, the
+   *         substring matched by the regular expression, and the substring
+   *         after the regular expression.
    */
   public String[] split(final String aString) {
     String[] result;

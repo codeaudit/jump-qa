@@ -29,6 +29,7 @@ public interface IOutputWriter {
   
   /**
    * Writes a set of writable objects.
+   * 
    * @param writables a collection of IWritable objects
    */
   public void write(Collection<? extends IWritable> writables);

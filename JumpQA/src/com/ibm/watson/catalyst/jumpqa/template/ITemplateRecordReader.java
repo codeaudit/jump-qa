@@ -29,6 +29,7 @@ public interface ITemplateRecordReader {
   
   /**
    * Reads a template from a CSVRecord.
+   * 
    * @param aRecord the CSVRecord to convert to a template
    * @return a new template with the options specified in the CSVRecord
    */

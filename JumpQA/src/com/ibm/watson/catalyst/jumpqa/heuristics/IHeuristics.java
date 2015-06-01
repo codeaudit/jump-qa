@@ -30,7 +30,9 @@ import java.util.List;
 public interface IHeuristics<T, U> {
   
   /**
-   * Given a set of heuristics, runs them on the input and returns a list of the results.
+   * Given a set of heuristics, runs them on the input and returns a list of the
+   * results.
+   * 
    * @param input the input object to evaluate
    * @return a list of the results
    */

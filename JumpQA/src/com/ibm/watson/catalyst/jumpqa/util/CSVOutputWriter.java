@@ -42,6 +42,7 @@ public class CSVOutputWriter implements IOutputWriter {
   
   /**
    * Instantiates a new CSVOutputWriter and defaults to UTF-8 encoding.
+   * 
    * @param aOutFile the file to write to
    */
   public CSVOutputWriter(final File aOutFile) {
@@ -50,6 +51,7 @@ public class CSVOutputWriter implements IOutputWriter {
   
   /**
    * Instantiates a new CSVOutputWriter with specified encoding.
+   * 
    * @param aOutFile the file to write to
    * @param aEncoding the encoding to use
    */
@@ -63,7 +65,6 @@ public class CSVOutputWriter implements IOutputWriter {
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(_outFile),
         _encoding)) {
       try (CSVPrinter printer = new CSVPrinter(writer, FORMAT);) {
-        
         printer.printRecord(header);
         printer.printRecords(writables);
       } catch (final IOException e) {
@@ -72,7 +73,6 @@ public class CSVOutputWriter implements IOutputWriter {
     } catch (final IOException e) {
       throw new RuntimeException("IOError opening " + _outFile + " for writing.");
     }
-    
   }
   
   private static final CSVFormat FORMAT = CSVFormat.RFC4180.withDelimiter('\t');

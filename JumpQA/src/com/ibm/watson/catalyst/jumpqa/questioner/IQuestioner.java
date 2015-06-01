@@ -27,6 +27,7 @@ public interface IQuestioner {
   
   /**
    * Creates a question from an array of strings.
+   * 
    * @param aString the string array to use to generate a question
    * @return the question text
    */

@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2015 IBM Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 /**
  * 
  */
@@ -11,7 +26,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.replacer.IReplacer;
 
-/** TODO: Class description
+/**
+ * TODO: Class description
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -28,7 +44,7 @@ public class VarReplacer implements IReplacer {
   public VarReplacer(Pattern aPattern) {
     _pattern = aPattern;
   }
-
+  
   /**
    * @param aPattern the regular expression replace
    */
@@ -41,8 +57,9 @@ public class VarReplacer implements IReplacer {
     return _pattern.matcher(input).replaceAll(Matcher.quoteReplacement(args[0]));
   }
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param input the input string
    * @param arg the argument
    * @return the replacement
@@ -68,18 +85,11 @@ public class VarReplacer implements IReplacer {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_pattern.toString())
-        .append(_pattern.flags())
-        .hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_pattern.toString())
+        .append(_pattern.flags()).hashCode();
   }
   
   private static final int SEED = 1853186509;
   private static final int MULTIPLY = 1530150889;
   
 }
-
-
-
-
-

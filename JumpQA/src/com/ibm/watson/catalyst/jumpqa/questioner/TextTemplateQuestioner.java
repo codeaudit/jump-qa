@@ -46,6 +46,7 @@ public class TextTemplateQuestioner implements IQuestioner {
   
   /**
    * Instantiates a new RegexSplitQuestioner
+   * 
    * @param aQuestion the generic question string
    */
   public TextTemplateQuestioner(final String aQuestion) {

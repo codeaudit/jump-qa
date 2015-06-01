@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2015 IBM Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *******************************************************************************/
 /**
  * 
  */
@@ -11,7 +26,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-/** TODO: Class description
+/**
+ * TODO: Class description
  * 
  * @author Will Beason
  * @version 0.1.0
@@ -21,7 +37,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Splitter implements ISplitter {
   
   private final Pattern _p;
-  
   
   /**
    * @param aRegex the regular expression to split around
@@ -49,9 +64,7 @@ public class Splitter implements ISplitter {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY))
-        .append(_p.toString())
-        .append(_p.flags())
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_p.toString()).append(_p.flags())
         .hashCode();
   }
   
@@ -67,8 +80,9 @@ public class Splitter implements ISplitter {
     return result;
   }
   
-  /** 
+  /**
    * Removes empty strings from a list of strings.
+   * 
    * @param strings
    * @return
    */
@@ -78,8 +92,9 @@ public class Splitter implements ISplitter {
     return result;
   }
   
-  /** 
+  /**
    * Removes empty strings from an array of strings.
+   * 
    * @param strings
    * @return
    */

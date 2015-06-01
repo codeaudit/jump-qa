@@ -15,24 +15,17 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.entry;
 
+import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
 
 /**
  * Functions every template match should have
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */
-public interface IGTEntry extends IWritable {
-  
-  /**
-   * Gets the template ID for the template which generated the match
-   * @return the template ID for the template which generated the match
-   */
-  public String getTemplateId();
-  public String getQuestion();
-  public String getAnswer();
+public interface IGroundTruthEntry extends IWritable, IPrintable {
   
 }

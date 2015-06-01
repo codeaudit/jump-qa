@@ -31,6 +31,7 @@ public class StringCleaner implements IStringCleaner {
   
   /**
    * Instantiates a new string cleaner
+   * 
    * @param clean whether to clean any passed strings
    */
   public StringCleaner(final String clean) {

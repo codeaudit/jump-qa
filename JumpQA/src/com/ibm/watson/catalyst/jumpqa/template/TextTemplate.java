@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
-import com.ibm.watson.catalyst.jumpqa.entry.IGTEntry;
+import com.ibm.watson.catalyst.jumpqa.answer.Answer;
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+import com.ibm.watson.catalyst.jumpqa.answer.QuestionAnswerPair;
+import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
 import com.ibm.watson.catalyst.jumpqa.heuristics.BooleanHeuristics;
 import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
@@ -41,24 +44,26 @@ import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
  *
  */
 public class TextTemplate extends ATemplate {
-
+  
   private final ISplitter _matchSplitter;
   private final IQuestioner _questioner;
   private final StringRegexMatcher _matcher;
   private final BooleanHeuristics<String> _bh;
   private final SequentialReplacer _replacer;
   private final IStringCleaner _cleaner;
-
+  
   /**
    * @param aTemplateId the id of the template
    * @param aAnswerSplitter an object to split the TREC into possible answers
-   * @param aMatchSplitter an object to split answers into pieces about which to ask questions
-   * @param aQuestioner an object to take a good sentence and create questions to be asked about it
+   * @param aMatchSplitter an object to split answers into pieces about which to
+   *          ask questions
+   * @param aQuestioner an object to take a good sentence and create questions
+   *          to be asked about it
    * @param aMatcher an object to determine if a sentence is a match
-   * @param aBooleanHeuristics boolean conditions about a string which, if met, mean the sentence
-   *   shouldn't be considered
-   * @param aSequentialReplacer an object to sequentially make replacements on the text before
-   *   transformation into a question
+   * @param aBooleanHeuristics boolean conditions about a string which, if met,
+   *          mean the sentence shouldn't be considered
+   * @param aSequentialReplacer an object to sequentially make replacements on
+   *          the text before transformation into a question
    * @param aCleaner an object to clean strings
    */
   public TextTemplate(final String aTemplateId, final ISplitter aAnswerSplitter,
@@ -76,13 +81,16 @@ public class TextTemplate extends ATemplate {
   
   /**
    * Instantiates a Text Template
+   * 
    * @param aTemplateId the id of the template
    * @param aAnswerSize how large the answer should be
    * @param aMatchSize the size of the text to match against
    * @param aQuestion the question generator
    * @param aRegex the regular expression to search for
-   * @param aBadWordsList a set of words which should not appear in certain positions of a question
-   * @param words3 a set of words which should be replaced by specified alternatives
+   * @param aBadWordsList a set of words which should not appear in certain
+   *          positions of a question
+   * @param words3 a set of words which should be replaced by specified
+   *          alternatives
    * @param clean whether to clean question strings with the StringCleaner class
    */
   public TextTemplate(final String aTemplateId, final String aAnswerSize, final String aMatchSize,
@@ -114,11 +122,13 @@ public class TextTemplate extends ATemplate {
   
   /**
    * Generates matches from string
+   * 
    * @param aString
    * @return
    */
-  protected Collection<IGTEntry> genMatchesFromSplit(final String aString) {
-    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
+  protected Collection<IGroundTruthEntry> genMatchesFromSplit(final Answer aAnswer,
+      final String aString) {
+    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
     final String cleanedString = _cleaner.clean(aString);
     if (!goodString(cleanedString)) return result;
     final String[] splits = _matcher.split(cleanedString);
@@ -126,19 +136,21 @@ public class TextTemplate extends ATemplate {
     
     if (_bh.anyTrue(cleanedString)) return result;
     
-    TMF.setQuestionText(_questioner.makeQuestion(splits));
-    result.add(TMF.build());
+    String questionText = _questioner.makeQuestion(splits);
+    QuestionAnswerPair qaPair = new QuestionAnswerPair(questionText, aAnswer);
+    gteb.setQaPair(qaPair);
+    result.add(gteb.build());
     return result;
     
   }
   
   @Override
-  protected Collection<IGTEntry> genMatchesFromString(final String aString) {
-    TMF.setAnswerText(aString.trim());
+  public Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau, final String aString) {
+    Answer answer = new Answer(aString, aPau);
     final Collection<String> splits = _matchSplitter.split(aString);
     
-    final Collection<IGTEntry> result = new ArrayList<IGTEntry>();
-    splits.forEach((s) -> result.addAll(genMatchesFromSplit(s)));
+    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    splits.forEach((s) -> result.addAll(genMatchesFromSplit(answer, s)));
     
     return result;
   }

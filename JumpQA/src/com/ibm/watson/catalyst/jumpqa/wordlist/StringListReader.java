@@ -23,7 +23,8 @@ import com.ibm.watson.catalyst.jumpqa.util.AReader;
 import com.ibm.watson.catalyst.jumpqa.util.IReader;
 
 /**
- * Creates a list of strings where each entry is a line of the supplied file or input stream.
+ * Creates a list of strings where each entry is a line of the supplied file or
+ * input stream.
  * 
  * @author Will Beason
  * @version 0.1.0
