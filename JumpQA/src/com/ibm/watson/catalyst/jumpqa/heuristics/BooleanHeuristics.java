@@ -28,7 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * heuristics are met.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  * @param <T> The class of object to evaluate. The input class of the

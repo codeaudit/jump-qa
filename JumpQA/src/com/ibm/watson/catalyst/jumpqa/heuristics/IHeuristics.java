@@ -21,7 +21,7 @@ import java.util.List;
  * Runs heuristics on an object of class T and return values of class U.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  * @param <T> the input object class

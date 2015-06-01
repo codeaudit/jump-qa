@@ -21,7 +21,7 @@ package com.ibm.watson.catalyst.jumpqa.matcher;
  * contains a specific word.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

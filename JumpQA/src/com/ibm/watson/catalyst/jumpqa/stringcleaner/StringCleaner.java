@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  * A class for cleaning strings.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

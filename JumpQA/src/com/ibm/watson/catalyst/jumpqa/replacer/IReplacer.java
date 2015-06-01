@@ -19,7 +19,7 @@ package com.ibm.watson.catalyst.jumpqa.replacer;
  * An interface for making replacements in strings.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

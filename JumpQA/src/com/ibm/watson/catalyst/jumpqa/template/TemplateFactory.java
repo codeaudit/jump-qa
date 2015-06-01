@@ -25,7 +25,7 @@ import org.apache.commons.csv.CSVRecord;
  * A factory class to read templates from a CSVRecord.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

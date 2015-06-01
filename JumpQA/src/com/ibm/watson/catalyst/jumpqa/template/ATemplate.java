@@ -33,7 +33,7 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  * The basic implementation of a template.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */
@@ -118,7 +118,7 @@ public abstract class ATemplate implements ITemplate {
    * @return a collection of matches
    */
   public final Collection<IGroundTruthEntry> genMatchesFromTrec(final Trec aTrec) {
-    final Pau pau = new Pau(aTrec);
+    final Pau pau = aTrec.getPau();
     final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
     strings.removeIf((s) -> !goodString(s));
     return genMatchesFromStrings(pau, strings);

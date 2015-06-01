@@ -25,7 +25,7 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  * Reads files to creates hashtables of search and replacement strings
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

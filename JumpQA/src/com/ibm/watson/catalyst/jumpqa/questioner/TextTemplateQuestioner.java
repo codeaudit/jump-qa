@@ -26,7 +26,7 @@ import com.ibm.watson.catalyst.jumpqa.replacer.VarReplacer;
  * A class to compose questions based on how a question was split by a pattern.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

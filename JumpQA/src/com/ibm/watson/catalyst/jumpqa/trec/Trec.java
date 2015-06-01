@@ -20,6 +20,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+
 /**
  * A class for holding information about TRECs
  * 
@@ -31,8 +33,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Trec {
   
   private final String _file;
-  private final String _pauId;
-  private final String _pauTitle;
+  private final Pau _pau;
   private final String _sourceDoc;
   private final List<String> _paragraphs;
   
@@ -48,8 +49,7 @@ public class Trec {
   public Trec(final String aFile, final String aPauId, final String aPauTitle,
       final String aSourceDoc, final List<String> paragraphs) {
     _file = aFile;
-    _pauId = aPauId;
-    _pauTitle = aPauTitle;
+    _pau = new Pau(aPauTitle, aPauId);
     _sourceDoc = aSourceDoc;
     _paragraphs = paragraphs;
   }
@@ -60,8 +60,7 @@ public class Trec {
     if (obj == null || getClass() != obj.getClass()) return false;
     Trec other = (Trec) obj;
     if (!Objects.equals(other._file, this._file)) return false;
-    if (!Objects.equals(other._pauId, this._pauId)) return false;
-    if (!Objects.equals(other._pauTitle, this._pauTitle)) return false;
+    if (!Objects.equals(other._pau, this._pau)) return false;
     if (!Objects.equals(other._sourceDoc, this._sourceDoc)) return false;
     if (!Objects.equals(other._paragraphs, this._paragraphs)) return false;
     return true;
@@ -90,17 +89,8 @@ public class Trec {
    * 
    * @return the PAU ID
    */
-  public String getPauId() {
-    return _pauId;
-  }
-  
-  /**
-   * Gets the PAU Title of the TREC
-   * 
-   * @return the PAU Title
-   */
-  public String getPauTitle() {
-    return _pauTitle;
+  public Pau getPau() {
+    return new Pau(_pau);
   }
   
   /**
@@ -114,7 +104,7 @@ public class Trec {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_file).append(_pauId).append(_pauTitle)
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_file).append(_pau)
         .append(_sourceDoc).append(_paragraphs).hashCode();
   }
   

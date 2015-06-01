@@ -25,7 +25,7 @@ import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
  * A class for holding a list of words and performing tests with them.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

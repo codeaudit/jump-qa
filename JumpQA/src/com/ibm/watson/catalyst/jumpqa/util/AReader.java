@@ -32,7 +32,7 @@ import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
  * class only needs to describe what to do with an input stream.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @param <T> The type of object returned by the reader
  * @since 0.1.0
  *

@@ -29,7 +29,7 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  * collection of TRECs
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

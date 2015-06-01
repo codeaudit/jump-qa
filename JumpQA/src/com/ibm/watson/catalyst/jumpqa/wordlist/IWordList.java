@@ -19,7 +19,7 @@ package com.ibm.watson.catalyst.jumpqa.wordlist;
  * Operations all types of word lists should have
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

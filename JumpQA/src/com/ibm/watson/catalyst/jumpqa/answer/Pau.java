@@ -21,8 +21,10 @@ package com.ibm.watson.catalyst.jumpqa.answer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
-import com.ibm.watson.catalyst.jumpqa.trec.Trec;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
 
@@ -53,11 +55,11 @@ public class Pau implements IWritable, IPrintable {
   }
   
   /**
-   * @param aTrec the trec
+   * @param aPau the PAU to recreate
    */
-  public Pau(Trec aTrec) {
-    _pauTitle = aTrec.getPauTitle();
-    _pauId = aTrec.getPauId();
+  public Pau(Pau aPau) {
+    _pauTitle = aPau._pauTitle;
+    _pauId = aPau._pauId;
   }
   
   @Override
@@ -84,6 +86,24 @@ public class Pau implements IWritable, IPrintable {
   public String toString() {
     return toStringBuilder().toString();
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Pau other = (Pau) obj;
+    if (!Objects.equals(other._pauTitle, this._pauTitle)) return false;
+    if (!Objects.equals(other._pauId, this._pauId)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_pauTitle).append(_pauId).hashCode();
+  }
+  
+  private static final int SEED = 54878867;
+  private static final int MULTIPLY = 152811037;
   
   private final String _pauTitle;
   private final String _pauId;

@@ -24,7 +24,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * A class which takes strings and makes a set replacement.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */

@@ -32,7 +32,7 @@ import com.ibm.watson.catalyst.jumpqa.util.IReader;
  * A class which reads Trec objects from a JSON file.
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.1
  * @since 0.1.0
  *
  */
