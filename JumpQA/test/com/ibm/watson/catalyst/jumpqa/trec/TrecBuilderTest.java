@@ -24,6 +24,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+
 @SuppressWarnings("javadoc")
 public class TrecBuilderTest {
   
@@ -38,7 +40,7 @@ public class TrecBuilderTest {
   public void setUp() {
     pars = new ArrayList<String>();
     pars.add("some text");
-    t1 = new Trec(file, pauId, pauTitle, sourceDoc, pars);
+    t1 = new Trec(file, new Pau(pauId, pauTitle), sourceDoc, pars);
   }
   
   @Test

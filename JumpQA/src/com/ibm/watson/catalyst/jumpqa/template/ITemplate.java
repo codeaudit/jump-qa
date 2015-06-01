@@ -16,6 +16,7 @@
 package com.ibm.watson.catalyst.jumpqa.template;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.ibm.watson.catalyst.jumpqa.answer.Pau;
 import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
@@ -46,6 +47,6 @@ public interface ITemplate {
    * @param aString a string to search through and generate matches
    * @return a collection of matches
    */
-  public Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau, final String aString);
+  public List<IGroundTruthEntry> genEntriesFromString(final String aString, final Pau aPau);
   
 }

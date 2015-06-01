@@ -32,11 +32,11 @@ public class SplitterFactory {
    * TODO: Class description
    * 
    * @author Will Beason
-   * @version 0.1.0
+   * @version 0.1.1
    * @since 0.1.0
    *
    */
-  public enum Splitters {
+  public enum Size {
     /**
      * 
      */
@@ -48,7 +48,11 @@ public class SplitterFactory {
     /**
      * 
      */
-    PARAGRAPH
+    PARAGRAPH,
+    /**
+     * 
+     */
+    TREC
   }
   
   /**
@@ -57,26 +61,37 @@ public class SplitterFactory {
    * @param answerSize the desired answer size
    * @return a splitter to split a TREC
    */
-  public static Splitter build(final String answerSize) {
-    switch (splitters.get(answerSize)) {
+  public static ISplitter build(final String answerSize) {
+    return build(splitters.get(answerSize));
+  }
+  
+  /** 
+   * TODO: Method description
+   * @param aSize the answer size
+   * @return the splits
+   */
+  public static ISplitter build(final Size aSize) {
+    switch(aSize) {
       case WORD:
         return new Splitter("[?!,;:\\.\\s]+");
       case SENTENCE:
         return new Splitter("[\\.!?]([\"']|\\s*\\[[^\\]^\\[]*\\])*(\\s+|$)");
       case PARAGRAPH:
         return new Splitter("\r?\n");
+      case TREC:
+        return new Combiner();
       default:
-        throw new IllegalArgumentException(answerSize);
+        throw new IllegalArgumentException(aSize.toString());
     }
   }
   
-  private static final Map<String, Splitters> splitters = new TreeMap<String, Splitters>(
+  private static final Map<String, Size> splitters = new TreeMap<String, Size>(
       String.CASE_INSENSITIVE_ORDER);
   
   static {
-    splitters.put("word", Splitters.WORD);
-    splitters.put("sentence", Splitters.SENTENCE);
-    splitters.put("paragraph", Splitters.PARAGRAPH);
+    splitters.put("word", Size.WORD);
+    splitters.put("sentence", Size.SENTENCE);
+    splitters.put("paragraph", Size.PARAGRAPH);
   }
   
 }

@@ -15,25 +15,20 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.template;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.regex.Pattern;
+import java.util.List;
 
 import com.ibm.watson.catalyst.jumpqa.answer.Answer;
+import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
 import com.ibm.watson.catalyst.jumpqa.answer.Pau;
 import com.ibm.watson.catalyst.jumpqa.answer.QuestionAnswerPair;
 import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
-import com.ibm.watson.catalyst.jumpqa.heuristics.BooleanHeuristics;
 import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
-import com.ibm.watson.catalyst.jumpqa.questioner.TextTemplateQuestioner;
 import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
-import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.IStringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
-import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
 
 /**
  * A template which evaluates the text of a TREC to generate matches.
@@ -45,71 +40,36 @@ import com.ibm.watson.catalyst.jumpqa.wordlist.WordList;
  */
 public class TextTemplate extends ATemplate {
   
-  private final ISplitter _matchSplitter;
   private final IQuestioner _questioner;
   private final StringRegexMatcher _matcher;
-  private final BooleanHeuristics<String> _bh;
   private final SequentialReplacer _replacer;
   private final IStringCleaner _cleaner;
   
   /**
    * @param aTemplateId the id of the template
-   * @param aAnswerSplitter an object to split the TREC into possible answers
-   * @param aMatchSplitter an object to split answers into pieces about which to
-   *          ask questions
+   * @param aAnswerSize the size of the answer
+   * @param aCandidateSize the size of the match
    * @param aQuestioner an object to take a good sentence and create questions
    *          to be asked about it
    * @param aMatcher an object to determine if a sentence is a match
-   * @param aBooleanHeuristics boolean conditions about a string which, if met,
-   *          mean the sentence shouldn't be considered
    * @param aSequentialReplacer an object to sequentially make replacements on
    *          the text before transformation into a question
-   * @param aCleaner an object to clean strings
+   * @param aCleaner an object which cleans strings
    */
-  public TextTemplate(final String aTemplateId, final ISplitter aAnswerSplitter,
-      final ISplitter aMatchSplitter, final TextTemplateQuestioner aQuestioner,
-      final StringRegexMatcher aMatcher, final BooleanHeuristics<String> aBooleanHeuristics,
-      final SequentialReplacer aSequentialReplacer, final IStringCleaner aCleaner) {
-    super(aTemplateId, aAnswerSplitter);
-    _matchSplitter = aMatchSplitter;
+  public TextTemplate(final String aTemplateId, final Size aAnswerSize,
+      final Size aCandidateSize, final IQuestioner aQuestioner,
+      final SequentialReplacer aSequentialReplacer, final StringCleaner aCleaner,
+      final StringRegexMatcher aMatcher) {
+    super(aTemplateId,
+        aAnswerSize,
+        aCandidateSize,
+        (trec) -> aMatcher.matches(trec),
+        (answer) -> aMatcher.matches(answer),
+        (candidate) -> aMatcher.matches(candidate));
     _questioner = aQuestioner;
-    _matcher = aMatcher;
-    _bh = aBooleanHeuristics;
     _replacer = aSequentialReplacer;
+    _matcher = aMatcher;
     _cleaner = aCleaner;
-  }
-  
-  /**
-   * Instantiates a Text Template
-   * 
-   * @param aTemplateId the id of the template
-   * @param aAnswerSize how large the answer should be
-   * @param aMatchSize the size of the text to match against
-   * @param aQuestion the question generator
-   * @param aRegex the regular expression to search for
-   * @param aBadWordsList a set of words which should not appear in certain
-   *          positions of a question
-   * @param words3 a set of words which should be replaced by specified
-   *          alternatives
-   * @param clean whether to clean question strings with the StringCleaner class
-   */
-  public TextTemplate(final String aTemplateId, final String aAnswerSize, final String aMatchSize,
-      final String aQuestion, final String aRegex, final String aBadWordsList, final String words3,
-      final String clean) {
-    super(aTemplateId, aAnswerSize);
-    _matcher = new StringRegexMatcher(aRegex, Pattern.CASE_INSENSITIVE);
-    _matchSplitter = SplitterFactory.build(aMatchSize);
-    _questioner = new TextTemplateQuestioner(aQuestion);
-    _cleaner = new StringCleaner(clean);
-    _replacer = new SequentialReplacer(new File(words3));
-    
-    _bh = new BooleanHeuristics<String>();
-    if (!aBadWordsList.equals("")) {
-      final WordList wl = new WordList("WordLists/" + aBadWordsList);
-      _bh.add((s) -> wl.containsFirstWord(s));
-      _bh.add((s) -> wl.containsLastWord(s));
-      _bh.add((s) -> s.contains(" - "));
-    }
   }
   
   @Override
@@ -123,35 +83,56 @@ public class TextTemplate extends ATemplate {
   /**
    * Generates matches from string
    * 
-   * @param aString
+   * @param matchText
    * @return
    */
-  protected Collection<IGroundTruthEntry> genMatchesFromSplit(final Answer aAnswer,
-      final String aString) {
-    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
-    final String cleanedString = _cleaner.clean(aString);
-    if (!goodString(cleanedString)) return result;
+  protected List<IGroundTruthEntry> genEntriesFromAnswer(final String matchText,
+      final Answer aAnswer) {
+    final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    final String cleanedString = _cleaner.clean(matchText);
     final String[] splits = _matcher.split(cleanedString);
     splits[1] = _replacer.replace(splits[1]);
-    
-    if (_bh.anyTrue(cleanedString)) return result;
     
     String questionText = _questioner.makeQuestion(splits);
     QuestionAnswerPair qaPair = new QuestionAnswerPair(questionText, aAnswer);
     gteb.setQaPair(qaPair);
     result.add(gteb.build());
     return result;
-    
   }
   
   @Override
-  public Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau, final String aString) {
-    Answer answer = new Answer(aString, aPau);
-    final Collection<String> splits = _matchSplitter.split(aString);
+  public List<IGroundTruthEntry> genEntriesFromString(String answerText, Pau aPau) {
+    return genEntriesFromAnswer(answerText, new Answer(answerText, aPau));
+  }
+  
+  @Override
+  public List<IGroundTruthEntry> genEntriesFromString(String aString) {
+    return genEntriesFromString(aString, new Pau());
+  }
+  
+  @Override
+  protected List<IGroundTruthEntry> candidates2entries(List<Candidate> candidates) {
+    final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    candidates.forEach((c) -> result.addAll(candidate2entries(c)));
+    return result;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @param aCandidate the candidate to create entries for
+   * @return the ground truth entries
+   */
+  @Override
+  public List<IGroundTruthEntry> candidate2entries(Candidate aCandidate) {
+    final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    final String cleanedString = _cleaner.clean(aCandidate.getMatchText());
+    final String[] splits = _matcher.split(cleanedString);
+    splits[1] = _replacer.replace(splits[1]);
     
-    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
-    splits.forEach((s) -> result.addAll(genMatchesFromSplit(answer, s)));
-    
+    String questionText = _questioner.makeQuestion(splits);
+    QuestionAnswerPair qaPair = new QuestionAnswerPair(questionText, aCandidate.getAnswer());
+    gteb.setQaPair(qaPair);
+    result.add(gteb.build());
     return result;
   }
   

@@ -27,28 +27,62 @@ import java.util.regex.Pattern;
  */
 public class StringCleaner implements IStringCleaner {
   
-  private final boolean _clean;
+  /** TODO: Class description
+   * 
+   * @author Will Beason
+   * @version 0.1.1
+   * @since 0.1.1
+   *
+   */
+  public enum Clean { 
+     /**
+      * Do clean strings
+      */
+     YES,
+     /**
+      * Do not clean strings
+      */
+     NO
+   }
+  private final Clean _clean;
   
   /**
    * Instantiates a new string cleaner
-   * 
-   * @param clean whether to clean any passed strings
+   * @param aClean whether to clean strings
    */
-  public StringCleaner(final String clean) {
-    _clean = Boolean.parseBoolean(clean);
+  public StringCleaner(final Clean aClean) {
+    _clean = aClean;
+  }
+  
+  /**
+   * @param aString the string of whether to clean
+   */
+  public StringCleaner(final String aString) {
+    _clean = Clean.valueOf(aString);
+  }
+  
+  /**
+   * @param clean whether to clean strings
+   */
+  public StringCleaner(final boolean clean) {
+    _clean = clean ? Clean.YES : Clean.NO;
   }
   
   @Override
   public String clean(final String aString) {
     String result = aString;
-    if (_clean) {
-      result = removePattern(result, PARENTHETICAL);
-      result = removePattern(result, ETAL);
-      result = replacePattern(result, DOUBLEFIRST, "$1");
-      result = removePattern(result, APPOSITIVE);
-      // result = removePattern(result, COMMA);
-      result = removePattern(result, STARTQUOTE);
-      result = replaceUppercaseArticle(result);
+    switch (_clean) {
+      case YES:
+        result = removePattern(result, PARENTHETICAL);
+        result = removePattern(result, ETAL);
+        result = replacePattern(result, DOUBLEFIRST, "$1");
+        result = removePattern(result, APPOSITIVE);
+        // result = removePattern(result, COMMA);
+        result = removePattern(result, STARTQUOTE);
+        result = replaceUppercaseArticle(result);
+        break;
+      default:
+        break;
     }
     return result.trim();
   }

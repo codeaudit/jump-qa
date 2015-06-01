@@ -15,12 +15,18 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.trec;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Answer;
 import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
+import com.ibm.watson.catalyst.jumpqa.util.ISplittable;
 
 /**
  * A class for holding information about TRECs
@@ -30,7 +36,7 @@ import com.ibm.watson.catalyst.jumpqa.answer.Pau;
  * @since 0.1.0
  *
  */
-public class Trec {
+public class Trec implements ISplittable<Answer> {
   
   private final String _file;
   private final Pau _pau;
@@ -41,17 +47,27 @@ public class Trec {
    * Instantiates a Trec object, a representation of a TREC document
    * 
    * @param aFile the original file which held the TREC in xml form
-   * @param aPauId the PAU ID of the TREC
-   * @param aPauTitle the PAU Title of the TREC
+   * @param aPau the TREC's PAU information
    * @param aSourceDoc the document from which the TREC was generated
    * @param paragraphs a list of paragraphs in the TREC
    */
-  public Trec(final String aFile, final String aPauId, final String aPauTitle,
+  public Trec(final String aFile, final Pau aPau,
       final String aSourceDoc, final List<String> paragraphs) {
     _file = aFile;
-    _pau = new Pau(aPauTitle, aPauId);
+    _pau = new Pau(aPau);
     _sourceDoc = aSourceDoc;
     _paragraphs = paragraphs;
+  }
+  
+  /**
+   * @param aPau the TREC's PAU information
+   * @param paragraphs the TREC's text
+   */
+  public Trec(final Pau aPau, final List<String> paragraphs) {
+    _file = "";
+    _pau = aPau;
+    _paragraphs = paragraphs;
+    _sourceDoc = "";
   }
   
   @Override
@@ -100,6 +116,20 @@ public class Trec {
    */
   public String getSourceDoc() {
     return _sourceDoc;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @param aSize the size of the answers to split the TREC into
+   * @return the answers
+   */
+  @Override
+  public List<Answer> splitInto(Size aSize) {
+    ISplitter splitter = SplitterFactory.build(aSize);
+    List<String> strings = splitter.split(this._paragraphs);
+    List<Answer> result = new ArrayList<Answer>();
+    strings.stream().forEachOrdered((s) -> result.add(new Answer(s, _pau)));
+    return result;
   }
   
   @Override

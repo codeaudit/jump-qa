@@ -22,7 +22,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
+import com.ibm.watson.catalyst.jumpqa.util.ISplittable;
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
 
 /**
@@ -33,7 +37,7 @@ import com.ibm.watson.catalyst.jumpqa.util.IWritable;
  * @since 0.1.1
  *
  */
-public class Answer implements IWritable, IPrintable {
+public class Answer implements IWritable, IPrintable, ISplittable<Candidate> {
   
   /**
    * @param aAnswerText the answer
@@ -58,6 +62,14 @@ public class Answer implements IWritable, IPrintable {
     this(aAnswer._answerText, aAnswer._pau);
   }
   
+  /**
+   * TODO: Method description
+   * @return the answer text
+   */
+  public String getAnswerText() {
+    return _answerText;
+  }
+  
   @Override
   public StringBuilder toStringBuilder() {
     StringBuilder sb = new StringBuilder();
@@ -76,6 +88,15 @@ public class Answer implements IWritable, IPrintable {
   @Override
   public Iterator<String> iterator() {
     return this.toList().iterator();
+  }
+  
+  @Override
+  public List<Candidate> splitInto(Size aSize) {
+    ISplitter splitter = SplitterFactory.build(aSize);
+    List<String> strings = splitter.split(_answerText);
+    List<Candidate> result = new ArrayList<Candidate>();
+    strings.stream().forEachOrdered((s) -> result.add(new Candidate(s, this)));
+    return result;
   }
   
   private final String _answerText;

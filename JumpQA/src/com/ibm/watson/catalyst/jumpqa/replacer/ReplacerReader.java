@@ -53,7 +53,7 @@ public class ReplacerReader extends AReader<ConstReplacer> implements IReader {
    * @since 0.1.0
    *
    */
-  protected enum ReplacerType {
+  public enum ReplacerType {
     /**
      * No changes are made to the passed patterns
      */

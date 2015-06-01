@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.ibm.watson.catalyst.jumpqa.splitter.Splitter;
+import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 
 /**
@@ -100,6 +100,6 @@ public abstract class AReader<T> implements IReader {
   }
   
   private static final Pattern COMMENT = Pattern.compile("^#");
-  private static final Splitter splitter = SplitterFactory.build("paragraph");
+  private static final ISplitter splitter = SplitterFactory.build("paragraph");
   
 }

@@ -18,15 +18,17 @@ package com.ibm.watson.catalyst.jumpqa.template;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.apache.commons.collections4.IteratorUtils;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Answer;
+import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
 import com.ibm.watson.catalyst.jumpqa.answer.GroundTruthEntryBuilder;
 import com.ibm.watson.catalyst.jumpqa.answer.GroundTruthEntry.GroundTruthState;
 import com.ibm.watson.catalyst.jumpqa.answer.Pau;
 import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
-import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
-import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 
 /**
@@ -38,27 +40,30 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  *
  */
 public abstract class ATemplate implements ITemplate {
-  
-  private final ISplitter _answerSplitter;
+
   private final String _templateId;
+  private final Size _answerSize;
+  private final Size _candidateSize;
+  private final Predicate<Trec> _trecPredicate;
+  private final Predicate<Answer> _answerPredicate;
+  private final Predicate<Candidate> _candidatePredicate;
   
   /**
-   * Instantiates a template
-   * 
-   * @param aTemplateId the id of the template
-   * @param aAnswerSize how large the answer should be
+   * @param aTemplateId the template ID
+   * @param aAnswerSize the size of the generated answers
+   * @param aCandidateSize the size to generate questions from
+   * @param aTrecPredicate a predicate to evaluate TRECs
+   * @param aAnswerPredicate a predicate to evaluate answers
+   * @param aCandidatePredicate a predicate to evaluate candidates
    */
-  public ATemplate(final String aTemplateId, final String aAnswerSize) {
-    this(aTemplateId, SplitterFactory.build(aAnswerSize));
-  }
-  
-  /**
-   * @param aTemplateId the id of the template
-   * @param aAnswerSplitter a splitter to break the TREC into answer units
-   */
-  public ATemplate(final String aTemplateId, final ISplitter aAnswerSplitter) {
+  public ATemplate(final String aTemplateId, final Size aAnswerSize, final Size aCandidateSize,
+      final Predicate<Trec> aTrecPredicate, final Predicate<Answer> aAnswerPredicate, final Predicate<Candidate> aCandidatePredicate) {
     _templateId = aTemplateId;
-    _answerSplitter = aAnswerSplitter;
+    _answerSize = aAnswerSize;
+    _candidateSize = aCandidateSize;
+    _trecPredicate = aTrecPredicate;
+    _answerPredicate = aAnswerPredicate;
+    _candidatePredicate = aCandidatePredicate;
   }
   
   @Override
@@ -66,11 +71,48 @@ public abstract class ATemplate implements ITemplate {
     gteb.setTemplateId(_templateId);
     gteb.setState(GroundTruthState.APPROVED);
     
-    final Collection<Trec> goodTrecs = IteratorUtils.toList(trecs.iterator());
-    goodTrecs.removeIf((trec) -> !goodTrec(trec));
-    
+    final List<Trec> goodTrecs = filter(trecs, _trecPredicate);
+    final List<Answer> answers = trecs2answers(goodTrecs);
+    final List<Answer> goodAnswers = filter(answers, _answerPredicate);
+    final List<Candidate> candidates = answers2candidates(goodAnswers);
+    final List<Candidate> goodCandidates = filter(candidates, _candidatePredicate);
+    final List<IGroundTruthEntry> result = candidates2entries(goodCandidates);
+    return result;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @param candidates
+   * @return
+   */
+  protected List<IGroundTruthEntry> candidates2entries(List<Candidate> candidates) {
     final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
-    goodTrecs.forEach((trec) -> result.addAll(genMatchesFromTrec(trec)));
+    candidates.forEach((candidate) -> result.addAll(candidate2entries(candidate)));
+    return result;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @param aCandidate the candidate to create entries from
+   * @return the ground truth entries
+   */
+  public abstract List<IGroundTruthEntry> candidate2entries(Candidate aCandidate);
+  
+  private final List<Candidate> answers2candidates(Collection<Answer> answers) {
+    final List<Candidate> result = new ArrayList<Candidate>();
+    answers.stream().forEachOrdered((answer) -> result.addAll(answer.splitInto(_candidateSize)));
+    return result;
+  }
+  
+  private final List<Answer> trecs2answers(Collection<Trec> trecs) {
+    final List<Answer> result = new ArrayList<Answer>();
+    trecs.stream().forEachOrdered((t) -> result.addAll(t.splitInto(_answerSize)));
+    return result;
+  }
+  
+  private final <T> List<T> filter(Collection<T> aCollection, Predicate<T> aPredicate) {
+    final List<T> result = IteratorUtils.toList(aCollection.iterator());
+    result.removeIf(aPredicate);
     return result;
   }
   
@@ -84,19 +126,18 @@ public abstract class ATemplate implements ITemplate {
     return _templateId.equals(anObject);
   }
   
-  @Override
-  public abstract Collection<IGroundTruthEntry> genEntriesFromString(final Pau aPau,
-      final String aString);
-  
   /**
    * TODO: Method description
    * 
    * @param aString the string to generate matches from
    * @return the collection of ground truth entries
    */
-  public Collection<IGroundTruthEntry> genEntriesFromString(String aString) {
-    return genEntriesFromString(new Pau(), aString);
+  public List<IGroundTruthEntry> genEntriesFromString(String aString) {
+    return genEntriesFromString(aString, new Pau());
   }
+  
+  @Override
+  public abstract List<IGroundTruthEntry> genEntriesFromString(String aAnswerText, Pau aPau);
   
   /**
    * Generates matches from a list of strings.
@@ -104,46 +145,11 @@ public abstract class ATemplate implements ITemplate {
    * @param strings the strings to iterate through
    * @return
    */
-  protected final Collection<IGroundTruthEntry> genMatchesFromStrings(final Pau aPau,
-      final Collection<String> strings) {
-    final Collection<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
-    strings.forEach((s) -> result.addAll(genEntriesFromString(aPau, s)));
+  protected final List<IGroundTruthEntry> genMatchesFromStrings(final Pau aPau,
+      final List<String> strings) {
+    final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
+    strings.forEach((s) -> result.addAll(genEntriesFromString(s, aPau)));
     return result;
-  }
-  
-  /**
-   * Generates matches from a TREC
-   * 
-   * @param aTrec the TREC to search through and generate matches for
-   * @return a collection of matches
-   */
-  public final Collection<IGroundTruthEntry> genMatchesFromTrec(final Trec aTrec) {
-    final Pau pau = aTrec.getPau();
-    final List<String> strings = _answerSplitter.split(aTrec.getParagraphs());
-    strings.removeIf((s) -> !goodString(s));
-    return genMatchesFromStrings(pau, strings);
-  }
-  
-  /**
-   * Runs heuristics on a string to determine whether the template should
-   * process it
-   * 
-   * @param aString a string to evaluate
-   * @return whether the string is suitable for processing
-   */
-  protected boolean goodString(String aString) {
-    return true;
-  }
-  
-  /**
-   * Runs heuristics on a TREC to determine whether the template should process
-   * it
-   * 
-   * @param aTrec a TREC to evaluate
-   * @return whether the TREC is suitable for processing
-   */
-  protected boolean goodTrec(Trec aTrec) {
-    return true;
   }
   
   /**

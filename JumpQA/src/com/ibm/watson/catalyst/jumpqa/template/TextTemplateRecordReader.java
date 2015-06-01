@@ -15,7 +15,15 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.template;
 
+import java.io.File;
+
 import org.apache.commons.csv.CSVRecord;
+
+import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
+import com.ibm.watson.catalyst.jumpqa.questioner.TextTemplateQuestioner;
+import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
+import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
+import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 
 /**
  * Creates a TextTemplate from a CSVRecord.
@@ -30,15 +38,14 @@ public class TextTemplateRecordReader implements ITemplateRecordReader {
   @Override
   public TextTemplate readRecord(final CSVRecord aRecord) {
     final String templateId = aRecord.get("Template ID");
-    final String matchSize = aRecord.get("Match Size");
-    final String answerSize = aRecord.get("Answer Size");
-    final String question = aRecord.get("Question");
-    final String search1 = aRecord.get("Search 1");
-    final String words1 = aRecord.get("Words 1");
-    final String words3 = aRecord.get("Words 3");
-    final String clean = aRecord.get("Clean");
-    return new TextTemplate(templateId, answerSize, matchSize, question, search1, words1, words3,
-        clean);
+    final Size matchSize = Size.valueOf(aRecord.get("Match Size").toUpperCase());
+    final Size answerSize = Size.valueOf(aRecord.get("Answer Size").toUpperCase());
+    final TextTemplateQuestioner questioner = new TextTemplateQuestioner(aRecord.get("Question"));
+    final StringRegexMatcher matcher = new StringRegexMatcher(aRecord.get("Search 1"));
+//    final String words1 = aRecord.get("Words 1");
+    final SequentialReplacer sr= new SequentialReplacer(new File(aRecord.get("Words 3")));
+    final StringCleaner cleaner = new StringCleaner(Boolean.parseBoolean(aRecord.get("Clean")));
+    return new TextTemplate(templateId, answerSize, matchSize, questioner, sr, cleaner, matcher);
   }
   
 }

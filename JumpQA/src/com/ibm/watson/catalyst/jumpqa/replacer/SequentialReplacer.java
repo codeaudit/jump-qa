@@ -26,6 +26,8 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.ibm.watson.catalyst.jumpqa.replacer.ReplacerReader.ReplacerType;
+
 /**
  * A class for replacing matched regular expressions with given strings. The
  * keys in the hashtable are the regular expressions, and the mapped values are
@@ -65,7 +67,7 @@ public class SequentialReplacer implements IReplacer {
    * @param aFile the file to read
    */
   public SequentialReplacer(final File aFile) {
-    this((new ReplacerReader()).read(aFile));
+    this((new ReplacerReader(ReplacerType.WORD)).read(aFile));
   }
   
   @Override

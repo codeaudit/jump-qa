@@ -23,6 +23,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+
 @SuppressWarnings("javadoc")
 public class TrecReaderTest {
   
@@ -47,9 +49,8 @@ public class TrecReaderTest {
   @Test
   public void testReadInputStream() {
     TrecReader tr = new TrecReader();
-    
-    Trec t1 = new Trec("sample\\sampletrec1.xml", "792D9A2361B65155B2B882C36766701D",
-        "New_York_City", "New_York_City.html", pars1);
+    Pau p = new Pau("792D9A2361B65155B2B882C36766701D", "New_York_City");
+    Trec t1 = new Trec("sample\\sampletrec1.xml", p, "New_York_City.html", pars1);
     Trec t2 = tr.read(trecs.toString()).get(0);
     
     assertEquals(t1, t2);

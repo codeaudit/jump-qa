@@ -21,6 +21,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Answer;
+import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
+import com.ibm.watson.catalyst.jumpqa.trec.Trec;
+
 /**
  * StringRegexMatcher holds a compiled string to match against. It delegates
  * common operations which would ordinarily result in boilerplate code related
@@ -71,8 +75,8 @@ public class StringRegexMatcher implements IMatcher {
   }
   
   @Override
-  public boolean matches(final String... strings) {
-    return _textRegex.matcher(strings[0]).find();
+  public boolean matches(final String aString) {
+    return _textRegex.matcher(aString).find();
   }
   
   /**
@@ -104,5 +108,23 @@ public class StringRegexMatcher implements IMatcher {
   
   private static final int SEED = 657839053;
   private static final int MULTIPLY = 893379931;
+  
+  /**
+   * Matches every TREC
+   */
+  @Override
+  public boolean matches(Trec aTrec) {
+    return true;
+  }
+  
+  @Override
+  public boolean matches(Answer aAnswer) {
+    return matches(aAnswer.getAnswerText());
+  }
+  
+  @Override
+  public boolean matches(Candidate aCandidate) {
+    return matches(aCandidate.getMatchText());
+  }
   
 }

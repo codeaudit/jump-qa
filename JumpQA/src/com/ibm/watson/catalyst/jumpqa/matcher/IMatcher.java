@@ -15,6 +15,10 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.matcher;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Answer;
+import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
+import com.ibm.watson.catalyst.jumpqa.trec.Trec;
+
 /**
  * A class for testing if an array of strings meets criteria. Intended for cases
  * such as making sure both the sentence is long enough and the PAU title
@@ -33,6 +37,27 @@ public interface IMatcher {
    * @param strings the set of strings to test
    * @return whether the strings are matched
    */
-  public boolean matches(String... strings);
+  public boolean matches(String strings);
+  
+  /** 
+   * TODO: Method description
+   * @param aTrec the TREC to evaluate
+   * @return whether the TREC is matched
+   */
+  public boolean matches(Trec aTrec);
+  
+  /** 
+   * TODO: Method description
+   * @param aAnswer the answer to evaluate
+   * @return whether the answer is matched
+   */
+  public boolean matches(Answer aAnswer);
+  
+  /** 
+   * TODO: Method description
+   * @param aCandidate the candidate to evaluate
+   * @return whether the candidate is matched
+   */
+  public boolean matches(Candidate aCandidate);
   
 }

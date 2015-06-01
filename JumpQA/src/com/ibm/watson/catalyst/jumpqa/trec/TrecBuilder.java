@@ -17,6 +17,8 @@ package com.ibm.watson.catalyst.jumpqa.trec;
 
 import java.util.List;
 
+import com.ibm.watson.catalyst.jumpqa.answer.Pau;
+
 /**
  * A class for constructing Trec objects
  * 
@@ -39,7 +41,7 @@ public class TrecBuilder {
    * @return the generated Trec
    */
   public Trec build() {
-    return new Trec(_file, _pauId, _pauTitle, _sourceDoc, _paragraphs);
+    return new Trec(_file, new Pau(_pauId, _pauTitle), _sourceDoc, _paragraphs);
   }
   
   /**
