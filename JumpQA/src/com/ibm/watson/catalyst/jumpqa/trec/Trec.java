@@ -51,8 +51,8 @@ public class Trec implements ISplittable<Answer> {
    * @param aSourceDoc the document from which the TREC was generated
    * @param paragraphs a list of paragraphs in the TREC
    */
-  public Trec(final String aFile, final Pau aPau,
-      final String aSourceDoc, final List<String> paragraphs) {
+  public Trec(final String aFile, final Pau aPau, final String aSourceDoc,
+      final List<String> paragraphs) {
     _file = aFile;
     _pau = new Pau(aPau);
     _sourceDoc = aSourceDoc;
@@ -118,8 +118,9 @@ public class Trec implements ISplittable<Answer> {
     return _sourceDoc;
   }
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aSize the size of the answers to split the TREC into
    * @return the answers
    */
@@ -134,8 +135,8 @@ public class Trec implements ISplittable<Answer> {
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_file).append(_pau)
-        .append(_sourceDoc).append(_paragraphs).hashCode();
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_file).append(_pau).append(_sourceDoc)
+        .append(_paragraphs).hashCode();
   }
   
   private static final int SEED = 1559724181;

@@ -65,13 +65,14 @@ public class SplitterFactory {
     return build(splitters.get(answerSize));
   }
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aSize the answer size
    * @return the splits
    */
   public static ISplitter build(final Size aSize) {
-    switch(aSize) {
+    switch (aSize) {
       case WORD:
         return new Splitter("[?!,;:\\.\\s]+");
       case SENTENCE:

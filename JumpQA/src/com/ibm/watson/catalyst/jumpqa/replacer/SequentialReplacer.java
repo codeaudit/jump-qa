@@ -62,6 +62,14 @@ public class SequentialReplacer implements IReplacer {
   }
   
   /**
+   * @param replacements the replacements
+   */
+  public SequentialReplacer(final IReplacer... replacements) {
+    _replacers = Arrays.asList(replacements);
+    argSize = _replacers.stream().mapToInt(IReplacer::numArgs).sum();
+  }
+  
+  /**
    * Instantiates a new WordReplacer by reading the hashtable from a file
    * 
    * @param aFile the file to read

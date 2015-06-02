@@ -39,22 +39,25 @@ public interface IMatcher {
    */
   public boolean matches(String strings);
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aTrec the TREC to evaluate
    * @return whether the TREC is matched
    */
   public boolean matches(Trec aTrec);
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aAnswer the answer to evaluate
    * @return whether the answer is matched
    */
   public boolean matches(Answer aAnswer);
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aCandidate the candidate to evaluate
    * @return whether the candidate is matched
    */

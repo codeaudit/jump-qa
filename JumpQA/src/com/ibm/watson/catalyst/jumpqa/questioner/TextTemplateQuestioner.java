@@ -17,6 +17,9 @@ package com.ibm.watson.catalyst.jumpqa.questioner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.replacer.IReplacer;
 import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
@@ -57,5 +60,22 @@ public class TextTemplateQuestioner implements IQuestioner {
   public String makeQuestion(final String[] splits) {
     return sr.replace(_question, splits);
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    TextTemplateQuestioner other = (TextTemplateQuestioner) obj;
+    if (!Objects.equals(other._question, this._question)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_question).hashCode();
+  }
+  
+  private static final int SEED = 940637261;
+  private static final int MULTIPLY = 1836652957;
   
 }

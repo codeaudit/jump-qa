@@ -25,66 +25,75 @@ import java.util.regex.Pattern;
  * @since 0.1.0
  *
  */
-public class StringCleaner implements IStringCleaner {
+public class StringCleaner {
   
-  /** TODO: Class description
+  /**
+   * TODO: Class description
    * 
    * @author Will Beason
    * @version 0.1.1
    * @since 0.1.1
    *
    */
-  public enum Clean { 
-     /**
-      * Do clean strings
-      */
-     YES,
-     /**
-      * Do not clean strings
-      */
-     NO
-   }
-  private final Clean _clean;
-  
-  /**
-   * Instantiates a new string cleaner
-   * @param aClean whether to clean strings
-   */
-  public StringCleaner(final Clean aClean) {
-    _clean = aClean;
+  public enum Clean {
+    /**
+     * Do clean strings
+     */
+    YES,
+    /**
+     * Do not clean strings
+     */
+    NO
   }
   
   /**
-   * @param aString the string of whether to clean
+   * TODO: Method description
+   * 
+   * @param aString the string to clean
+   * @return the cleaned string
    */
-  public StringCleaner(final String aString) {
-    _clean = Clean.valueOf(aString);
-  }
-  
-  /**
-   * @param clean whether to clean strings
-   */
-  public StringCleaner(final boolean clean) {
-    _clean = clean ? Clean.YES : Clean.NO;
-  }
-  
-  @Override
-  public String clean(final String aString) {
+  public static String clean(final String aString) {
     String result = aString;
-    switch (_clean) {
-      case YES:
-        result = removePattern(result, PARENTHETICAL);
-        result = removePattern(result, ETAL);
-        result = replacePattern(result, DOUBLEFIRST, "$1");
-        result = removePattern(result, APPOSITIVE);
-        // result = removePattern(result, COMMA);
-        result = removePattern(result, STARTQUOTE);
-        result = replaceUppercaseArticle(result);
-        break;
-      default:
-        break;
-    }
+    result = removePattern(result, PARENTHETICAL);
+    result = removePattern(result, ETAL);
+    result = replacePattern(result, DOUBLEFIRST, "$1");
+    result = removePattern(result, APPOSITIVE);
+    // result = removePattern(result, COMMA);
+    result = removePattern(result, STARTQUOTE);
+    result = replaceUppercaseArticle(result);
     return result.trim();
+  }
+  
+  /**
+   * TODO: Method description
+   * 
+   * @param aString the string to clean
+   * @param aClean whether to clean the string
+   * @return the cleaned string
+   */
+  public static String clean(final String aString, final Clean aClean) {
+    switch (aClean) {
+      case YES:
+        return clean(aString);
+      case NO:
+        return aString;
+      default:
+        throw new IllegalArgumentException();
+    }
+  }
+  
+  /**
+   * TODO: Method description
+   * 
+   * @param aString the string parse into a Clean enum
+   * @return the chosen Clean
+   */
+  public static Clean getClean(final String aString) {
+    if (Boolean.parseBoolean(aString)) {
+      return Clean.YES;
+    } else {
+      return Clean.valueOf(aString);
+    }
   }
   
   private static final Pattern APPOSITIVE = Pattern.compile(",[^,]+,");

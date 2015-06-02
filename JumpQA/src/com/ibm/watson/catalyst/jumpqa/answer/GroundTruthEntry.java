@@ -101,7 +101,7 @@ public class GroundTruthEntry implements IGroundTruthEntry, IWritable, IPrintabl
   @Override
   public StringBuilder toStringBuilder() {
     StringBuilder sb = new StringBuilder();
-    sb.append(_id).append(",").append(_qaPair).append(",").append(_state);
+    sb.append(_id).append(",").append(_qaPair.toStringBuilder()).append(",").append(_state);
     return sb;
   }
   

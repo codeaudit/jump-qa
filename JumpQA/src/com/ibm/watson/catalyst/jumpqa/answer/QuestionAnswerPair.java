@@ -21,6 +21,9 @@ package com.ibm.watson.catalyst.jumpqa.answer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
 import com.ibm.watson.catalyst.jumpqa.util.IWritable;
@@ -76,6 +79,11 @@ public class QuestionAnswerPair implements IWritable, IPrintable {
   }
   
   @Override
+  public String toString() {
+    return this.toStringBuilder().toString();
+  }
+  
+  @Override
   public List<String> toList() {
     List<String> result = new ArrayList<String>();
     result.add(_questionText);
@@ -87,6 +95,24 @@ public class QuestionAnswerPair implements IWritable, IPrintable {
   public Iterator<String> iterator() {
     return this.toList().iterator();
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    QuestionAnswerPair other = (QuestionAnswerPair) obj;
+    if (!Objects.equals(other._answer, this._answer)) return false;
+    if (!Objects.equals(other._questionText, this._questionText)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_answer).append(_questionText).hashCode();
+  }
+  
+  private static final int SEED = 1390668661;
+  private static final int MULTIPLY = 761396927;
   
   private final String _questionText;
   private final Answer _answer;

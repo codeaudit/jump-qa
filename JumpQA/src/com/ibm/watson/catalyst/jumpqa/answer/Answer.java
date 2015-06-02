@@ -21,6 +21,9 @@ package com.ibm.watson.catalyst.jumpqa.answer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
@@ -64,6 +67,7 @@ public class Answer implements IWritable, IPrintable, ISplittable<Candidate> {
   
   /**
    * TODO: Method description
+   * 
    * @return the answer text
    */
   public String getAnswerText() {
@@ -98,6 +102,24 @@ public class Answer implements IWritable, IPrintable, ISplittable<Candidate> {
     strings.stream().forEachOrdered((s) -> result.add(new Candidate(s, this)));
     return result;
   }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Answer other = (Answer) obj;
+    if (!Objects.equals(other._answerText, this._answerText)) return false;
+    if (!Objects.equals(other._pau, this._pau)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_answerText).append(_pau).hashCode();
+  }
+  
+  private static final int SEED = 1669124357;
+  private static final int MULTIPLY = 964809889;
   
   private final String _answerText;
   private final Pau _pau;

@@ -40,10 +40,19 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  *
  */
 public abstract class ATemplate implements ITemplate {
-
-  private final String _templateId;
-  private final Size _answerSize;
-  private final Size _candidateSize;
+  
+  /**
+   * The unique ID of the template
+   */
+  protected final String _templateId;
+  /**
+   * The size of the answers to generated questions
+   */
+  protected final Size _answerSize;
+  /**
+   * The size of text to consider for matches
+   */
+  protected final Size _candidateSize;
   private final Predicate<Trec> _trecPredicate;
   private final Predicate<Answer> _answerPredicate;
   private final Predicate<Candidate> _candidatePredicate;
@@ -57,7 +66,8 @@ public abstract class ATemplate implements ITemplate {
    * @param aCandidatePredicate a predicate to evaluate candidates
    */
   public ATemplate(final String aTemplateId, final Size aAnswerSize, final Size aCandidateSize,
-      final Predicate<Trec> aTrecPredicate, final Predicate<Answer> aAnswerPredicate, final Predicate<Candidate> aCandidatePredicate) {
+      final Predicate<Trec> aTrecPredicate, final Predicate<Answer> aAnswerPredicate,
+      final Predicate<Candidate> aCandidatePredicate) {
     _templateId = aTemplateId;
     _answerSize = aAnswerSize;
     _candidateSize = aCandidateSize;
@@ -80,8 +90,9 @@ public abstract class ATemplate implements ITemplate {
     return result;
   }
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param candidates
    * @return
    */
@@ -91,8 +102,9 @@ public abstract class ATemplate implements ITemplate {
     return result;
   }
   
-  /** 
+  /**
    * TODO: Method description
+   * 
    * @param aCandidate the candidate to create entries from
    * @return the ground truth entries
    */
