@@ -62,7 +62,7 @@ public class TextTemplateTest {
     String id1a = "0";
     String id2 = "1";
     
-    Answer a1 = new Answer("A is a B");
+    Answer a1 = new Answer("A is a B. C is a D.");
     c1 = new Candidate("A is a B", a1);
     
     q1 = new TextTemplateQuestioner("What is [s0]?");

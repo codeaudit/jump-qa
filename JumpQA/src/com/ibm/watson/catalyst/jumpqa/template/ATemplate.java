@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.answer.Answer;
@@ -116,9 +116,7 @@ public abstract class ATemplate implements ITemplate {
   }
   
   private final <T> List<T> filter(Collection<T> aCollection, Predicate<T> aPredicate) {
-    final List<T> result = IteratorUtils.toList(aCollection.iterator());
-    result.removeIf(aPredicate);
-    return result;
+    return aCollection.stream().filter(aPredicate).collect(Collectors.toList());
   }
   
   /**

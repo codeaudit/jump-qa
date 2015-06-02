@@ -58,6 +58,7 @@ public abstract class AReader<T> implements IReader {
   
   @Override
   public List<T> read(File aFile) {
+    if (aFile.toString().equals("")) return new ArrayList<T>();
     try {
       return read(Files.readAllLines(aFile.toPath(), StandardCharsets.UTF_8));
     } catch (final FileNotFoundException e) {
@@ -71,6 +72,7 @@ public abstract class AReader<T> implements IReader {
   
   @Override
   public List<T> readFile(String aFile) {
+    if (aFile.equals("")) return new ArrayList<T>();
     return read(new File(aFile));
   }
   
