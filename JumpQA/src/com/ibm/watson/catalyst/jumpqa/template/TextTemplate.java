@@ -72,12 +72,8 @@ public class TextTemplate extends ATemplate {
   
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null || getClass() != obj.getClass()) return false;
+    if (!super.equals(obj)) return false;
     TextTemplate other = (TextTemplate) obj;
-    if (!Objects.equals(other._templateId, this._templateId)) return false;
-    if (!Objects.equals(other._answerSize, this._answerSize)) return false;
-    if (!Objects.equals(other._candidateSize, this._candidateSize)) return false;
     if (!Objects.equals(other._questioner, this._questioner)) return false;
     if (!Objects.equals(other._replacer, this._replacer)) return false;
     if (!Objects.equals(other._matcher, this._matcher)) return false;
@@ -87,8 +83,7 @@ public class TextTemplate extends ATemplate {
   
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(SEED, MULTIPLY).append(_templateId).append(_answerSize)
-        .append(_candidateSize).append(_questioner).append(_replacer).append(_matcher)
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(super.hashCode()).append(_questioner).append(_replacer).append(_matcher)
         .append(_clean).hashCode();
   }
   

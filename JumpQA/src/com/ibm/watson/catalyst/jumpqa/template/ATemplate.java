@@ -18,9 +18,11 @@ package com.ibm.watson.catalyst.jumpqa.template;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.apache.commons.collections4.IteratorUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.answer.Answer;
 import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
@@ -41,18 +43,9 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  */
 public abstract class ATemplate implements ITemplate {
   
-  /**
-   * The unique ID of the template
-   */
-  protected final String _templateId;
-  /**
-   * The size of the answers to generated questions
-   */
-  protected final Size _answerSize;
-  /**
-   * The size of text to consider for matches
-   */
-  protected final Size _candidateSize;
+  private final String _templateId;
+  private final Size _answerSize;
+  private final Size _candidateSize;
   private final Predicate<Trec> _trecPredicate;
   private final Predicate<Answer> _answerPredicate;
   private final Predicate<Candidate> _candidatePredicate;
@@ -150,6 +143,26 @@ public abstract class ATemplate implements ITemplate {
   
   @Override
   public abstract List<IGroundTruthEntry> genEntriesFromString(String aAnswerText, Pau aPau);
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    ATemplate other = (ATemplate) obj;
+    if (!Objects.equals(other._templateId, this._templateId)) return false;
+    if (!Objects.equals(other._answerSize, this._answerSize)) return false;
+    if (!Objects.equals(other._candidateSize, this._candidateSize)) return false;
+    return true;
+  }
+  
+  @Override
+  public int hashCode() {
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(_templateId).append(_answerSize)
+        .append(_candidateSize).hashCode();
+  }
+  
+  private static final int SEED = 1697705719;
+  private static final int MULTIPLY = 137315513;
   
   /**
    * Generates matches from a list of strings.
