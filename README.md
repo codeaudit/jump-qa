@@ -87,7 +87,7 @@ This converts a directory of TRECs to a JSON file that JumpQA can use.
 Calcaulates TFIDF of terms in a corpus for each document.
 
 ###NeuralNet
-Library for neural networks; to be used in JumpQA heuristics.
+Library for neural networks; to be used in JumpQA heuristics. This will eventually be moved to be its own project.
 
 ###Random
 A library which includes an ArrayList which iterates randomly.
