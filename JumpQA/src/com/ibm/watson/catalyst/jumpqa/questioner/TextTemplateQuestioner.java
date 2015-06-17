@@ -57,7 +57,7 @@ public class TextTemplateQuestioner implements IQuestioner {
   }
   
   @Override
-  public String makeQuestion(final String[] splits) {
+  public String makeQuestion(final List<String> splits) {
     return sr.replace(_question, splits);
   }
   

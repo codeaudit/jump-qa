@@ -16,11 +16,8 @@
 package com.ibm.watson.catalyst.jumpqa.replacer;
 
 import java.io.File;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Deque;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,7 +77,7 @@ public class SequentialReplacer implements IReplacer {
   
   @Override
   public String replace(final String input, final String... args) {
-    final Deque<String> argsDeque = new ArrayDeque<String>(Arrays.asList(args));
+    final List<String> argsDeque = new ArrayList<String>(Arrays.asList(args));
     return replace(input, argsDeque);
   }
   
@@ -101,9 +98,8 @@ public class SequentialReplacer implements IReplacer {
    * @param args the arguments
    * @return the replacement string
    */
-  public String replace(final String input, final Collection<String> args) {
-    Deque<String> argsDeque = new ArrayDeque<String>(args);
-    if (argsDeque.size() < argSize) throw new IllegalArgumentException();
+  public String replace(final String input, final List<String> args) {
+    if (args.size() < argSize) throw new IllegalArgumentException();
     String result = input;
     for (final IReplacer replacer : _replacers) {
       switch (replacer.getClass().getSimpleName()) {
@@ -111,7 +107,7 @@ public class SequentialReplacer implements IReplacer {
           result = replacer.replace(result);
           break;
         case "VarReplacer":
-          result = replacer.replace(result, argsDeque.pollFirst());
+          result = replacer.replace(result, args.remove(0));
           break;
         default:
           throw new IllegalArgumentException();

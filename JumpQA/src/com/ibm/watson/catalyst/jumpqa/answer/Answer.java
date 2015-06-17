@@ -19,6 +19,7 @@
 package com.ibm.watson.catalyst.jumpqa.answer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +31,7 @@ import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
 import com.ibm.watson.catalyst.jumpqa.util.ISplittable;
-import com.ibm.watson.catalyst.jumpqa.util.IWritable;
+import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**
  * TODO: Class description
@@ -59,6 +60,13 @@ public class Answer implements IWritable, IPrintable, ISplittable<Candidate> {
   }
   
   /**
+   * 
+   */
+  public Answer() {
+    this("", new Pau());
+  }
+  
+  /**
    * @param aAnswer the answer
    */
   public Answer(Answer aAnswer) {
@@ -79,6 +87,19 @@ public class Answer implements IWritable, IPrintable, ISplittable<Candidate> {
     StringBuilder sb = new StringBuilder();
     sb.append(_answerText).append(",").append(_pau.toStringBuilder());
     return sb;
+  }
+  
+  private static List<String> headerList;
+  static {
+    List<String> hList = new ArrayList<String>();
+    hList.add("Answer Text");
+    hList.addAll((new Pau()).getHeaderList());
+    headerList = Collections.unmodifiableList(hList);
+  }
+  
+  @Override
+  public List<String> getHeaderList() {
+    return headerList;
   }
   
   @Override

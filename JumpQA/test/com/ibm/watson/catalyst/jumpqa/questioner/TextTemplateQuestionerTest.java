@@ -18,6 +18,9 @@ package com.ibm.watson.catalyst.jumpqa.questioner;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,11 +33,14 @@ public class TextTemplateQuestionerTest {
   TextTemplateQuestioner ttq3 = new TextTemplateQuestioner("a [s2] b");
   TextTemplateQuestioner ttq4 = new TextTemplateQuestioner("a [s0] b [s1] c [s2] d");
   
-  String[] splits;
+  List<String> splits;
   
   @Before
   public void setUp() {
-    splits = new String[] { "one", "two", "three" };
+    splits = new ArrayList<String>();
+    splits.add("one");
+    splits.add("two");
+    splits.add("three");
   }
   
   @Test

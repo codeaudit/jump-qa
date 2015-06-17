@@ -91,3 +91,6 @@ Library for neural networks; to be used in JumpQA heuristics.
 
 ###Random
 A library which includes an ArrayList which iterates randomly.
+
+##Maintainer
+Will Beason, wabeason@us.ibm.com

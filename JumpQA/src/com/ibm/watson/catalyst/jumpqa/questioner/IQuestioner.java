@@ -15,6 +15,8 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.questioner;
 
+import java.util.List;
+
 /**
  * An interface for generating questions from an array of strings
  * 
@@ -31,6 +33,6 @@ public interface IQuestioner {
    * @param aString the string array to use to generate a question
    * @return the question text
    */
-  public String makeQuestion(String[] aString);
+  public String makeQuestion(List<String> aString);
   
 }

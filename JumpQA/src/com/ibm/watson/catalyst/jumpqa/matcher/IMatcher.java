@@ -25,19 +25,11 @@ import com.ibm.watson.catalyst.jumpqa.trec.Trec;
  * contains a specific word.
  * 
  * @author Will Beason
- * @version 0.1.1
+ * @version 0.1.2
  * @since 0.1.0
  *
  */
 public interface IMatcher {
-  
-  /**
-   * Tests whether a set of strings meet a matcher's criteria.
-   * 
-   * @param strings the set of strings to test
-   * @return whether the strings are matched
-   */
-  public boolean matches(String strings);
   
   /**
    * TODO: Method description

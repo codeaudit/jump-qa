@@ -19,6 +19,7 @@
 package com.ibm.watson.catalyst.jumpqa.answer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -26,13 +27,13 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
-import com.ibm.watson.catalyst.jumpqa.util.IWritable;
+import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**
  * TODO: Class description
  * 
  * @author Will Beason
- * @version 0.1.1
+ * @version 0.1.2
  * @since 0.1.1
  *
  */
@@ -60,6 +61,35 @@ public class Pau implements IWritable, IPrintable {
   public Pau(Pau aPau) {
     _pauTitle = aPau._pauTitle;
     _pauId = aPau._pauId;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @return the PAU Title
+   */
+  public String getPauTitle() {
+    return _pauTitle;
+  }
+  
+  /** 
+   * TODO: Method description
+   * @return the PAU ID
+   */
+  public String getPauId() {
+    return _pauId;
+  }
+  
+  private static List<String> headerList;
+  static {
+    List<String> hList = new ArrayList<String>();
+    hList.add("PAU Title");
+    hList.add("PAU ID");
+    headerList = Collections.unmodifiableList(hList);
+  }
+  
+  @Override
+  public List<String> getHeaderList() {
+    return headerList;
   }
   
   @Override

@@ -19,6 +19,7 @@
 package com.ibm.watson.catalyst.jumpqa.answer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
-import com.ibm.watson.catalyst.jumpqa.util.IWritable;
+import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**
  * TODO: Class description
@@ -81,6 +82,19 @@ public class QuestionAnswerPair implements IWritable, IPrintable {
   @Override
   public String toString() {
     return this.toStringBuilder().toString();
+  }
+  
+  private static List<String> headerList;
+  static {
+    List<String> hList = new ArrayList<String>();
+    hList.add("Question Text");
+    hList.addAll((new Answer()).getHeaderList());
+    headerList = Collections.unmodifiableList(hList);
+  }
+  
+  @Override
+  public List<String> getHeaderList() {
+    return headerList;
   }
   
   @Override

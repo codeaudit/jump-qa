@@ -26,7 +26,7 @@ import com.ibm.watson.catalyst.jumpqa.answer.Candidate;
 import com.ibm.watson.catalyst.jumpqa.answer.Pau;
 import com.ibm.watson.catalyst.jumpqa.answer.QuestionAnswerPair;
 import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
-import com.ibm.watson.catalyst.jumpqa.matcher.StringRegexMatcher;
+import com.ibm.watson.catalyst.jumpqa.matcher.EntryPatterns;
 import com.ibm.watson.catalyst.jumpqa.questioner.IQuestioner;
 import com.ibm.watson.catalyst.jumpqa.replacer.SequentialReplacer;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
@@ -34,17 +34,18 @@ import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner;
 import com.ibm.watson.catalyst.jumpqa.stringcleaner.StringCleaner.Clean;
 
 /**
- * A template which evaluates the text of a TREC to generate matches.
+ * A template which matches patterns to portions of a TREC to evaluate candidates.
+ * Can test against PAU Titles, answer text, and candidate text.
  * 
  * @author Will Beason
  * @version 0.1.1
  * @since 0.1.0
  *
  */
-public class TextTemplate extends ATemplate {
+public class PatternTemplate extends ATemplate {
   
   private final IQuestioner _questioner;
-  private final StringRegexMatcher _matcher;
+  private final EntryPatterns _patterns;
   private final SequentialReplacer _replacer;
   private final Clean _clean;
   
@@ -54,36 +55,47 @@ public class TextTemplate extends ATemplate {
    * @param aCandidateSize the size of the match
    * @param aQuestioner an object to take a good sentence and create questions
    *          to be asked about it
-   * @param aMatcher an object to determine if a sentence is a match
+   * @param aPatterns an object to determine if a sentence is a match
    * @param aSequentialReplacer an object to sequentially make replacements on
-   *          the text before transformation into a question
+   *          the text before transformation into a question. May be null.
    * @param aClean whether to clean strings
    */
-  public TextTemplate(final String aTemplateId, final Size aAnswerSize, final Size aCandidateSize,
-      final IQuestioner aQuestioner, final SequentialReplacer aSequentialReplacer,
-      final Clean aClean, final StringRegexMatcher aMatcher) {
-    super(aTemplateId, aAnswerSize, aCandidateSize, (trec) -> aMatcher.matches(trec),
-        (answer) -> aMatcher.matches(answer), (candidate) -> aMatcher.matches(candidate));
+  public PatternTemplate(
+      final String aTemplateId,
+      final Size aAnswerSize,
+      final Size aCandidateSize,
+      final IQuestioner aQuestioner,
+      final SequentialReplacer aSequentialReplacer,
+      final Clean aClean,
+      final EntryPatterns aPatterns) {
+    super(
+        aTemplateId,
+        aAnswerSize,
+        aCandidateSize,
+        (trec) -> aPatterns.matches(trec),
+        (answer) -> aPatterns.matches(answer),
+        (candidate) -> aPatterns.matches(candidate));
+    if (aQuestioner == null) throw new IllegalArgumentException("Questioner must not be null.");
     _questioner = aQuestioner;
     _replacer = (aSequentialReplacer == null) ? new SequentialReplacer() : aSequentialReplacer;
-    _matcher = aMatcher;
+    _patterns = aPatterns;
     _clean = aClean;
   }
   
   @Override
   public boolean equals(Object obj) {
     if (!super.equals(obj)) return false;
-    TextTemplate other = (TextTemplate) obj;
+    PatternTemplate other = (PatternTemplate) obj;
     if (!Objects.equals(other._questioner, this._questioner)) return false;
     if (!Objects.equals(other._replacer, this._replacer)) return false;
-    if (!Objects.equals(other._matcher, this._matcher)) return false;
+    if (!Objects.equals(other._patterns, this._patterns)) return false;
     if (!Objects.equals(other._clean, this._clean)) return false;
     return true;
   }
   
   @Override
   public int hashCode() {
-    return (new HashCodeBuilder(SEED, MULTIPLY)).append(super.hashCode()).append(_questioner).append(_replacer).append(_matcher)
+    return (new HashCodeBuilder(SEED, MULTIPLY)).append(super.hashCode()).append(_questioner).append(_replacer).append(_patterns)
         .append(_clean).hashCode();
   }
   
@@ -128,8 +140,8 @@ public class TextTemplate extends ATemplate {
   public List<IGroundTruthEntry> candidate2entries(Candidate aCandidate) {
     final List<IGroundTruthEntry> result = new ArrayList<IGroundTruthEntry>();
     final String cleanedString = StringCleaner.clean(aCandidate.getMatchText(), _clean);
-    final String[] splits = _matcher.split(cleanedString);
-    splits[1] = _replacer.replace(splits[1]);
+    final List<String> splits = _patterns.splitCandidateText(cleanedString);
+    splits.set(1, _replacer.replace(splits.get(1)));
     
     String questionText = _questioner.makeQuestion(splits);
     QuestionAnswerPair qaPair = new QuestionAnswerPair(questionText, aCandidate.getAnswer());

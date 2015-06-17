@@ -26,7 +26,7 @@ import com.ibm.watson.catalyst.jumpqa.template.ITemplate;
 import com.ibm.watson.catalyst.jumpqa.template.TemplateReader;
 import com.ibm.watson.catalyst.jumpqa.trec.Trec;
 import com.ibm.watson.catalyst.jumpqa.trec.TrecReader;
-import com.ibm.watson.catalyst.jumpqa.util.CSVOutputWriter;
+import com.ibm.watson.catalyst.objectio.writers.CSVOutputWriter;
 import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
 
 /**

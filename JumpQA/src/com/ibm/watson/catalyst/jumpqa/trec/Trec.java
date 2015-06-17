@@ -32,7 +32,7 @@ import com.ibm.watson.catalyst.jumpqa.util.ISplittable;
  * A class for holding information about TRECs
  * 
  * @author Will Beason
- * @version 0.1.0
+ * @version 0.1.2
  * @since 0.1.0
  *
  */
@@ -107,6 +107,22 @@ public class Trec implements ISplittable<Answer> {
    */
   public Pau getPau() {
     return new Pau(_pau);
+  }
+  
+  /** 
+   * TODO: Method description
+   * @return the PAU Title
+   */
+  public String getPauTitle() {
+    return _pau.getPauTitle();
+  }
+  
+  /** 
+   * TODO: Method description
+   * @return the PAU ID
+   */
+  public String getPauId() {
+    return _pau.getPauId();
   }
   
   /**

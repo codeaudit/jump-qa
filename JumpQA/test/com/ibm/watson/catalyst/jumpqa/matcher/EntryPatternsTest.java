@@ -19,51 +19,72 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import org.junit.Before;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class StringRegexMatcherTest {
+public class EntryPatternsTest {
   
-  StringRegexMatcher srm1 = new StringRegexMatcher("a");
-  StringRegexMatcher srm1b = new StringRegexMatcher("a");
-  StringRegexMatcher srm1c = new StringRegexMatcher("a", 0);
-  StringRegexMatcher srm2 = new StringRegexMatcher("b");
-  StringRegexMatcher srm3 = new StringRegexMatcher("a", Pattern.CASE_INSENSITIVE);
+  Pattern p1 = Pattern.compile("a");
+  EntryPatterns srm1 = new EntryPatterns("a");
+  EntryPatterns srm1b = new EntryPatterns("a");
+  EntryPatterns srm1c = TemplateMatcherFactory.textMatcher("a", 0);
+  EntryPatterns srm2 = new EntryPatterns("b");
+  EntryPatterns srm3 = TemplateMatcherFactory.textMatcher("a", Pattern.CASE_INSENSITIVE);
+  
+  List<String> expected;
+  
+  @Before
+  public void setUp() {
+    expected = new ArrayList<String>();
+  }
   
   @Test
   public void testMatchesTrue() {
-    assertTrue(srm1.matches("alpha"));
+    assertTrue(srm1.matchesText("alpha"));
   }
   
   @Test
   public void testMatchesFalse() {
-    assertFalse(srm1.matches("omicron"));
+    assertFalse(srm1.matchesText("omicron"));
   }
   
   @Test
-  public void testSplitWithNoMatches() {
+  public void testSplitCandidateTextWithNoMatches() {
     String s = "omicron";
-    assertThat(srm1.split(s), equalTo(new String[] { "omicron" }));
+    expected.add(s);
+    assertThat(srm1.splitCandidateText(s), equalTo(expected));
   }
   
   @Test
-  public void testSplitWithOneMatch() {
+  public void testSplitCandidateTextWithOneMatch() {
     String s = "If a dog";
-    assertThat(srm1.split(s), equalTo(new String[] { "If", "a", "dog" }));
+    expected.add("If");
+    expected.add("a");
+    expected.add("dog");
+    assertThat(srm1.splitCandidateText(s), equalTo(expected));
   }
   
   @Test
-  public void testSplitWithOneUppercaseMatch() {
+  public void testSplitCandidateTextWithOneUppercaseMatch() {
     String s = "If A dog";
-    assertThat(srm3.split(s), equalTo(new String[] { "If", "A", "dog" }));
+    expected.add("If");
+    expected.add("A");
+    expected.add("dog");
+    assertThat(srm3.splitCandidateText(s), equalTo(expected));
   }
   
   @Test
-  public void testSplitWithTwoMatches() {
+  public void testSplitCandidateTextWithTwoMatches() {
     String s = "If a cat";
-    assertThat(srm1.split(s), equalTo(new String[] { "If", "a", "cat" }));
+    expected.add("If");
+    expected.add("a");
+    expected.add("cat");
+    assertThat(srm1.splitCandidateText(s), equalTo(expected));
   }
   
   @Test

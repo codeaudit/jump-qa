@@ -16,7 +16,7 @@
 package com.ibm.watson.catalyst.jumpqa.entry;
 
 import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
-import com.ibm.watson.catalyst.jumpqa.util.IWritable;
+import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**
  * Functions every template match should have
