@@ -15,7 +15,7 @@
  *******************************************************************************/
 package com.ibm.watson.catalyst.jumpqa.entry;
 
-import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
+import com.ibm.watson.catalyst.objectio.misc.IPrintable;
 import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**

@@ -29,8 +29,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import com.ibm.watson.catalyst.jumpqa.splitter.ISplitter;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory;
 import com.ibm.watson.catalyst.jumpqa.splitter.SplitterFactory.Size;
-import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
 import com.ibm.watson.catalyst.jumpqa.util.ISplittable;
+import com.ibm.watson.catalyst.objectio.misc.IPrintable;
 import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**

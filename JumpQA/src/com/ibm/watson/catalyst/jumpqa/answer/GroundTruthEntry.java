@@ -24,7 +24,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import com.ibm.watson.catalyst.jumpqa.entry.IGroundTruthEntry;
-import com.ibm.watson.catalyst.jumpqa.util.IPrintable;
+import com.ibm.watson.catalyst.objectio.misc.IPrintable;
 import com.ibm.watson.catalyst.objectio.writers.IWritable;
 
 /**

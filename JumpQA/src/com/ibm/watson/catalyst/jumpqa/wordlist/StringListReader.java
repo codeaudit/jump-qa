@@ -19,8 +19,8 @@ import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.watson.catalyst.jumpqa.util.AReader;
-import com.ibm.watson.catalyst.jumpqa.util.IReader;
+import com.ibm.watson.catalyst.objectio.readers.AReader;
+import com.ibm.watson.catalyst.objectio.readers.IReader;
 
 /**
  * Creates a list of strings where each entry is a line of the supplied file or

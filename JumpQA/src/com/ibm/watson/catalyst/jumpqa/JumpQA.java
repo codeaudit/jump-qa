@@ -72,7 +72,7 @@ public final class JumpQA {
     final Collection<IGroundTruthEntry> matches = (new GTEntryGenerator()).genMatches(templates,
         trecs);
     
-    (new CSVOutputWriter(getFile("output"))).write(matches);
+    (new CSVOutputWriter<IGroundTruthEntry>(getFile("output"))).write(matches);
     logger.info("JumpQA end");
   }
   

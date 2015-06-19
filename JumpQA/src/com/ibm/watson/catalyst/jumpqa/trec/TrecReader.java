@@ -25,8 +25,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ibm.watson.catalyst.jumpqa.util.AReader;
-import com.ibm.watson.catalyst.jumpqa.util.IReader;
+import com.ibm.watson.catalyst.objectio.readers.AReader;
+import com.ibm.watson.catalyst.objectio.readers.IReader;
 
 /**
  * A class which reads Trec objects from a JSON file.

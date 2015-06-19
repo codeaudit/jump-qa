@@ -18,8 +18,8 @@ package com.ibm.watson.catalyst.jumpqa.replacer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ibm.watson.catalyst.jumpqa.util.AReader;
-import com.ibm.watson.catalyst.jumpqa.util.IReader;
+import com.ibm.watson.catalyst.objectio.readers.AReader;
+import com.ibm.watson.catalyst.objectio.readers.IReader;
 
 /**
  * Reads files to creates hashtables of search and replacement strings

@@ -24,8 +24,8 @@ import java.util.logging.Logger;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 
-import com.ibm.watson.catalyst.jumpqa.util.AReader;
-import com.ibm.watson.catalyst.jumpqa.util.IReader;
+import com.ibm.watson.catalyst.objectio.readers.AReader;
+import com.ibm.watson.catalyst.objectio.readers.IReader;
 
 /**
  * Reads templates from a file and returns a collection containing the
