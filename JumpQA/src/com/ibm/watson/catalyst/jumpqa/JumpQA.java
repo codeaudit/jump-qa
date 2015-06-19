@@ -45,7 +45,7 @@ import com.ibm.watson.catalyst.util.baseproperties.BaseProperties;
  * See the README.md for more information and a tutorial.
  * 
  * @author Will Beason
- * @version 0.1.1
+ * @version 0.1.2
  * @since 0.1.0
  * 
  */
