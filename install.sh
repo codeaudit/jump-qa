@@ -1,4 +1,5 @@
 mvn clean install -f BaseProperties/
+mvn clean install -f ObjectIO/
 mvn clean install -f Corpus/
 mvn clean install -f "Corpus TF-IDF"/
 mvn clean install -f NeuralNet/
